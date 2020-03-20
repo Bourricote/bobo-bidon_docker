@@ -17,11 +17,16 @@ services:
         container_name: sf4_mysql
         volumes:
             - .docker/data/db:/var/lib/mysql
+        # expose:
+        #    - 3306
+        # ports:
+        #    - "3306:3306"
+
         environment:
-            MYSQL_ROOT_PASSWORD: root
+            MYSQL_ROOT_PASSWORD: dodzmo30
             MYSQL_DATABASE: bobo-bidon
             MYSQL_USER: root
-            MYSQL_PASSWORD: dodzmo30
+            #MYSQL_PASSWORD: dodzmo30
 
     php:
         build: .docker/php
@@ -41,7 +46,7 @@ services:
           PMA_HOST: mysql
           PMA_PORT: 3306
         ports:
-            - 8080:80
+            - 8081:80
         links:
             - mysql
 
@@ -50,3 +55,17 @@ services:
         container_name: sf4_maildev
         ports:
           - 8001:80
+
+    node:
+      image: node:13-alpine
+      user: "node"
+      volumes:
+        - .:/home/wwwroot/sf4
+      working_dir: /home/wwwroot/sf4
+      ports:
+        - 8080:8080
+      # Others commands :
+      # yarn install // Install assets
+      # yarn encore dev --watch // Watch and compile assets
+      # yarn encore dev-server --host 0.0.0.0 --port 8080 --disable-host-check // Watch and compile assets + Hot reload
+      command: "ash -c \"yarn install && yarn encore dev-server --host 0.0.0.0 --port 8080 --disable-host-check\""

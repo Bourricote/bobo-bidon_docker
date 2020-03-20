@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+
+    <a href="{{ path('add_user_symptom', {'user' : app.user.id}) }}">Ajouter un symptôme</a>
+    <br>
+    <a href="{{ path('show_user_symptom') }}">Voir mes symptômes</a>
+
+
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <a href="{{ path('add_user_symptom', {'user' : app.user.id}) }}">Ajouter un symptôme</a>
+
+    <div class="mb-5">
+        <canvas id="symptomsPerDay"
+                width="400"
+                height="200"
+                data-day-length="{{ data_days|length + 1 }}"
+                {% for key, data_day in data_days %}
+                    data-day-label-{{ loop.index }}="{{ key }}"
+                    data-day-{{ loop.index }} ="{{ data_day }}"
+                {% endfor %}
+                {% for key, data_symptom in data_symptoms_per_day %}
+                    data-symptom-label-{{ loop.index }}="{{ key }}"
+                    data-symptom-{{ loop.index }} ="{{ data_symptom }}"
+                {% endfor %}
+        ></canvas>
+    </div>
+
+    <div class="mb-5">
+        <canvas id="symptomsPerWeek"
+                width="200"
+                height="100"
+                data-week-length="{{ data_weeks|length + 1 }}"
+                {% for key, data_week in data_weeks %}
+                    data-week-label-{{ loop.index }}="{{ key }}"
+                    data-week-{{ loop.index }} ="{{ data_week }}"
+                {% endfor %}
+                {% for key, data_symptom in data_symptoms_per_week %}
+                    data-symptom-label-{{ loop.index }}="{{ key }}"
+                    data-symptom-{{ loop.index }} ="{{ data_symptom }}"
+                {% endfor %}
+        ></canvas>
+    </div>
+
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('app') }}
+    {{ encore_entry_script_tags('charts') }}
+{% endblock %}
