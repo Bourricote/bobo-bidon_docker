@@ -69,13 +69,12 @@ class UserController extends AbstractController
         $dataWeeks = [];
         $oldDate = clone $startDateWeeks;
         for ($i = 0; $i <= $nbWeeks; $i++) {
-
-                $newDate = $startDateWeeks->add(new DateInterval('P7D'));
+            $newDate = $startDateWeeks->add(new DateInterval('P7D'));
 
             $dataWeeks[] = date_format($newDate, 'd/m/Y');
             $j = 0;
             foreach ($userSymptoms as $userSymptom) {
-                if ($userSymptom->getDate() >= $oldDate && $userSymptom->getDate() <= $newDate) {
+                if ($userSymptom->getDate() >= $oldDate && $userSymptom->getDate() < $newDate) {
                     $j ++ ;
                 }
             }
