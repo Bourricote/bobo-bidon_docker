@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <a href="{{ path('add_user_symptom') }}">Ajouter un symptôme</a>
+    <a href="{{ path('add_user_symptom', {'user' : app.user.id}) }}">Ajouter un symptôme</a>
     {% for userSymptom in app.user.userSymptoms %}
         <p>{{ userSymptom.symptom.name }} le {{ userSymptom.date|date('d/m/Y') }}
             à {{ userSymptom.time|date('H:i') }}</p>

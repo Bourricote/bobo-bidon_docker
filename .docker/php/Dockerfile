@@ -38,7 +38,7 @@ RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
 
 RUN echo "dev ALL=(ALL) ALL" > /etc/sudoers
 
-WORKDIR /home/wwwroot/
+WORKDIR /home/wwwroot/sf4
 ##</romaricp>##
 
 EXPOSE 9000

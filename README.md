@@ -10,10 +10,9 @@
 - apache
 - node
 
-## First commands :
+## Setup commands :
 - `docker-compose up` to mount and start containers (first time can be quite long as it builds containers)
 - `docker exec -it -u dev sf4_php bash` to get in the php container 
-- `cd sf4` to get in the working directory
 - `composer install`
 
 
@@ -29,10 +28,10 @@ Try
 ### To start working
 - `docker-compose up` to mount and start containers
 - `docker exec -it -u dev sf4_php bash` to get in the php container 
-- `cd sf4` to get in the working directory
 - from there you can do the usual commands (`php bin/console make:controller` for example)
-- the app is available on http://localhost/
-- git commands must be performed outside the containers
+- the **app** is available on http://localhost/
+- **phpmyadmin** is available on http://localhost:8081/
+- **git** commands must be performed outside the containers
 
 ### When you're done
 - `exit`

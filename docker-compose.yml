@@ -23,10 +23,10 @@ services:
         #    - "3306:3306"
 
         environment:
-            MYSQL_ROOT_PASSWORD: dodzmo30
+            MYSQL_ROOT_PASSWORD: root
             MYSQL_DATABASE: bobo-bidon
             MYSQL_USER: root
-            #MYSQL_PASSWORD: dodzmo30
+            MYSQL_PASSWORD: dodzmo30
 
     php:
         build: .docker/php

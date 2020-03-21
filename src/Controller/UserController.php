@@ -30,6 +30,10 @@ class UserController extends AbstractController
         $today = new DateTime();
         $userSymptoms = $user->getUserSymptoms();
 
+        if (!$user->getStartDate()) {
+            return $this->redirectToRoute('user_index');
+        }
+
         // Chart Symptoms per day
         $startDate = $user->getStartDate();
         $startDateDays = clone $startDate;
