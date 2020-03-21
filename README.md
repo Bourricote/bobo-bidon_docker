@@ -11,9 +11,9 @@
 - node
 
 ## First commands :
-- `docker-compose up`
-- `docker exec -it -u dev sf4_php bash`
-- `cd sf4`
+- `docker-compose up` to mount and start containers (first time can be quite long as it builds containers)
+- `docker exec -it -u dev sf4_php bash` to get in the php container 
+- `cd sf4` to get in the working directory
 - `composer install`
 
 
@@ -36,7 +36,6 @@ Try
 
 ### When you're done
 - `exit`
-- `docker exec -it -u dev sf4_php bash`
 - `docker-compose stop`
 
 ## Others commands :
