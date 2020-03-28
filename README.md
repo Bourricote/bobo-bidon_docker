@@ -14,6 +14,7 @@
 - `docker-compose up` to mount and start containers (first time can be quite long as it builds containers)
 - `docker exec -it -u dev sf4_php bash` to get in the php container 
 - `composer install`
+- `php bin/console d:s:u --force`
 
 
 If error when `docker-compose up`: 
