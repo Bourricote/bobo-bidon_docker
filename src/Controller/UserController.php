@@ -3,11 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Entity\UserSymptom;
 use App\Form\UserType;
 use App\Repository\UserRepository;
-use DateInterval;
-use DateTime;
+use App\Service\ChartService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,65 +20,22 @@ class UserController extends AbstractController
     /**
      * @Route("/charts/{user}", name="charts", methods={"GET"})
      * @param User $user
+     * @param ChartService $chartService
      * @return Response
-     * @throws \Exception
      */
-    public function userCharts(User $user): Response
+    public function userCharts(User $user, ChartService $chartService): Response
     {
-        $today = new DateTime();
-        $userSymptoms = $user->getUserSymptoms();
-
         if (!$user->getStartDate()) {
             return $this->redirectToRoute('user_index');
         }
 
-        // Chart Symptoms per day
-        $startDate = $user->getStartDate();
-        $startDateDays = clone $startDate;
+        $dataDaysChart = $chartService->generateDataPerDay($user);
+        $dataDays = $dataDaysChart['dataDays'];
+        $symptomsPerDay = $dataDaysChart['symptomsPerDay'];
 
-        $nbDays = $startDateDays->diff($today)->days;
-
-        $symptomsPerDay = [];
-
-        $dataDays = [];
-        for ($i = 0; $i <= $nbDays; $i++) {
-            if ( $i!= 0){
-                $newDate = $startDateDays->add(new DateInterval('P1D'));
-            } else {
-                $newDate = $startDateDays;
-            }
-            $dataDays[] = date_format($newDate, 'd/m/Y');
-            $j = 0;
-            foreach ($userSymptoms as $userSymptom) {
-                if (date_format($userSymptom->getDate(), 'd/m/Y') == date_format($newDate, 'd/m/Y')) {
-                    $j ++ ;
-                }
-            }
-            $symptomsPerDay[] = $j;
-        }
-
-        // Chart Symptoms per week
-        $startDateWeeks = $user->getStartDate();
-
-        $nbWeeks = (($startDateWeeks->diff($today)->days) / 7) + 1 ;
-
-        $symptomsPerWeek = [];
-
-        $dataWeeks = [];
-        $oldDate = clone $startDateWeeks;
-        for ($i = 0; $i <= $nbWeeks; $i++) {
-            $newDate = $startDateWeeks->add(new DateInterval('P7D'));
-
-            $dataWeeks[] = date_format($newDate, 'd/m/Y');
-            $j = 0;
-            foreach ($userSymptoms as $userSymptom) {
-                if ($userSymptom->getDate() >= $oldDate && $userSymptom->getDate() < $newDate) {
-                    $j ++ ;
-                }
-            }
-            $symptomsPerWeek[] = $j;
-            $oldDate = clone $newDate;
-        }
+        $dataWeeksChart = $chartService->generateDataPerWeek($user);
+        $dataWeeks = $dataWeeksChart['dataWeeks'];
+        $symptomsPerWeek = $dataWeeksChart['symptomsPerWeek'];
 
         return $this->render('symptom/charts.html.twig', [
             'data_symptoms_per_day' => $symptomsPerDay,
@@ -111,6 +66,8 @@ class UserController extends AbstractController
 
     /**
      * @Route("/new", name="user_new", methods={"GET","POST"})
+     * @param Request $request
+     * @return Response
      */
     public function new(Request $request): Response
     {
@@ -134,6 +91,8 @@ class UserController extends AbstractController
 
     /**
      * @Route("/{id}", name="user_show", methods={"GET"})
+     * @param User $user
+     * @return Response
      */
     public function show(User $user): Response
     {
@@ -144,6 +103,9 @@ class UserController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="user_edit", methods={"GET","POST"})
+     * @param Request $request
+     * @param User $user
+     * @return Response
      */
     public function edit(Request $request, User $user): Response
     {
@@ -164,6 +126,9 @@ class UserController extends AbstractController
 
     /**
      * @Route("/{id}", name="user_delete", methods={"DELETE"})
+     * @param Request $request
+     * @param User $user
+     * @return Response
      */
     public function delete(Request $request, User $user): Response
     {
