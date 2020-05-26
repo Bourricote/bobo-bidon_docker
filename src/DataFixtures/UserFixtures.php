@@ -25,6 +25,8 @@ class UserFixtures extends Fixture
         $user->setEmail(strtolower($user->getFirstname() . '.' . $user->getLastname() . '@orange.fr'));
         $user->setPassword($this->passwordEncoder->encodePassword($user, 'password'));
         $user->setRoles(['ROLE_ADMIN']);
+        $user->setStartDate(new \DateTime('2020-02-10'));
+        $user->setEndDate(new \DateTime('2020-04-05'));
         $manager->persist($user);
 
         $user = new User();

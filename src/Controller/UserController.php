@@ -26,7 +26,7 @@ class UserController extends AbstractController
     public function userCharts(User $user, ChartService $chartService): Response
     {
         if (!$user->getStartDate()) {
-            return $this->redirectToRoute('user_index');
+            return $this->redirectToRoute('home');
         }
 
         $dataDaysChart = $chartService->generateDataPerDay($user);
