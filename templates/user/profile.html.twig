@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User{% endblock %}
+
+{% block body %}
+
+    <div class="row justify-content-center">
+        <div class="col-lg-9 col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4>{{ user.firstname }} {{ user.lastname }}</h4>
+                </div>
+                <div class="card-body">
+                   {# <div>
+                        <img src="/assets/images/avatars/{{ user.picture }}" class="profilePicture" alt="Profile picture">
+                    </div>#}
+                    <div>
+                        <p>Ton email : <strong>{{ user.email }}</strong></p>
+                        <p>Ton âge : <strong>{{ user.age }}</strong></p>
+                        <p>Ton poids : <strong>{{ user.weight }}</strong></p>
+                        <p>Membre depuis le : <strong>{{ user.createdAt|date('d/m/Y') }}</strong></p>
+                        <p>Début du régime le : <strong>{{ user.startDate|date('d/m/Y') }}</strong></p>
+                        <p>Fin du régime le : <strong>{{ user.endDate|date('d/m/Y') }}</strong></p>
+
+                        {#{% if user.id == session.id %}<div>
+                            <a class="updateProfileBtn" href="/user/edit/{{ user.id }}">Modifier mon profil</a>
+                            </div>
+                        {% endif %}#}
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a href="{{ path('show_user_symptom') }}">Historique de symptômes </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,10 +1,26 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <a href="{{ path('add_user_symptom', {'user' : app.user.id}) }}">Ajouter un symptôme</a>
-    {% for userSymptom in app.user.userSymptoms %}
-        <p>{{ userSymptom.symptom.name }} le {{ userSymptom.date|date('d/m/Y') }}
-            à {{ userSymptom.time|date('H:i') }}</p>
-    {% endfor %}
-    <hr>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-9 col-md-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between">
+                    <div>
+                        <h4>{{ app.user.firstname }} {{ app.user.lastname }}</h4>
+                    </div>
+                    <div>
+                        <a href="{{ path('add_user_symptom', {'user' : app.user.id}) }}">Ajouter un symptôme</a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    {% for userSymptom in app.user.userSymptoms %}
+                        <p>{{ userSymptom.symptom.name }} le {{ userSymptom.date|date('d/m/Y') }}
+                            à {{ userSymptom.time|date('H:i') }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
 {% endblock %}
