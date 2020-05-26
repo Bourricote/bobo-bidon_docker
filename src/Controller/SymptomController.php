@@ -7,7 +7,6 @@ use App\Entity\User;
 use App\Entity\UserSymptom;
 use App\Form\AddSymptomsType;
 use App\Form\SymptomType;
-use App\Form\UserSymptomType;
 use App\Repository\SymptomRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,6 +22,7 @@ class SymptomController extends AbstractController
 
     /**
      * @Route("/addsymptom/{user}", name="add_user_symptom", methods={"GET","POST"})
+     * @param User $user
      * @param EntityManagerInterface $entityManager
      * @param Request $request
      * @return Response
@@ -64,6 +64,8 @@ class SymptomController extends AbstractController
 
     /**
      * @Route("/", name="symptom_index", methods={"GET"})
+     * @param SymptomRepository $symptomRepository
+     * @return Response
      */
     public function index(SymptomRepository $symptomRepository): Response
     {
@@ -74,6 +76,8 @@ class SymptomController extends AbstractController
 
     /**
      * @Route("/new", name="symptom_new", methods={"GET","POST"})
+     * @param Request $request
+     * @return Response
      */
     public function new(Request $request): Response
     {
@@ -97,6 +101,8 @@ class SymptomController extends AbstractController
 
     /**
      * @Route("/{id}", name="symptom_show", methods={"GET"})
+     * @param Symptom $symptom
+     * @return Response
      */
     public function show(Symptom $symptom): Response
     {
@@ -107,6 +113,9 @@ class SymptomController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="symptom_edit", methods={"GET","POST"})
+     * @param Request $request
+     * @param Symptom $symptom
+     * @return Response
      */
     public function edit(Request $request, Symptom $symptom): Response
     {
@@ -127,6 +136,9 @@ class SymptomController extends AbstractController
 
     /**
      * @Route("/{id}", name="symptom_delete", methods={"DELETE"})
+     * @param Request $request
+     * @param Symptom $symptom
+     * @return Response
      */
     public function delete(Request $request, Symptom $symptom): Response
     {
