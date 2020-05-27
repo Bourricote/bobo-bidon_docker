@@ -11,12 +11,12 @@
     padding: 50px;
     border-radius: 10px;
     button{
-      background-color: #8959A8;
-      color: white;
+      background-color: white;
+      color: #8959A8;
+      border: 1px solid #8959A8;
       &:hover{
-        background-color: white;
-        color: #8959A8;
-        border: 1px solid #8959A8;
+        background-color: #8959A8;
+        color: white;
       }
     }
   }
