@@ -22,9 +22,9 @@
                 </li>#}
             {% endif %}
             {% if app.user %}
-                {#<li>
+                <li>
                     <a class="nav-link" href="{{ path('profile', {'user' : app.user.id}) }}"> Mon compte</a>
-                </li>#}
+                </li>
                 <li>
                     <a class="nav-link" href="{{ path('app_logout') }}"> Se déconnecter</a>
                 </li>

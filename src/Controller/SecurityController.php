@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Security\LoginFormAuthenticator;
+use DateInterval;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -64,6 +65,13 @@ class SecurityController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
+            if ($form->get('startDate')->getData()) {
+                $startDate = clone $form->get('startDate')->getData();
+                $endDate = $startDate->add(new DateInterval('P56D'));
+                $user->setEndDate($endDate);
+            }
+
+            $user->setRoles(['ROLE_COLLABORATOR']);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);

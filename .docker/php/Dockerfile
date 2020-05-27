@@ -2,7 +2,7 @@ FROM php:7.2.10-fpm
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends vim curl debconf subversion git apt-transport-https apt-utils \
-    build-essential locales acl mailutils wget nodejs zip unzip \
+    build-essential locales acl mailutils wget zip unzip \
     gnupg gnupg1 gnupg2 \
     zlib1g-dev \
     sudo
@@ -19,13 +19,6 @@ RUN wget --no-check-certificate https://phar.phpunit.de/phpunit-6.5.3.phar && \
     mv phpunit*.phar phpunit.phar && \
     chmod +x phpunit.phar && \
     mv phpunit.phar /usr/local/bin/phpunit
-
-RUN	echo "deb https://deb.nodesource.com/node_6.x jessie main" >> /etc/apt/sources.list.d/nodejs.list && \
-	wget -nv -O -  https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add - && \
-	echo "deb-src https://deb.nodesource.com/node_6.x jessie main" >> /etc/apt/sources.list.d/nodejs.list && \
-    apt-get update && \
-	apt-get install -y --force-yes nodejs && \
-	rm -f /etc/apt/sources.list.d/nodejs.list
 
 RUN groupadd dev -g 999
 RUN useradd dev -g dev -d /home/dev -m

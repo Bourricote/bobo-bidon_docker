@@ -26,7 +26,7 @@ class UserController extends AbstractController
     public function userCharts(User $user, ChartService $chartService): Response
     {
         if (!$user->getStartDate()) {
-            return $this->redirectToRoute('user_index');
+            return $this->redirectToRoute('home');
         }
 
         $dataDaysChart = $chartService->generateDataPerDay($user);
@@ -42,6 +42,18 @@ class UserController extends AbstractController
             'data_days' => $dataDays,
             'data_symptoms_per_week' => $symptomsPerWeek,
             'data_weeks' => $dataWeeks,
+        ]);
+    }
+
+    /**
+     * @Route("/profile/{user}", name="profile", methods={"GET"})
+     * @param User $user
+     * @return Response
+     */
+    public function showProfile(User $user): Response
+    {
+        return $this->render('user/profile.html.twig', [
+            'user' => $user,
         ]);
     }
 
