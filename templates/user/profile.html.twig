@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}User{% endblock %}
+{% block title %} {{ user.firstname ~ ' ' ~ user.lastname }} {% endblock %}
 
 {% block body %}
 
     <div class="row justify-content-center">
         <div class="col-lg-9 col-md-12">
             <div class="card">
-                <div class="card-header">
+                <div class="card-header bgBlueMediumLight text-white">
                     <h4>{{ user.firstname }} {{ user.lastname }}</h4>
                 </div>
                 <div class="card-body">
