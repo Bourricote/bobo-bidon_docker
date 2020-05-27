@@ -5,18 +5,9 @@
   min-height: 100vh;
   background-image: url('../images/login2.jpg');
   .container {
-    box-shadow: 3px 3px 10px #4a066c;
+    box-shadow: 3px 3px 10px $purpleDark;
     background-color: white;
     padding: 30px;
     border-radius: 10px;
-    button{
-      background-color: white;
-      color: #8959A8;
-      border: 1px solid #8959A8;
-      &:hover{
-        background-color: #8959A8;
-        color: white;
-      }
-    }
   }
 }

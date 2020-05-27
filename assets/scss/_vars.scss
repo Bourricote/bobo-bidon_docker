@@ -1,0 +1,133 @@
+$purpleDark : #670F8E;
+$purpleMediumDark : #8027A6;
+$purpleBasic : #9543B9;
+$purpleMediumLight : #B067CF;
+$purpleLight : #CE95E5;
+
+$pinkDark : #AF0A5E;
+$pinkMediumDark : #CE297D;
+$pinkBasic : #DA4992;
+$pinkMediumLight : #E66DAA;
+$pinkLight : #F19CC8;
+
+$blueDark : #3A1892;
+$blueMediumDark : #5331AC;
+$blueBasic : #6C4DBD;
+$blueMediumLight : #8B6FD2;
+$blueLight : #B29EE7;
+
+
+
+.btn-bobo {
+  background-color: white;
+  color:$purpleBasic;
+  border: 1px solid $purpleBasic;
+  &:hover{
+    background-color: $purpleBasic;
+    color: white;
+  }
+}
+
+// TEXT COLOR
+
+.textPurpleDark{
+  color : $purpleDark
+}
+.textPurpleMediumDark{
+  color : $purpleMediumDark
+}
+.textPurpleBasic{
+  color : $purpleBasic
+}
+.textPurpleMediumLight{
+  color : $purpleMediumLight
+}
+.textPurpleLight{
+  color : $purpleLight
+}
+
+.textPinkDark{
+  color : $pinkDark
+}
+.textPinkMediumDark{
+  color : $pinkMediumDark
+}
+.textPinkBasic{
+  color : $pinkBasic
+}
+.textPinkMediumLight{
+  color : $pinkMediumLight
+}
+.textPinkLight{
+  color : $pinkLight
+}
+
+.textBlueDark{
+  color : $blueDark
+}
+.textBlueMediumDark{
+  color : $blueMediumDark
+}
+.textBlueBasic{
+  color : $blueBasic
+}
+.textBlueMediumLight{
+  color : $blueMediumLight
+}
+.textBlueLight{
+  color : $blueLight
+}
+
+
+// BACKGROUND COLOR
+
+.bgPurpleDark{
+  background : $purpleDark
+}
+.bgPurpleMediumDark{
+  background-color : $purpleMediumDark
+}
+.bgPurpleBasic{
+  background-color : $purpleBasic
+}
+.bgPurpleMediumLight{
+  background-color : $purpleMediumLight
+}
+.bgPurpleMediumLight{
+  background-color : $purpleMediumLight
+}
+
+.bgPinkDark{
+  background-color : $pinkDark
+}
+.bgPinkMediumDark{
+  background-color : $pinkMediumDark
+}
+.bgPinkBasic{
+  background-color : $pinkBasic
+}
+.bgPinkMediumLight{
+  background-color : $pinkMediumLight
+}
+.bgPinkLight{
+  background-color : $pinkLight
+}
+
+.bgBlueDark{
+  background-color : $blueDark
+}
+.bgBlueMediumDark{
+  background-color : $blueMediumDark
+}
+.bgBlueBasic{
+  background-color : $blueBasic
+}
+.bgBlueMediumLight{
+  background-color : $blueMediumLight
+}
+.bgBlueLight{
+  background-color : $blueLight
+}
+
+
+
