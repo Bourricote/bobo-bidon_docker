@@ -19,8 +19,8 @@
                         <p>Ton âge : <strong>{{ user.age }}</strong></p>
                         <p>Ton poids : <strong>{{ user.weight }}</strong></p>
                         <p>Membre depuis le : <strong>{{ user.createdAt|date('d/m/Y') }}</strong></p>
-                        <p>Début du régime le : <strong>{{ user.startDate|date('d/m/Y') }}</strong></p>
-                        <p>Fin du régime le : <strong>{{ user.endDate|date('d/m/Y') }}</strong></p>
+                        <p>Début du régime le : <strong>{{ user.startDate ? user.startDate|date('d/m/Y') : ''}}</strong></p>
+                        <p>Fin du régime le : <strong>{{ user.endDate ? user.endDate|date('d/m/Y') : ''}}</strong></p>
 
                         {#{% if user.id == session.id %}<div>
                             <a class="updateProfileBtn" href="/user/edit/{{ user.id }}">Modifier mon profil</a>
