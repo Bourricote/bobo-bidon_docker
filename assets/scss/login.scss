@@ -1,0 +1,23 @@
+.fodmap{
+  .vide{
+    padding: 100px;
+  }
+  height: 100vh;
+  background-image: url('../images/login2.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  .container {
+    background-color: white;
+    padding: 50px;
+    border-radius: 10px;
+    button{
+      background-color: #8959A8;
+      color: white;
+      &:hover{
+        background-color: white;
+        color: #8959A8;
+        border: 1px solid #8959A8;
+      }
+    }
+  }
+}
