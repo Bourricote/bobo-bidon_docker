@@ -3,7 +3,7 @@
 {% block main %}
     {% block body %}
         <div class="fodmap">
-            <div class="vide"></div>
+            <div class="emptyUseful"></div>
             <div class="container text-center">
                 <form method="post">
                     {% if error %}
@@ -17,47 +17,37 @@
                         </div>
                     {% endif %}
 
+
                     <h1 class="h3 mb-3 font-weight-normal">Connectez-vous ! </h1>
-                    <div>
-                        <label for="inputEmail">Email</label>
-                        <input type="email" value="{{ last_username }}" name="email" id="inputEmail"
-                               class="form-control"
-                               required autofocus>
-                    </div>
-                    <div class="mt-5">
-                        <label for="inputPassword">Mot de passe</label>
-                        <input type="password" name="password" id="inputPassword" class="form-control " required>
-
-                        <input type="hidden" name="_csrf_token"
-                               value="{{ csrf_token('authenticate') }}">
-                    </div>
-                    {#
-                        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-                        See https://symfony.com/doc/current/security/remember_me.html
-
-                        <div class="checkbox mb-3">
-                            <label>
-                                <input type="checkbox" name="_remember_me"> Remember me
-                            </label>
+                    <div class="d-flex flex-column align-items-center">
+                        <div>
+                            <label for="inputEmail">Email</label>
+                            <input type="email" value="{{ last_username }}" name="email" id="inputEmail"
+                                   class="form-control"
+                                   required autofocus>
                         </div>
-                    #}
+                        <div class="mt-5">
+                            <label for="inputPassword">Mot de passe</label>
+                            <input type="password" name="password" id="inputPassword" class="form-control " required>
 
-                    <button class="btn btn-lg mt-5" type="submit">
+                            <input type="hidden" name="_csrf_token"
+                                   value="{{ csrf_token('authenticate') }}">
+                        </div>
+                    </div>
+
+                    <div class="checkbox mt-5">
+                        <label>
+                            <input type="checkbox" name="_remember_me"> Se souvenir de moi
+                        </label>
+                    </div>
+                    <button class="btn btn-lg" type="submit">
                         Connexion
                     </button>
                 </form>
+
+                <p class="mt-5">Pas encore inscrit-e ?
+                    <a class="nav-link" href="{{ path('app_register') }}"> Créez un compte</a></p>
             </div>
         </div>
-
-        <button class="btn btn-lg btn-primary" type="submit">
-            Sign in
-        </button>
-        </form>
-
-        <div>
-            Pas encore inscrit-e ?
-            <a class="nav-link" href="{{ path('app_register') }}"> Créez un compte</a>
-        </div>
     {% endblock %}
-
 {% endblock %}

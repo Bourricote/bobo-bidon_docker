@@ -4,24 +4,32 @@
 
 {% block main %}
     {% block body %}
-    <h1 class="h3 mb-3 font-weight-normal">Inscription</h1>
+        <div class="fodmap">
+            <div class="emptyUseful"></div>
+            <div class="container text-center d-flex flex-column align-items-center">
+                <h1 class="h3 mb-3 font-weight-normal">Inscription</h1>
+                <div class="d-flex align-items-center">
+                    {{ form_start(registrationForm) }}
+                    {{ form_row(registrationForm.email) }}
+                    {{ form_row(registrationForm.plainPassword) }}
+                    {{ form_row(registrationForm.firstname) }}
+                    {{ form_row(registrationForm.lastname) }}
+                    <div class="mt-3">
+                        <p>Vous pourrez renseigner les informations suivantes plus tard en vous rendant sur votre profil</p>
+                    </div>
+                    {{ form_row(registrationForm.startDate) }}
+                    {{ form_row(registrationForm.age) }}
+                    {{ form_row(registrationForm.weight) }}
+                    {{ form_row(registrationForm.agreeTerms) }}
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword) }}
-        {{ form_row(registrationForm.firstname) }}
-        {{ form_row(registrationForm.lastname) }}
-        <div>
-            Vous pourrez renseigner les informations suivantes plus tard en vous rendant sur votre profil
+                    <button class="btn btn-lg btn-primary">Inscription</button>
+                    {{ form_end(registrationForm) }}
+                </div>
+                <div class="mt-2">
+                    Déjà inscrit-e ?
+                    <a class="nav-link" href="{{ path('app_login') }}"> Connectez-vous</a>
+                </div>
+            </div>
         </div>
-        {{ form_widget(registrationForm) }}
-
-        <button class="btn btn-lg btn-primary">Inscription</button>
-    {{ form_end(registrationForm) }}
-
-    <div>
-        Déjà inscrit-e ?
-        <a class="nav-link" href="{{ path('app_login') }}"> Connectez-vous</a>
-    </div>
     {% endblock %}
 {% endblock %}

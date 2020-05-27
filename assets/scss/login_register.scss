@@ -1,14 +1,13 @@
 .fodmap{
-  .vide{
-    padding: 100px;
-  }
-  height: 100vh;
-  background-image: url('../images/login2.jpg');
-  background-repeat: no-repeat;
-  background-size: cover;
-  .container {
-    background-color: white;
+  .emptyUseful{
     padding: 50px;
+  }
+  min-height: 100vh;
+  background-image: url('../images/login2.jpg');
+  .container {
+    box-shadow: 3px 3px 10px #4a066c;
+    background-color: white;
+    padding: 30px;
     border-radius: 10px;
     button{
       background-color: white;
