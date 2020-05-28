@@ -20,6 +20,7 @@ class UserSymptomType extends AbstractType
 
         $builder
             ->add('time', TimeType::class, [
+                'label' => 'Heure',
                 'minutes' => [
                     00, 15, 30, 45,
                 ]
@@ -30,6 +31,7 @@ class UserSymptomType extends AbstractType
                 ]
             ])
             ->add('symptom', EntityType::class, [
+                'label' => 'Symptômes',
                 'class' => Symptom::class,
                 'choice_label' => 'name',
                 'expanded' => true,
