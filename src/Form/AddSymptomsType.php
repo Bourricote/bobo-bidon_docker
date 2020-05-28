@@ -39,7 +39,7 @@ class AddSymptomsType extends AbstractType
                 'multiple' => true,
                 'attr' => [
                     'class' => 'd-flex flex-column'
-                ]
+                ],
             ])
         ;
     }

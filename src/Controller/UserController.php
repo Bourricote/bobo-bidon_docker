@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use App\Service\ChartService;
+use DateInterval;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,6 +27,10 @@ class UserController extends AbstractController
     public function userCharts(User $user, ChartService $chartService): Response
     {
         if (!$user->getStartDate()) {
+            $this->addFlash(
+                'error',
+                'Vous devez renseigner une date de début de régime !'
+            );
             return $this->redirectToRoute('home');
         }
 
@@ -69,6 +74,11 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('startDate')->getData()) {
+                $startDate = clone $form->get('startDate')->getData();
+                $endDate = $startDate->add(new DateInterval('P56D'));
+                $user->setEndDate($endDate);
+            }
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('profile', [

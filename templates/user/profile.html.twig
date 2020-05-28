@@ -11,10 +11,12 @@
                         <h4>{{ user.firstname }} {{ user.lastname }}</h4>
                     </div>
                     <div class="card-body d-flex flex-column flex-lg-row justify-content-around align-items-center">
-                        <div class="mb-5">
-                            <img src="/upload/pictures/{{ user.pictureName }}" class="profilePictureOverflow"
-                                 alt="Profile picture">
-                        </div>
+                        {% if user.pictureName %}
+                            <div class="mb-5">
+                                <img src="/upload/pictures/{{ user.pictureName }}" class="profilePictureOverflow"
+                                     alt="Profile picture">
+                            </div>
+                        {% endif %}
                         <div>
                             <p>Ton email : <strong>{{ user.email }}</strong></p>
                             <p>Ton âge : <strong>{{ user.age }}</strong></p>
