@@ -22,10 +22,11 @@
                         <p>Début du régime le : <strong>{{ user.startDate ? user.startDate|date('d/m/Y') : ''}}</strong></p>
                         <p>Fin du régime le : <strong>{{ user.endDate ? user.endDate|date('d/m/Y') : ''}}</strong></p>
 
-                        {#{% if user.id == session.id %}<div>
-                            <a class="updateProfileBtn" href="/user/edit/{{ user.id }}">Modifier mon profil</a>
+                        {% if user.id == app.user.id %}
+                            <div>
+                                <a href="{{ path('edit_profile', {'user' : user.id}) }}">Modifier mon profil</a>
                             </div>
-                        {% endif %}#}
+                        {% endif %}
                     </div>
                 </div>
                 <div class="card-footer">

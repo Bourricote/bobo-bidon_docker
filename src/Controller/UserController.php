@@ -58,6 +58,31 @@ class UserController extends AbstractController
     }
 
     /**
+     * @Route("/{user}/editprofile", name="edit_profile", methods={"GET","POST"})
+     * @param Request $request
+     * @param User $user
+     * @return Response
+     */
+    public function editProfile(Request $request, User $user): Response
+    {
+        $form = $this->createForm(UserType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('profile', [
+                'user' => $user->getId(),
+            ]);
+        }
+
+        return $this->render('user/edit_profile.html.twig', [
+            'user' => $user,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
      * @Route("/showsymptom", name="show_user_symptom", methods={"GET"})
      * @return Response
      */
@@ -116,7 +141,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="user_edit", methods={"GET","POST"})
+     * @Route("/{user}/edit", name="user_edit", methods={"GET","POST"})
      * @param Request $request
      * @param User $user
      * @return Response
