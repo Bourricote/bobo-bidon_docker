@@ -1,8 +1,16 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
-    {{ form_end(form) }}
+    <div class="add_symptoms">
+        <div class="container" >
+        <h4 class="textPurpleDark mb-4">Ajouter vos Symptômes</h4>
+            {{ form_start(form) }}
+            {{ form_row(form.date) }}
+            {{ form_row(form.time) }}
+            <h5 class="textPurpleDark mt-4">Symptômes : </h5>
+                {{ form_row(form.symptoms) }}
+            <button class="btn btn-bobo mt-2">{{ button_label|default('Ajouter') }}</button>
+            {{ form_end(form) }}
+        </div>
+    </div>
 {% endblock %}

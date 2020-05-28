@@ -14,25 +14,32 @@ class AddSymptomsType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $thisYear = getDate()['year'];
-        $nextYear = ( $thisYear + 1 );
 
         $builder
             ->add('time', TimeType::class, [
+                'label' => 'Heure',
                 'minutes' => [
                     00, 15, 30, 45,
+                ],
+                'attr'      => [
+                    'class' => 'mb-2'
                 ]
             ])
             ->add('date', DateType::class, [
-                'years' => [
-                    $thisYear, $nextYear,
+                'widget'    => 'single_text',
+                'attr'      => [
+                    'class' => ' form-control mb-2'
                 ]
             ])
             ->add('symptoms', EntityType::class, [
+                'label' => ' ',
                 'class' => Symptom::class,
                 'choice_label' => 'name',
                 'expanded' => true,
                 'multiple' => true,
+                'attr' => [
+                    'class' => 'd-flex flex-column'
+                ]
             ])
         ;
     }
