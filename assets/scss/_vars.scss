@@ -28,6 +28,18 @@ $blueLight : #B29EE7;
   }
 }
 
+a {
+  color: $purpleBasic;
+  &:hover {
+    color: $purpleMediumLight;
+    text-decoration: none;
+  }
+  &:active {
+    color: $pinkBasic;
+    text-decoration: none;
+  }
+}
+
 // TEXT COLOR
 
 .textPurpleDark{

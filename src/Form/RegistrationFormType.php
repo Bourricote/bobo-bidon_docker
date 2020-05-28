@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
@@ -26,12 +27,15 @@ class RegistrationFormType extends AbstractType
                     'class' => 'form-control mb-2'
                 ]
             ])
-            ->add('plainPassword', PasswordType::class, [
-                // instead of being set onto the object directly,
-                // this is read and encoded in the controller
-                'label' => 'Mot de passe',
-                'attr'  => [
-                    'class' => 'form-control mb-2'
+            ->add('plainPassword', RepeatedType::class, [
+                'type' => PasswordType::class,
+                'invalid_message' => 'Les deux mots de passe doivent être identiques',
+                'first_name' => 'Mot_de_passe',
+                'second_name' => 'Confirmer_le_mot_de_passe',
+                'options' => [
+                    'attr' => [
+                        'class' => 'form-control mb-2',
+                    ]
                 ],
                 'mapped' => false,
                 'constraints' => [
@@ -63,7 +67,7 @@ class RegistrationFormType extends AbstractType
                 'label'     => 'Date de début de régime ',
                 'required'  => false,
                 'attr'      => [
-                    'class' => ' form-control mb-2'
+                    'class' => 'form-control mb-2'
                 ]
             ])
             ->add('age', TextType::class, [
@@ -79,8 +83,8 @@ class RegistrationFormType extends AbstractType
                     'class' => 'form-control mb-2'
                 ],
                 'required' => false,
-            ])
-            ->add('agreeTerms', CheckboxType::class, [
+            ]);
+            /*->add('agreeTerms', CheckboxType::class, [
                 'label' => 'Accepter nos conditions',
                 'attr'  => [
                     'class' => 'form-control mb-2'
@@ -91,7 +95,7 @@ class RegistrationFormType extends AbstractType
                         'message' => 'Merci d\'accepter nos conditions',
                     ]),
                 ],
-            ]);
+            ]);*/
     }
 
     public function configureOptions(OptionsResolver $resolver)

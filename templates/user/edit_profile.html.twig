@@ -6,7 +6,8 @@
     <h3>Modifier mon profil</h3>
 
     {{ include('user/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
-
-    <a class="purpleBasic" href="{{ path('profile', {'user' : app.user.id}) }}">Retour au profil</a>
+    <div>
+        <a href="{{ path('profile', {'user' : app.user.id}) }}">Retour au profil</a>
+    </div>
 
 {% endblock %}

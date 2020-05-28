@@ -26,6 +26,9 @@
                             <div>
                                 <a href="{{ path('edit_profile', {'user' : user.id}) }}">Modifier mon profil</a>
                             </div>
+                            <div>
+                                <a href="{{ path('reset_password', {'user' : user.id}) }}">Modifier mon mot de passe</a>
+                            </div>
                         {% endif %}
                     </div>
                 </div>

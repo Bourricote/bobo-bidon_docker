@@ -20,14 +20,16 @@
                     {{ form_row(registrationForm.startDate) }}
                     {{ form_row(registrationForm.age) }}
                     {{ form_row(registrationForm.weight) }}
-                    {{ form_row(registrationForm.agreeTerms) }}
+{#                    {{ form_row(registrationForm.agreeTerms) }}#}
 
                     <button class="btn btn-lg btn-bobo">Inscription</button>
                     {{ form_end(registrationForm) }}
                 </div>
                 <div class="mt-2">
                     Déjà inscrit-e ?
-                    <a class="nav-link purpleBasic" href="{{ path('app_login') }}"> Connectez-vous</a>
+                    <div>
+                        <a href="{{ path('app_login') }}"> Connectez-vous</a>
+                    </div>
                 </div>
             </div>
         </div>

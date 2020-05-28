@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationFormType;
+use App\Form\ResetPasswordType;
 use App\Security\LoginFormAuthenticator;
 use DateInterval;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -89,6 +90,43 @@ class SecurityController extends AbstractController
 
         return $this->render('security/register.html.twig', [
             'registrationForm' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/user/reset/{user}", name="reset_password", methods={"GET","POST"})
+     * @param User $user
+     * @param Request $request
+     * @param UserPasswordEncoderInterface $encoder
+     * @return Response
+     */
+    public function reset(
+        User $user,
+        Request $request,
+        UserPasswordEncoderInterface $encoder
+    ): Response {
+        $form = $this->createForm(ResetPasswordType::class, $user);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $plainPassword = $user->getPassword();
+            $encoded = $encoder->encodePassword($user, $plainPassword);
+
+            $user->setPassword($encoded);
+
+            $manager = $this->getDoctrine()->getManager();
+
+            $manager->persist($user);
+            $manager->flush();
+
+            return $this->redirectToRoute('profile', [
+                'user' => $user->getId(),
+            ]);
+        }
+        return $this->render('security/reset_password.html.twig', [
+            'form' => $form->createView(),
+            'User' => $user,
         ]);
     }
 }
