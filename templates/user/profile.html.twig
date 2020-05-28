@@ -3,40 +3,44 @@
 {% block title %} {{ user.firstname ~ ' ' ~ user.lastname }} {% endblock %}
 
 {% block body %}
-
-    <div class="row justify-content-center">
-        <div class="col-lg-9 col-md-12">
-            <div class="card">
-                <div class="card-header bgBlueMediumLight text-white">
-                    <h4>{{ user.firstname }} {{ user.lastname }}</h4>
-                </div>
-                <div class="card-body">
-                   {# <div>
-                        <img src="/assets/images/avatars/{{ user.picture }}" class="profilePicture" alt="Profile picture">
-                    </div>#}
-                    <div>
-                        <p>Ton email : <strong>{{ user.email }}</strong></p>
-                        <p>Ton âge : <strong>{{ user.age }}</strong></p>
-                        <p>Ton poids : <strong>{{ user.weight }}</strong></p>
-                        <p>Membre depuis le : <strong>{{ user.createdAt|date('d/m/Y') }}</strong></p>
-                        <p>Début du régime le : <strong>{{ user.startDate ? user.startDate|date('d/m/Y') : ''}}</strong></p>
-                        <p>Fin du régime le : <strong>{{ user.endDate ? user.endDate|date('d/m/Y') : ''}}</strong></p>
-
-                        {% if user.id == app.user.id %}
-                            <div>
-                                <a href="{{ path('edit_profile', {'user' : user.id}) }}">Modifier mon profil</a>
-                            </div>
-                            <div>
-                                <a href="{{ path('reset_password', {'user' : user.id}) }}">Modifier mon mot de passe</a>
-                            </div>
-                        {% endif %}
+    <div class="profilePictureOverflow">
+        <div class="row justify-content-center">
+            <div class="col-lg-9 col-md-12">
+                <div class="card">
+                    <div class="card-header bgBlueMediumLight text-white">
+                        <h4>{{ user.firstname }} {{ user.lastname }}</h4>
                     </div>
-                </div>
-                <div class="card-footer">
-                    <a href="{{ path('show_user_symptom') }}">Historique de symptômes </a>
+                    <div class="card-body d-flex justify-content-around align-items-center">
+                        <div>
+                            <img src="" class="profilePicture"
+                                 alt="Profile picture">
+                        </div>
+                        <div>
+                            <p>Ton email : <strong>{{ user.email }}</strong></p>
+                            <p>Ton âge : <strong>{{ user.age }}</strong></p>
+                            <p>Ton poids : <strong>{{ user.weight }}</strong></p>
+                            <p>Membre depuis le : <strong>{{ user.createdAt|date('d/m/Y') }}</strong></p>
+                            <p>Début du régime le :
+                                <strong>{{ user.startDate ? user.startDate|date('d/m/Y') : '' }}</strong></p>
+                            <p>Fin du régime le : <strong>{{ user.endDate ? user.endDate|date('d/m/Y') : '' }}</strong>
+                            </p>
+
+                            {% if user.id == app.user.id %}
+                                <div>
+                                    <a href="{{ path('edit_profile', {'user' : user.id}) }}">Modifier mon profil</a>
+                                </div>
+                                <div>
+                                    <a href="{{ path('reset_password', {'user' : user.id}) }}">Modifier mon mot de
+                                        passe</a>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{{ path('show_user_symptom') }}">Historique de symptômes </a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
 {% endblock %}
