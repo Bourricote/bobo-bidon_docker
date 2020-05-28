@@ -8,13 +8,19 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Exception;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Serializable;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ORM\HasLifecycleCallbacks
  * @UniqueEntity(fields={"email"}, message="Il y a déjà un compte lié à cet email")
+ * @Vich\Uploadable()
  */
-class User implements UserInterface
+class User implements UserInterface, Serializable
 {
     /**
      * @ORM\Id()
@@ -62,7 +68,13 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $picture;
+    private $pictureName;
+
+    /**
+     * @var File
+     * @Vich\UploadableField(mapping="user", fileNameProperty="pictureName")
+     */
+    private $pictureFile;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -244,15 +256,37 @@ class User implements UserInterface
         $this->setUpdatedAt(new DateTimeImmutable());
     }
 
-    public function getPicture(): ?string
+    public function getPictureName(): ?string
     {
-        return $this->picture;
+        return $this->pictureName;
     }
 
-    public function setPicture(?string $picture): self
+    public function setPictureName(?string $pictureName): self
     {
-        $this->picture = $picture;
+        $this->pictureName = $pictureName;
 
+        return $this;
+    }
+
+    /**
+     * @return null|File
+     */
+    public function getPictureFile(): ?File
+    {
+        return $this->pictureFile;
+    }
+
+    /**
+     * @param File $pictureFile
+     * @return User
+     * @throws Exception
+     */
+    public function setPictureFile(File $pictureFile): User
+    {
+        $this->pictureFile = $pictureFile;
+        if ($this->pictureFile instanceof UploadedFile) {
+            $this->updatedAt = new DateTimeImmutable();
+        }
         return $this;
     }
 
@@ -364,5 +398,31 @@ class User implements UserInterface
         }
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function serialize()
+    {
+        return serialize([
+            $this->id,
+            $this->pictureName,
+            $this->email,
+            $this->password,
+        ]);
+    }
+
+    /**
+     * @param string $serialized
+     */
+    public function unserialize($serialized)
+    {
+        list(
+            $this->id,
+            $this->pictureName,
+            $this->email,
+            $this->password,
+            ) = unserialize($serialized);
     }
 }
