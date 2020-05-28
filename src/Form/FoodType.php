@@ -13,7 +13,11 @@ class FoodType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('isLowFodmap')
+            ->add('fodmap')
+            ->add('oligos')
+            ->add('fructose')
+            ->add('polyols')
+            ->add('lactose')
             ->add('category')
         ;
     }

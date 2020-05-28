@@ -22,9 +22,9 @@ class Food
     private $name;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="string")
      */
-    private $isLowFodmap;
+    private $fodmap;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="foods")
@@ -32,16 +32,47 @@ class Food
      */
     private $category;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $oligos;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $fructose;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $polyols;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $lactose;
+
+
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return string|null
+     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
+    /**
+     * @param string $name
+     * @return $this
+     */
     public function setName(string $name): self
     {
         $this->name = $name;
@@ -49,27 +80,95 @@ class Food
         return $this;
     }
 
-    public function getIsLowFodmap(): ?bool
+    /**
+     * @return string|null
+     */
+    public function getFodmap(): ?string
     {
-        return $this->isLowFodmap;
+        return $this->fodmap;
     }
 
-    public function setIsLowFodmap(bool $isLowFodmap): self
+    /**
+     * @param bool $fodmap
+     * @return $this
+     */
+    public function setFodmap(bool $fodmap): self
     {
-        $this->isLowFodmap = $isLowFodmap;
+        $this->setFodmap = $fodmap;
 
         return $this;
     }
 
+    /**
+     * @return Category|null
+     */
     public function getCategory(): ?Category
     {
         return $this->category;
     }
 
+    /**
+     * @param Category|null $category
+     * @return $this
+     */
     public function setCategory(?Category $category): self
     {
         $this->category = $category;
 
         return $this;
     }
+
+
+    public function getOligos(): ?int
+    {
+        return $this->oligos;
+    }
+
+
+    public function setOligos($oligos): self
+    {
+        $this->oligos = $oligos;
+        return $this;
+    }
+
+
+    public function getFructose(): ?int
+    {
+        return $this->fructose;
+    }
+
+
+    public function setFructose($fructose): self
+    {
+        $this->fructose = $fructose;
+        return $this;
+    }
+
+
+    public function getPolyols(): ?int
+    {
+        return $this->polyols;
+    }
+
+
+    public function setPolyols($polyols): self
+    {
+        $this->polyols = $polyols;
+        return $this;
+    }
+
+
+    public function getLactose(): ?int
+    {
+        return $this->lactose;
+    }
+
+
+    public function setLactose($lactose): self
+    {
+        $this->lactose = $lactose;
+        return $this;
+    }
+
+
 }

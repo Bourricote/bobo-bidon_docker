@@ -8,18 +8,24 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Name</th>
-                <th>IsLowFodmap</th>
+                <th>Fodmap</th>
+                <th>Oligos</th>
+                <th>Fructose</th>
+                <th>Polyols</th>
+                <th>Lactose</th>
                 <th>actions</th>
             </tr>
         </thead>
         <tbody>
         {% for food in foods %}
             <tr>
-                <td>{{ food.id }}</td>
                 <td>{{ food.name }}</td>
-                <td>{{ food.isLowFodmap ? 'Yes' : 'No' }}</td>
+                <td>{% if food.fodmap == 'low' %}<i class="fas fa-check-circle textPinkMediumLight"></i> {% else %}<i class="fas fa-times-circle textPurpleDark"></i> {% endif %}</td>
+                <td>{{ food.oligos }}</td>
+                <td>{{ food.fructose }}</td>
+                <td>{{ food.polyols }}</td>
+                <td>{{ food.lactose }}</td>
                 <td>
                     <a href="{{ path('food_show', {'id': food.id}) }}">show</a>
                     <a href="{{ path('food_edit', {'id': food.id}) }}">edit</a>
@@ -27,7 +33,7 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="4">no records found</td>
+                <td colspan="8">no records found</td>
             </tr>
         {% endfor %}
         </tbody>
