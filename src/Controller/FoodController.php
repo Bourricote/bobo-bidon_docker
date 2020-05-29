@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class FoodController extends AbstractController
 {
     /**
-     * @Route("/", name="food_index", methods={"GET"})
+     * @Route("admin/", name="food_index", methods={"GET"})
      * @param FoodRepository $foodRepository
      * @param Request $request
      * @return Response
@@ -38,7 +38,7 @@ class FoodController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="food_new", methods={"GET","POST"})
+     * @Route("/admin/new", name="food_new", methods={"GET","POST"})
      * @param Request $request
      * @return Response
      */
@@ -63,7 +63,7 @@ class FoodController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="food_show", methods={"GET"})
+     * @Route("/admin/{id}", name="food_show", methods={"GET"})
      */
     public function show(Food $food): Response
     {
@@ -73,7 +73,7 @@ class FoodController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="food_edit", methods={"GET","POST"})
+     * @Route("/admin/{id}/edit", name="food_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Food $food): Response
     {
@@ -93,7 +93,7 @@ class FoodController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="food_delete", methods={"DELETE"})
+     * @Route("/admin/{id}", name="food_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Food $food): Response
     {

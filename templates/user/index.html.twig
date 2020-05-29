@@ -11,16 +11,15 @@
                 <th>Id</th>
                 <th>Email</th>
                 <th>Roles</th>
-                <th>Password</th>
-                <th>Firstname</th>
-                <th>Lastname</th>
-                <th>CreatedAt</th>
-                <th>UpdatedAt</th>
-                <th>Picture</th>
+                <th>Prénom</th>
+                <th>Nom</th>
+                <th>Créé le</th>
+                <th>Modifié le</th>
+                <th>Image</th>
                 <th>Age</th>
-                <th>Weight</th>
-                <th>StartDate</th>
-                <th>EndDate</th>
+                <th>Poids</th>
+                <th>Début régime</th>
+                <th>Fin régime</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -30,19 +29,23 @@
                 <td>{{ user.id }}</td>
                 <td>{{ user.email }}</td>
                 <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-                <td>{{ user.password }}</td>
                 <td>{{ user.firstname }}</td>
                 <td>{{ user.lastname }}</td>
                 <td>{{ user.createdAt ? user.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ user.updatedAt ? user.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ user.picture }}</td>
+                <td>
+                    {% if user.pictureName %}
+                    <img src="/upload/pictures/{{ user.pictureName }}" class="adminProfilePicture"
+                         alt="Profile picture">
+                    {%  endif %}
+                </td>
                 <td>{{ user.age }}</td>
                 <td>{{ user.weight }}</td>
                 <td>{{ user.startDate ? user.startDate|date('Y-m-d') : '' }}</td>
                 <td>{{ user.endDate ? user.endDate|date('Y-m-d') : '' }}</td>
                 <td>
-                    <a href="{{ path('user_show', {'id': user.id}) }}">show</a>
-                    <a href="{{ path('user_edit', {'id': user.id}) }}">edit</a>
+                    <a href="{{ path('user_show', {'id': user.id}) }}">Voir</a>
+                    <a href="{{ path('user_edit', {'user': user.id}) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}

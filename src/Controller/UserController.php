@@ -102,7 +102,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/", name="user_index", methods={"GET"})
+     * @Route("/admin", name="user_index", methods={"GET"})
      * @param UserRepository $userRepository
      * @return Response
      */
@@ -114,7 +114,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="user_new", methods={"GET","POST"})
+     * @Route("/admin/new", name="user_new", methods={"GET","POST"})
      * @param Request $request
      * @return Response
      */
@@ -139,7 +139,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="user_show", methods={"GET"})
+     * @Route("/admin/{id}", name="user_show", methods={"GET"})
      * @param User $user
      * @return Response
      */
@@ -151,7 +151,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{user}/edit", name="user_edit", methods={"GET","POST"})
+     * @Route("/admin/{user}/edit", name="user_edit", methods={"GET","POST"})
      * @param Request $request
      * @param User $user
      * @return Response
@@ -174,7 +174,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="user_delete", methods={"DELETE"})
+     * @Route("/admin/{id}", name="user_delete", methods={"DELETE"})
      * @param Request $request
      * @param User $user
      * @return Response
