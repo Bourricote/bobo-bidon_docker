@@ -5,11 +5,12 @@
 /vendor/
 ###< symfony/framework-bundle ###
 
-###> romaricp ###
+
 .idea
 .vs
 .docker/data/
-###< romaricp ###
+/public/upload
+
 
 ###> symfony/webpack-encore-bundle ###
 /node_modules/

@@ -53,6 +53,7 @@ services:
       image: maildev/maildev:1.1.0
       ports:
         - 8001:80
+      command: bin/maildev --web 80 --smtp 25 --hide-extensions STARTTLS
 
     node:
       image: node:13-alpine

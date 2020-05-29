@@ -1,0 +1,61 @@
+<style>
+    @import url('https://fonts.googleapis.com/css?family=Poppins&display=swap');
+    body {
+        font-family: 'Poppins', sans-serif;
+    }
+    .fodmap {
+        min-height: 100vh;
+        background-color: #9543B9;
+        display: flex;
+    }
+    .emptyUseful{
+        padding: 50px;
+    }
+    .container {
+        width: 85%;
+        margin: auto;
+        box-shadow: 3px 3px 10px #670F8E;
+        background-color: white;
+        padding: 30px;
+        border-radius: 10px;
+        text-align: center;
+    }
+    hr {
+        margin: 2rem;
+        height: 0.1rem;
+        background-color: #B067CF;
+    }
+    span {
+        color: #DA4992;
+        font-weight: bold;
+    }
+    a {
+        color: #DA4992;
+        text-decoration: none;
+    }
+    a:hover {
+        color: #AF0A5E;
+        text-decoration: none;
+    }
+    a:hover {
+        color: #F19CC8;
+        text-decoration: none;
+    }
+
+</style>
+
+<div class="fodmap">
+    <div class="emptyUseful"></div>
+    <div class="container">
+        <h3>Bienvenue {{ user.firstname ~ ' ' ~ user.lastname }} !</h3>
+        <hr>
+        <p>Merci pour votre inscription sur <span>Bobo-bidon</span>,
+        <br>l'appli qui vous aide à gérer le Syndrome de l'intestin irritable !</p>
+        <p>Si ce n'est pas déjà fait, vous pouvez dès à présent renseigner la date de début
+            de votre régime depuis votre profil, commencer à rentrer vos symptômes
+            et trouver des renseignements sur les contenus en fodmaps des aliments !</p>
+        <a href="localhost:80/user/profile/{{ user.id }}">Cliquez ici pour accéder à votre profil !</a>
+
+    </div>
+    <div class="emptyUseful"></div>
+</div>

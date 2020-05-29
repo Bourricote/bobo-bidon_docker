@@ -23,7 +23,7 @@
             {% endif %}
             {% if app.user %}
                 <li>
-                    <a class="nav-link" href="{{ path('profile', {'user' : app.user.id}) }}"> Mon compte</a>
+                    <a class="nav-link" href="{{ path('profile', {'user' : app.user.id}) }}"> Mon profil</a>
                 </li>
                 <li>
                     <a class="nav-link" href="{{ path('app_logout') }}"> Se déconnecter</a>
