@@ -50,10 +50,9 @@ services:
             - mysql
 
     maildev:
-        image: djfarrelly/maildev
-        container_name: sf4_maildev
-        ports:
-          - 8001:80
+      image: maildev/maildev:1.1.0
+      ports:
+        - 8001:80
 
     node:
       image: node:13-alpine
