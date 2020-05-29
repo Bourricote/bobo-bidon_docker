@@ -83,7 +83,7 @@ class SecurityController extends AbstractController
                 $user->setEndDate($endDate);
             }
 
-            $user->setRoles(['ROLE_COLLABORATOR']);
+            $user->setRoles(['ROLE_USER']);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
