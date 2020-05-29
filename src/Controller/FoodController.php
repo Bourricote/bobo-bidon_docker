@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Food;
+use App\Entity\FoodSearch;
+use App\Form\FoodSearchType;
 use App\Form\FoodType;
 use App\Repository\FoodRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,16 +19,28 @@ class FoodController extends AbstractController
 {
     /**
      * @Route("/", name="food_index", methods={"GET"})
+     * @param FoodRepository $foodRepository
+     * @param Request $request
+     * @return Response
      */
-    public function index(FoodRepository $foodRepository): Response
+    public function index(FoodRepository $foodRepository, Request $request): Response
     {
+        $search = new FoodSearch();
+        $form = $this->createForm(FoodSearchType::class, $search);
+        $form->handleRequest($request);
+
+        $foods = $foodRepository->findByFoodSearchQuery($search);
+
         return $this->render('food/index.html.twig', [
-            'foods' => $foodRepository->findAll(),
+            'form' => $form->createView(),
+            'foods' => $foods,
         ]);
     }
 
     /**
      * @Route("/new", name="food_new", methods={"GET","POST"})
+     * @param Request $request
+     * @return Response
      */
     public function new(Request $request): Response
     {

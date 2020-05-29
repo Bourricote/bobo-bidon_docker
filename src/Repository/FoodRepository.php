@@ -3,8 +3,11 @@
 namespace App\Repository;
 
 use App\Entity\Food;
+use App\Entity\FoodSearch;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\Query;
+use Doctrine\ORM\QueryBuilder;
 
 /**
  * @method Food|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,32 +22,43 @@ class FoodRepository extends ServiceEntityRepository
         parent::__construct($registry, Food::class);
     }
 
-    // /**
-    //  * @return Food[] Returns an array of Food objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function findAllVisibleQuery(FoodSearch $search) : QueryBuilder
     {
         return $this->createQueryBuilder('f')
-            ->andWhere('f.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('f.id', 'ASC')
-            ->setMaxResults(10)
+                ->where('f.name LIKE :val')
+                ->setParameter('val', '%' . $search->getSearchText() . '%')
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Food
+
+    /**
+     * @param FoodSearch $search
+     * @return mixed
+     */
+    public function findByFoodSearchQuery(FoodSearch $search)
     {
-        return $this->createQueryBuilder('f')
-            ->andWhere('f.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $query = $this->createQueryBuilder('f')
+            ->orderBy('f.name');
+
+        if ($search->getSearchText()) {
+            $words = explode(' ', $search->getSearchText());
+            $clause = '';
+            $parameters = [];
+
+            $i = 0;
+            foreach ($words as $word) {
+                $parameters[':val' . $i] = '%' . $word . '%';
+                if ($i === 0) {
+                    $clause = 'f.name LIKE :val'. $i;
+                } else {
+                    $clause .= ' AND f.name LIKE :val'. $i;
+                }
+                $i++;
+            } $query = $query
+                ->andWhere($clause)
+                ->setParameters($parameters);
+        }
+        return $query->getQuery()->getResult();
     }
-    */
 }
