@@ -105,6 +105,11 @@ let perSymptomChart = new Chart(perSymptom, {
         }]
     },
     options: {
+        title: {
+            display: true,
+            text: 'Choisissez un symptôme',
+            fontColor: 'rgb(108, 77, 189)'
+        },
         maintainAspectRatio: false,
         legend: {
             display: false,
@@ -124,6 +129,8 @@ let perSymptomChart = new Chart(perSymptom, {
     }
 });
 
+Chart.defaults.global.defaultFontFamily = 'Poppins';
+
 
 for (let i =0; i < symptomsButtons.length; i++) {
     symptomsButtons[i].addEventListener('click', function () {
@@ -136,7 +143,7 @@ for (let i =0; i < symptomsButtons.length; i++) {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    'symptom': symptomsButtons[i].getAttribute('data-symptom'),
+                    'symptom': symptomsButtons[i].getAttribute('data-symptom-id'),
                 }),
             }
         )
@@ -144,6 +151,8 @@ for (let i =0; i < symptomsButtons.length; i++) {
             .then(function (htmlContent) {
                 removeData(perSymptomChart);
                 symptoms = htmlContent.symptoms;
+                perSymptomChart.options.title.text = symptomsButtons[i].getAttribute('data-symptom-name');
+                perSymptomChart.update();
                 for (let j=0; j < symptoms.length; j++) {
                     addData(perSymptomChart, symptoms[j]);
                 }

@@ -17,9 +17,11 @@
   }
 }
 .symptomButton {
-  width: 80%;
+  font-size: 0.7rem;
+  height: 10vh;
   background-color: #B29EE7;
   &:hover {
     background-color: #6C4DBD;
+    color: white;
   }
 }
