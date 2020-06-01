@@ -86,4 +86,82 @@ let symptomsPerDayChart = new Chart(symptomsPerDay, {
     }
 });
 
+// Fetch for chart by symptom
+let labels = weeks;
+let symptoms = [];
 
+const symptomsButtons = document.getElementsByClassName('symptomButton');
+
+let perSymptom = document.getElementById('perSymptom');
+let perSymptomChart = new Chart(perSymptom, {
+    type: 'horizontalBar',
+    data: {
+        labels: labels,
+        datasets: [{
+            label: 'Nombre de Symptômes',
+            data: symptoms,
+            backgroundColor: 'rgba(108, 77, 189,0.2)',
+            borderWidth: 0
+        }]
+    },
+    options: {
+        maintainAspectRatio: false,
+        legend: {
+            display: false,
+        },
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true,
+                    mirror: true,
+                    padding: -10,
+                },
+                gridLines: {
+                    display: false
+                }
+            }],
+        }
+    }
+});
+
+
+for (let i =0; i < symptomsButtons.length; i++) {
+    symptomsButtons[i].addEventListener('click', function () {
+        fetch(
+            '/user/charts/symptom',
+            {
+                method: 'post',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    'symptom': symptomsButtons[i].getAttribute('data-symptom'),
+                }),
+            }
+        )
+            .then(response => response.json())
+            .then(function (htmlContent) {
+                removeData(perSymptomChart);
+                symptoms = htmlContent.symptoms;
+                for (let j=0; j < symptoms.length; j++) {
+                    addData(perSymptomChart, symptoms[j]);
+                }
+            })
+            .catch((e) => console.log(e))
+    })
+}
+
+function addData(chart, data) {
+    chart.data.datasets.forEach((dataset) => {
+        dataset.data.push(data);
+    });
+    chart.update();
+}
+
+function removeData(chart) {
+    chart.data.datasets.forEach((dataset) => {
+        dataset.data = [];
+    });
+    chart.update();
+}

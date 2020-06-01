@@ -7,12 +7,12 @@
 
 <div class="accordion" id="accordionCharts">
     <div class="card">
-        <div class="card-header text-center" id="headingTwo">
+        <div class="card-header text-center" id="headingOne">
             <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseWeeks" aria-expanded="false" aria-controls="collapseTwo">
                 Symptômes par semaine
             </button>
         </div>
-        <div id="collapseWeeks" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionCharts">
+        <div id="collapseWeeks" class="collapse" aria-labelledby="headingOne" data-parent="#accordionCharts">
             <div class="card-body">
                 <div class="mb-5 chart-container">
                     <canvas id="symptomsPerWeek"
@@ -30,14 +30,35 @@
             </div>
         </div>
     </div>
-
     <div class="card">
-        <div class="card-header text-center" id="headingOne">
+        <div class="card-header text-center" id="headingTwo">
+            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseSymptoms" aria-expanded="false" aria-controls="collapseTwo">
+                Choix symptôme
+            </button>
+        </div>
+        <div id="collapseSymptoms" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionCharts">
+
+            <div class="card-body">
+                <div class="symptomButtons d-flex flex-column flex-lg-row align-items-center">
+                    {% for symptom in all_symptoms %}
+                        <button class="btn btn-light symptomButton m-1" data-symptom="{{ symptom.id }}">
+                            {{ symptom.name }}
+                        </button>
+                    {% endfor %}
+                </div>
+                <div class="mb-5 chart-container">
+                    <canvas id="perSymptom"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header text-center" id="headingThree">
             <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseDays" aria-expanded="false" aria-controls="collapseOne">
                 Symptômes par jour
             </button>
         </div>
-        <div id="collapseDays" class="collapse" aria-labelledby="headingOne" data-parent="#accordionCharts">
+        <div id="collapseDays" class="collapse" aria-labelledby="headingThree" data-parent="#accordionCharts">
             <div class="card-body">
                 <div class="mb-5 chart-container">
                     <canvas id="symptomsPerDay"

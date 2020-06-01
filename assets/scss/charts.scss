@@ -16,3 +16,10 @@
     text-decoration: none;
   }
 }
+.symptomButton {
+  width: 80%;
+  background-color: #B29EE7;
+  &:hover {
+    background-color: #6C4DBD;
+  }
+}

@@ -4,9 +4,11 @@
 namespace App\Service;
 
 
+use App\Entity\Symptom;
 use App\Entity\User;
 use App\Repository\CategoryRepository;
 use DateInterval;
+use phpDocumentor\Reflection\Types\Integer;
 
 class ChartService
 {
@@ -19,6 +21,11 @@ class ChartService
         $this->categoryRepository = $categoryRepository;
     }
 
+    /**
+     * Calculate number of all symptoms per day for chart SymptomsPerDay
+     * @param User $user
+     * @return array[]
+     */
     public function generateDataPerDay(User $user)
     {
         $userSymptoms = $user->getUserSymptoms();
@@ -52,6 +59,11 @@ class ChartService
         return ['labelDays' => $labelsDays, 'nbSymptomsPerDay' => $nbSymptomsPerDay];
     }
 
+    /**
+     * Calculate number of all symptoms per week for chart SymptomsPerWeek
+     * @param User $user
+     * @return array[]
+     */
     public function generateDataPerWeek(User $user)
     {
         $categories = $this->categoryRepository->findAll();
@@ -90,5 +102,40 @@ class ChartService
         }
 
         return ['labelWeeks' => $labelWeeks, 'nbSymptomsPerWeek' => $nbSymptomsPerWeek];
+    }
+
+    /**
+     * Calculate number of given symptom per week for chart perSymptom
+     * @param User $user
+     * @param Symptom $symptom
+     * @return array[]
+     */
+    public function generateDataPerWeekPerSymptom(User $user, Symptom $symptom)
+    {
+        $userSymptoms = $user->getUserSymptoms();
+
+        $startDate = $user->getStartDate();
+        $startDateWeeks = clone $startDate;
+
+        $endDate = $user->getEndDate();
+
+        $nbWeeks = (($startDateWeeks->diff($endDate)->days) / self::DAYS_PER_WEEK);
+
+        $nbSymptomsPerWeek = [];
+
+        $oldDate = clone $startDateWeeks;
+        for ($i = 0; $i <= $nbWeeks; $i++) {
+            $newDate = $startDateWeeks->add(new DateInterval('P7D'));
+            $j = 0;
+            foreach ($userSymptoms as $userSymptom) {
+                if ($userSymptom->getSymptom() === $symptom && $userSymptom->getDate() >= $oldDate && $userSymptom->getDate() < $newDate) {
+                    $j ++ ;
+                }
+            }
+            $nbSymptomsPerWeek[] = $j;
+            $oldDate = clone $newDate;
+        }
+
+        return ['nbSymptomsPerWeek' => $nbSymptomsPerWeek];
     }
 }

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Repository\SymptomRepository;
 use App\Repository\UserRepository;
 use App\Service\ChartService;
 use DateInterval;
@@ -17,6 +18,12 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class UserController extends AbstractController
 {
+    private $symptomRepository;
+
+    public function __construct(SymptomRepository $symptomRepository)
+    {
+        $this->symptomRepository = $symptomRepository;
+    }
 
     /**
      * @Route("/charts/{user}", name="charts", methods={"GET"})
@@ -26,6 +33,8 @@ class UserController extends AbstractController
      */
     public function userCharts(User $user, ChartService $chartService): Response
     {
+        $allSymptoms = $this->symptomRepository->findAll();
+
         if (!$user->getStartDate()) {
             $this->addFlash(
                 'error',
@@ -43,10 +52,33 @@ class UserController extends AbstractController
         $nbSymptomsPerWeek = $dataWeeksChart['nbSymptomsPerWeek'];
 
         return $this->render('symptom/charts.html.twig', [
+            'all_symptoms' => $allSymptoms,
             'nb_symptoms_per_day' => $nbSymptomsPerDay,
             'label_days' => $labelsDays,
             'nb_symptoms_per_week' => $nbSymptomsPerWeek,
             'label_weeks' => $labelWeeks,
+        ]);
+    }
+
+    /**
+     * @Route("/charts/symptom", name="chart_symptom", methods={"GET", "POST"})
+     * @param ChartService $chartService
+     * @return Response
+     */
+    public function userChartPerSymptom(ChartService $chartService): Response
+    {
+        $user = $this->getUser();
+
+        $json = file_get_contents('php://input');
+        $obj = json_decode($json);
+        $symptomId = $obj->symptom;
+        $symptom = $this->symptomRepository->findOneBy(['id' => $symptomId]);
+
+        $dataWeeksChart = $chartService->generateDataPerWeekPerSymptom($user, $symptom);
+        $nbSymptomsPerWeek = $dataWeeksChart['nbSymptomsPerWeek'];
+
+        return $this->json([
+            'symptoms' => $nbSymptomsPerWeek,
         ]);
     }
 
