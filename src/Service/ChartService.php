@@ -5,10 +5,20 @@ namespace App\Service;
 
 
 use App\Entity\User;
+use App\Repository\CategoryRepository;
 use DateInterval;
 
 class ChartService
 {
+    const DAYS_PER_WEEK = 7;
+
+    private $categoryRepository;
+
+    public function __construct(CategoryRepository $categoryRepository)
+    {
+        $this->categoryRepository = $categoryRepository;
+    }
+
     public function generateDataPerDay(User $user)
     {
         $userSymptoms = $user->getUserSymptoms();
@@ -20,32 +30,32 @@ class ChartService
 
         $nbDays = $startDateDays->diff($endDate)->days;
 
-        $symptomsPerDay = [];
+        $nbSymptomsPerDay = [];
 
-        $dataDays = [];
+        $labelsDays = [];
         for ($i = 0; $i <= $nbDays; $i++) {
             if ( $i!= 0){
                 $newDate = $startDateDays->add(new DateInterval('P1D'));
             } else {
                 $newDate = $startDateDays;
             }
-            $dataDays[] = date_format($newDate, 'd/m/Y');
+            $labelsDays[] = date_format($newDate, 'd/m/Y');
             $j = 0;
             foreach ($userSymptoms as $userSymptom) {
                 if (date_format($userSymptom->getDate(), 'd/m/Y') == date_format($newDate, 'd/m/Y')) {
                     $j ++ ;
                 }
             }
-            $symptomsPerDay[] = $j;
+            $nbSymptomsPerDay[] = $j;
         }
 
-        $result = ['dataDays' => $dataDays, 'symptomsPerDay' => $symptomsPerDay];
-
-        return $result;
+        return ['labelDays' => $labelsDays, 'nbSymptomsPerDay' => $nbSymptomsPerDay];
     }
 
     public function generateDataPerWeek(User $user)
     {
+        $categories = $this->categoryRepository->findAll();
+
         $userSymptoms = $user->getUserSymptoms();
 
         $startDate = $user->getStartDate();
@@ -53,28 +63,32 @@ class ChartService
 
         $endDate = $user->getEndDate();
 
-        $nbWeeks = (($startDateWeeks->diff($endDate)->days) / 7);
+        $nbWeeks = (($startDateWeeks->diff($endDate)->days) / self::DAYS_PER_WEEK);
 
-        $symptomsPerWeek = [];
+        $nbSymptomsPerWeek = [];
 
-        $dataWeeks = [];
+        $labelWeeks = [];
         $oldDate = clone $startDateWeeks;
         for ($i = 0; $i <= $nbWeeks; $i++) {
             $newDate = $startDateWeeks->add(new DateInterval('P7D'));
-
-            $dataWeeks[] = date_format($newDate, 'd/m/Y');
+            if ($i < 2) {
+                $labelWeeks[] = $i + 1 . '. -';
+            }
+            foreach ($categories as $category) {
+                if ($category->getDietWeek() === $i + 1) {
+                    $labelWeeks[] = $i + 1 . '. ' . $category->getName();
+                }
+            }
             $j = 0;
             foreach ($userSymptoms as $userSymptom) {
                 if ($userSymptom->getDate() >= $oldDate && $userSymptom->getDate() < $newDate) {
                     $j ++ ;
                 }
             }
-            $symptomsPerWeek[] = $j;
+            $nbSymptomsPerWeek[] = $j;
             $oldDate = clone $newDate;
         }
 
-        $result = ['dataWeeks' => $dataWeeks, 'symptomsPerWeek' => $symptomsPerWeek];
-
-        return $result;
+        return ['labelWeeks' => $labelWeeks, 'nbSymptomsPerWeek' => $nbSymptomsPerWeek];
     }
 }

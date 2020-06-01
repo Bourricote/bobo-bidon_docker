@@ -1,40 +1,61 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <a href="{{ path('add_user_symptom', {'user' : app.user.id}) }}">Ajouter un symptôme</a>
+<div class="text-center mb-2">
+    <a class="btn btn-lg btn-bobo" href="{{ path('add_user_symptom', {'user' : app.user.id}) }}">Ajouter un symptôme</a>
+</div>
 
-    <div class="mb-5">
-        <canvas id="symptomsPerDay"
-                width="400"
-                height="200"
-                data-day-length="{{ data_days|length + 1 }}"
-                {% for key, data_day in data_days %}
-                    data-day-label-{{ loop.index }}="{{ key }}"
-                    data-day-{{ loop.index }} ="{{ data_day }}"
-                {% endfor %}
-                {% for key, data_symptom in data_symptoms_per_day %}
-                    data-symptom-label-{{ loop.index }}="{{ key }}"
-                    data-symptom-{{ loop.index }} ="{{ data_symptom }}"
-                {% endfor %}
-        ></canvas>
+<div class="accordion" id="accordionCharts">
+    <div class="card">
+        <div class="card-header text-center" id="headingTwo">
+            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseWeeks" aria-expanded="false" aria-controls="collapseTwo">
+                Symptômes par semaine
+            </button>
+        </div>
+        <div id="collapseWeeks" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionCharts">
+            <div class="card-body">
+                <div class="mb-5 chart-container">
+                    <canvas id="symptomsPerWeek"
+                            data-week-length="{{ label_weeks|length + 1 }}"
+                            {% for key, data_week in label_weeks %}
+                                data-week-label-{{ loop.index }}="{{ key }}"
+                                data-week-{{ loop.index }} ="{{ data_week }}"
+                            {% endfor %}
+                            {% for key, data_symptom in nb_symptoms_per_week %}
+                                data-symptom-label-{{ loop.index }}="{{ key }}"
+                                data-symptom-{{ loop.index }} ="{{ data_symptom }}"
+                            {% endfor %}
+                    ></canvas>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="mb-5">
-        <canvas id="symptomsPerWeek"
-                width="200"
-                height="100"
-                data-week-length="{{ data_weeks|length + 1 }}"
-                {% for key, data_week in data_weeks %}
-                    data-week-label-{{ loop.index }}="{{ key }}"
-                    data-week-{{ loop.index }} ="{{ data_week }}"
-                {% endfor %}
-                {% for key, data_symptom in data_symptoms_per_week %}
-                    data-symptom-label-{{ loop.index }}="{{ key }}"
-                    data-symptom-{{ loop.index }} ="{{ data_symptom }}"
-                {% endfor %}
-        ></canvas>
+    <div class="card">
+        <div class="card-header text-center" id="headingOne">
+            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseDays" aria-expanded="false" aria-controls="collapseOne">
+                Symptômes par jour
+            </button>
+        </div>
+        <div id="collapseDays" class="collapse" aria-labelledby="headingOne" data-parent="#accordionCharts">
+            <div class="card-body">
+                <div class="mb-5 chart-container">
+                    <canvas id="symptomsPerDay"
+                            data-day-length="{{ label_days|length + 1 }}"
+                            {% for key, data_day in label_days %}
+                                data-day-label-{{ loop.index }}="{{ key }}"
+                                data-day-{{ loop.index }} ="{{ data_day }}"
+                            {% endfor %}
+                            {% for key, data_symptom in nb_symptoms_per_day %}
+                                data-symptom-label-{{ loop.index }}="{{ key }}"
+                                data-symptom-{{ loop.index }} ="{{ data_symptom }}"
+                            {% endfor %}
+                    ></canvas>
+                </div>
+            </div>
+        </div>
     </div>
-
+</div>
 
 {% endblock %}
 

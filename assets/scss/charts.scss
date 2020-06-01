@@ -1,0 +1,18 @@
+.chart-container {
+  position: relative;
+  margin: auto;
+  height: 75vh;
+  width: 95%;
+}
+
+.btn-link {
+  color: $purpleBasic;
+  &:hover {
+    color: $purpleMediumLight;
+    text-decoration: none;
+  }
+  &:active {
+    color: $pinkBasic;
+    text-decoration: none;
+  }
+}

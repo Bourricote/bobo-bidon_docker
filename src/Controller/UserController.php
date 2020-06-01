@@ -35,18 +35,18 @@ class UserController extends AbstractController
         }
 
         $dataDaysChart = $chartService->generateDataPerDay($user);
-        $dataDays = $dataDaysChart['dataDays'];
-        $symptomsPerDay = $dataDaysChart['symptomsPerDay'];
+        $labelsDays = $dataDaysChart['labelDays'];
+        $nbSymptomsPerDay = $dataDaysChart['nbSymptomsPerDay'];
 
         $dataWeeksChart = $chartService->generateDataPerWeek($user);
-        $dataWeeks = $dataWeeksChart['dataWeeks'];
-        $symptomsPerWeek = $dataWeeksChart['symptomsPerWeek'];
+        $labelWeeks = $dataWeeksChart['labelWeeks'];
+        $nbSymptomsPerWeek = $dataWeeksChart['nbSymptomsPerWeek'];
 
         return $this->render('symptom/charts.html.twig', [
-            'data_symptoms_per_day' => $symptomsPerDay,
-            'data_days' => $dataDays,
-            'data_symptoms_per_week' => $symptomsPerWeek,
-            'data_weeks' => $dataWeeks,
+            'nb_symptoms_per_day' => $nbSymptomsPerDay,
+            'label_days' => $labelsDays,
+            'nb_symptoms_per_week' => $nbSymptomsPerWeek,
+            'label_weeks' => $labelWeeks,
         ]);
     }
 
