@@ -11,8 +11,8 @@
 - node
 
 ## Setup commands :
-- `docker-compose up` to mount and start containers (first time can be quite long as it builds containers)
-- `docker exec -it -u dev sf4_php bash` to get in the php container 
+- `docker-compose up` to mount and start containers (first time can be quite long as it builds containers) (add `-d` to run it in daemon)
+- `docker exec -it -u dev bobo-bidon_docker_php_1 bash` to get in the php container 
 - `composer install`
 - `php bin/console d:s:u --force`
 
@@ -27,17 +27,19 @@ Try
 
 ## Routine commands :
 ### To start working
-- `docker-compose up` to mount and start containers
-- `docker exec -it -u dev sf4_php bash` to get in the php container 
+- `docker-compose start` to start containers
+- `docker exec -it -u dev bobo-bidon_docker_php_1 bash` to get in the php container (`exit` to get out)
 - from there you can do the usual commands (`php bin/console make:controller` for example)
 - the **app** is available on http://localhost/
 - **phpmyadmin** is available on http://localhost:8081/
+- **maildev** is available on http://localhost:8001/
 - **git** commands must be performed outside the containers
 
 ### When you're done
-- `exit`
-- `docker-compose stop`
+- `exit` to get out of a container
+- `docker-compose stop` to stop containers
 
 ## Others commands :
+- if you changed `docker-compose.yml` : `docker-compose down` to unmount containers and `docker-compose up` to remount them
 - `docker ps` list containers and their ports (when outside a container)
 - `docker rm <containername>` to remove a container (if they say container is already in use for example)
