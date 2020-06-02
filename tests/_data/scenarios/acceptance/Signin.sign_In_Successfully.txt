@@ -1,0 +1,8 @@
+I WANT TO SIGN IN SUCCESSFULLY
+
+I am on page '/' 
+I fill field 'email','anne.quiedeville@orange.fr' 
+I fill field 'password','password' 
+I click 'Connexion' 
+I see 'Bobo-bidon'
+

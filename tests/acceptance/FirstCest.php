@@ -13,8 +13,4 @@ class FirstCest
         $I->see('Connexion');
     }
 
-    // tests
-    public function tryToTest(AcceptanceTester $I)
-    {
-    }
 }

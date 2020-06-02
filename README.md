@@ -44,3 +44,4 @@ Try
 - if you changed `docker-compose.yml` : `docker-compose down` to unmount containers and `docker-compose up` to remount them
 - `docker ps` list containers and their ports (when outside a container)
 - `docker rm <containername>` to remove a container (if they say container is already in use for example)
+- `php vendor/bin/codecept generate:cest acceptance First` to create an acceptance test named First
