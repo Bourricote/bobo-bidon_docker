@@ -27,6 +27,7 @@ services:
 
     php:
         build: .docker/php
+        container_name: sf4_php
         volumes:
           - .:/home/wwwroot/sf4
         environment:
