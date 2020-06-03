@@ -21,6 +21,7 @@ class FoodSearchType extends AbstractType
                 'label' => false,
                 'attr' => [
                     'placeholder' => 'Carottes, Saumon, Riz...',
+                    'class' => 'form-control mb-2'
                 ]
             ])
         ;
