@@ -15,6 +15,7 @@ class SigninCest
         $I->fillField('password','password');
         $I->click('Connexion');
         $I->see('Bobo-Bidon');
+        $I->see('Mon profil');
     }
 
     public function signInUnuccessfully(AcceptanceTester $I)

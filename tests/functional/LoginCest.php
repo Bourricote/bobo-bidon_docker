@@ -8,17 +8,16 @@ class LoginCest
     }
 
     // tests
-    public function tryLogin(FunctionalTester $I)
+    public function tryLoginAndLogout(FunctionalTester $I)
     {
         $I->amOnPage('/');
         $I->fillField('email','anne.quiedeville@orange.fr');
         $I->fillField('password','password');
         $I->click('Connexion');
         $I->see('Bobo-bidon');
+        $I->see('Gestion');
         $I->see('Se déconnecter');
         $I->click('Se déconnecter');
         $I->see('Connexion');
-
-        // $I->seeEmailIsSent(); // only for Symfony
     }
 }

@@ -4,24 +4,19 @@
 namespace App\Service;
 
 
+use App\Entity\Category;
 use App\Entity\Symptom;
 use App\Entity\User;
 use App\Repository\CategoryRepository;
 use DateInterval;
+use Doctrine\Common\Collections\Collection;
 use phpDocumentor\Reflection\Types\Integer;
 
 class ChartService
 {
     const DAYS_PER_WEEK = 7;
 
-    private $categoryRepository;
-
-    public function __construct(CategoryRepository $categoryRepository)
-    {
-        $this->categoryRepository = $categoryRepository;
-    }
-
-    /**
+        /**
      * Calculate number of all symptoms per day for chart SymptomsPerDay
      * @param User $user
      * @return array[]
@@ -62,12 +57,11 @@ class ChartService
     /**
      * Calculate number of all symptoms per week for chart SymptomsPerWeek
      * @param User $user
+     * @param array $categories
      * @return array[]
      */
-    public function generateDataPerWeek(User $user)
+    public function generateDataPerWeek(User $user, array $categories)
     {
-        $categories = $this->categoryRepository->findAll();
-
         $userSymptoms = $user->getUserSymptoms();
 
         $startDate = $user->getStartDate();

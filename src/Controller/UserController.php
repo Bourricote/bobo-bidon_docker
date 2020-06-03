@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Repository\CategoryRepository;
 use App\Repository\SymptomRepository;
 use App\Repository\UserRepository;
 use App\Service\ChartService;
@@ -19,10 +20,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class UserController extends AbstractController
 {
     private $symptomRepository;
+    private $categoryRepository;
 
-    public function __construct(SymptomRepository $symptomRepository)
+    public function __construct(SymptomRepository $symptomRepository, CategoryRepository $categoryRepository)
     {
         $this->symptomRepository = $symptomRepository;
+        $this->categoryRepository = $categoryRepository;
     }
 
     /**
@@ -34,6 +37,7 @@ class UserController extends AbstractController
     public function userCharts(User $user, ChartService $chartService): Response
     {
         $allSymptoms = $this->symptomRepository->findAll();
+        $categories = $this->categoryRepository->findAll();
 
         if (!$user->getStartDate()) {
             $this->addFlash(
@@ -47,7 +51,7 @@ class UserController extends AbstractController
         $labelsDays = $dataDaysChart['labelDays'];
         $nbSymptomsPerDay = $dataDaysChart['nbSymptomsPerDay'];
 
-        $dataWeeksChart = $chartService->generateDataPerWeek($user);
+        $dataWeeksChart = $chartService->generateDataPerWeek($user, $categories);
         $labelWeeks = $dataWeeksChart['labelWeeks'];
         $nbSymptomsPerWeek = $dataWeeksChart['nbSymptomsPerWeek'];
 

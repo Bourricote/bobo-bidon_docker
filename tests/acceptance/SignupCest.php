@@ -10,9 +10,9 @@ class SignupCest
     {
     }
 
-    // test commenté car crée un user et je sais pas encore comment le supprimer :/
-    /*public function signUpSuccessfully(AcceptanceTester $I)
+    public function signUpSuccessfully(AcceptanceTester $I)
     {
+        // Register new user and logout
         $I->amOnPage('/register');
         $I->fillField('Email','anna.banana@orange.fr');
         $I->fillField('Mot de passe','password');
@@ -21,8 +21,27 @@ class SignupCest
         $I->fillField('Nom','Banana');
         $I->click('Inscription');
         $I->see('Bobo-Bidon');
-        //$I->seeInDatabase('user', ['email' => 'anna.banana@orange.fr']);
+        $I->see('Mon profil');
+        $I->click('Mon profil');
+        $I->see('Ton email');
+        $userId = $I->grabFromCurrentUrl('~/user/profile/(\d+)$~');
+        $I->see('Se déconnecter');
+        $I->click('Se déconnecter');
+
+        // Sign in as admin
+        $I->amOnPage('/');
+        $I->fillField('email','anne.quiedeville@orange.fr');
+        $I->fillField('password','password');
+        $I->click('Connexion');
+        $I->see('Bobo-Bidon');
+
+        // Delete new user
         $I->amOnPage('/user/admin');
         $I->see('anna.banana@orange.fr');
-    }*/
+        $I->amOnPage('/user/admin/' . $userId . '/edit');
+        $I->see('Delete');
+        $I->click('Delete');
+        $I->amOnPage('/user/admin');
+        $I->dontSee('anna.banana@orange.fr');
+    }
 }

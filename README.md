@@ -34,7 +34,7 @@ Try
 - **phpmyadmin** is available on http://localhost:8081/
 - **maildev** is available on http://localhost:8001/
 - **git** commands must be performed outside the containers
-- `php vendor/bin/codecept run --steps`to run tests with codeception
+- `php vendor/bin/codecept run`to run tests with codeception (add `--steps` to see step by step)
 
 ### When you're done
 - `exit` to get out of a container
