@@ -6,15 +6,12 @@
     <h1>Liste des aliments</h1>
 
     <div class="d-flex container justify-content-center p-5">
-
-        <div>{{ form_start(form) }}</div>
-        <div>{{ form_widget(form) }}</div>
-        <div>
-            <button class="btn btn-bobo ml-2">
-                Chercher
-            </button>
+        {{ form_start(form) }}
+        <div class="row">
+            <div class="col-6">{{ form_widget(form) }}</div>
+            <div class="col-2"><button class="btn btn-bobo ml-2">Chercher</button></div>
         </div>
-        <div>{{ form_end(form) }}</div>
+        {{ form_end(form) }}
     </div>
 
     <table class="table table-striped text-center">
