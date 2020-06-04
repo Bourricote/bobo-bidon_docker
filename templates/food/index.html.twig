@@ -23,7 +23,7 @@
         {% for food in foods %}
             <tr>
                 <td>{{ food.name }}</td>
-                <td>{% if not food.isHighFodmap %}<i class="fas fa-check-circle textPinkMediumLight"></i> {% else %}<i class="fas fa-times-circle textPurpleDark"></i> {% endif %}</td>
+                <td><i class="fas {{ food.isHighFodmap ? 'fa-times-circle textPurpleDark' : 'fa-check-circle textPinkMediumLight' }}"></i></td>
                 <td>{{ food.category.name }}</td>
                 <td>{{ food.oligos }}</td>
                 <td>{{ food.fructose }}</td>
