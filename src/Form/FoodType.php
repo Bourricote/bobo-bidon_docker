@@ -6,6 +6,8 @@ use App\Entity\Category;
 use App\Entity\Food;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -21,28 +23,34 @@ class FoodType extends AbstractType
                     'class' => 'form-control mb-2'
                 ]
             ])
-            ->add('fodmap', TextType::class, [
-                'label' => 'Fodmap',
+            ->add('isHighFodmap', ChoiceType::class, [
+                'label' => 'Niveau en fodmap',
+                'choices' => [
+                    'Bas' => Food::LOW_FODMAP,
+                    'Haut' => Food::HIGH_FODMAP,
+                ],
+                'attr'  => [
+                    'class' => 'mb-2'
+                ],
+                'expanded' => true,
+                'multiple' => false,
+            ])
+            ->add('oligos', NumberType::class, [
                 'attr'  => [
                     'class' => 'form-control mb-2'
                 ]
             ])
-            ->add('oligos', TextType::class, [
+            ->add('fructose', NumberType::class, [
                 'attr'  => [
                     'class' => 'form-control mb-2'
                 ]
             ])
-            ->add('fructose', TextType::class, [
+            ->add('polyols', NumberType::class, [
                 'attr'  => [
                     'class' => 'form-control mb-2'
                 ]
             ])
-            ->add('polyols', TextType::class, [
-                'attr'  => [
-                    'class' => 'form-control mb-2'
-                ]
-            ])
-            ->add('lactose', TextType::class, [
+            ->add('lactose', NumberType::class, [
                 'attr'  => [
                     'class' => 'form-control mb-2'
                 ]
