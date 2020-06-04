@@ -22,15 +22,11 @@ class FoodRepository extends ServiceEntityRepository
         parent::__construct($registry, Food::class);
     }
 
-    public function findAllVisibleQuery(FoodSearch $search) : QueryBuilder
+    public function findAllQuery(): QueryBuilder
     {
         return $this->createQueryBuilder('f')
-                ->where('f.name LIKE :val')
-                ->setParameter('val', '%' . $search->getSearchText() . '%')
-            ->getQuery()
-            ->getResult();
+            ->orderBy('f.name', 'ASC');
     }
-
 
     /**
      * @param FoodSearch $search
@@ -38,8 +34,7 @@ class FoodRepository extends ServiceEntityRepository
      */
     public function findByFoodSearchQuery(FoodSearch $search)
     {
-        $query = $this->createQueryBuilder('f')
-            ->orderBy('f.name');
+        $query = $this->findAllQuery();
 
         if ($search->getSearchText()) {
             $words = explode(' ', $search->getSearchText());
@@ -59,6 +54,15 @@ class FoodRepository extends ServiceEntityRepository
                 ->andWhere($clause)
                 ->setParameters($parameters);
         }
+
+        if ($search->getCategory()) {
+            $query = $query
+                ->join('f.category', 'c')
+                ->andwhere('c.name = :category')
+                ->setParameter('category', $search->getCategory()->getName());
+        }
+
+
         return $query->getQuery()->getResult();
     }
 }

@@ -45,15 +45,8 @@ class FoodController extends AbstractController
      */
     public function index(FoodRepository $foodRepository, Request $request): Response
     {
-        $search = new FoodSearch();
-        $form = $this->createForm(FoodSearchType::class, $search);
-        $form->handleRequest($request);
-
-        $foods = $foodRepository->findByFoodSearchQuery($search);
-
-        return $this->render('food/index.html.twig', [
-            'form' => $form->createView(),
-            'foods' => $foods,
+         return $this->render('food/index.html.twig', [
+            'foods' => $foodRepository->findBy([], ['name' => 'ASC']),
         ]);
     }
 

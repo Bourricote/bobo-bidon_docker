@@ -8,7 +8,8 @@
     <div class="d-flex container justify-content-center p-5">
         {{ form_start(form) }}
         <div class="row">
-            <div class="col-6">{{ form_widget(form) }}</div>
+            <div class="col-5">{{ form_row(form.category) }}</div>
+            <div class="col-5">{{ form_row(form.searchText) }}</div>
             <div class="col-2"><button class="btn btn-bobo ml-2">Chercher</button></div>
         </div>
         {{ form_end(form) }}
@@ -30,7 +31,7 @@
         {% for food in foods %}
             <tr>
                 <td>{{ food.name }}</td>
-                <td>{% if food.fodmap == 'low' %}<i class="fas fa-check-circle textPinkMediumLight"></i> {% else %}<i class="fas fa-times-circle textPurpleDark"></i> {% endif %}</td>
+                <td><i class="fas {{ food.isHighFodmap ? 'fa-times-circle textPurpleDark' : 'fa-check-circle textPinkMediumLight' }}"></i></td>
                 <td>{{ food.category.name }}</td>
                 <td>{{ food.oligos }}</td>
                 <td>{{ food.fructose }}</td>
