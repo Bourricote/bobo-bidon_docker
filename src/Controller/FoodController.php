@@ -18,7 +18,27 @@ use Symfony\Component\Routing\Annotation\Route;
 class FoodController extends AbstractController
 {
     /**
-     * @Route("admin/", name="food_index", methods={"GET"})
+     * @Route("/", name="food_index_user", methods={"GET"})
+     * @param FoodRepository $foodRepository
+     * @param Request $request
+     * @return Response
+     */
+    public function userIndex(FoodRepository $foodRepository, Request $request): Response
+    {
+        $search = new FoodSearch();
+        $form = $this->createForm(FoodSearchType::class, $search);
+        $form->handleRequest($request);
+
+        $foods = $foodRepository->findByFoodSearchQuery($search);
+
+        return $this->render('food/index_public.html.twig', [
+            'form' => $form->createView(),
+            'foods' => $foods,
+        ]);
+    }
+
+    /**
+     * @Route("/admin", name="food_index", methods={"GET"})
      * @param FoodRepository $foodRepository
      * @param Request $request
      * @return Response

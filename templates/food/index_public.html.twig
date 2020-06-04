@@ -5,6 +5,15 @@
 {% block body %}
     <h1>Liste des aliments</h1>
 
+    <div class="d-flex container justify-content-center p-5">
+        {{ form_start(form) }}
+        <div class="row">
+            <div class="col-6">{{ form_widget(form) }}</div>
+            <div class="col-2"><button class="btn btn-bobo ml-2">Chercher</button></div>
+        </div>
+        {{ form_end(form) }}
+    </div>
+
     <table class="table table-striped text-center">
         <thead>
             <tr>
@@ -27,10 +36,6 @@
                 <td>{{ food.fructose }}</td>
                 <td>{{ food.polyols }}</td>
                 <td>{{ food.lactose }}</td>
-                <td>
-                    <a href="{{ path('food_show', {'id': food.id}) }}">show</a>
-                    <a href="{{ path('food_edit', {'id': food.id}) }}">edit</a>
-                </td>
             </tr>
         {% else %}
             <tr>
