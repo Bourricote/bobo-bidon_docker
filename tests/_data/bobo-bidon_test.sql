@@ -636,7 +636,7 @@ INSERT INTO `user` (`id`, `email`, `roles`, `password`, `firstname`, `lastname`,
 (7, 'céline.godichon@hotmail.fr', '[\"ROLE_ADMIN\"]', '$argon2i$v=19$m=65536,t=4,p=1$UFJyM2VOZW9keUVXNVIvaA$OLWgmyuxU93w3lPn12O9yGq+haKSK52yc3t0OZtq6+c', 'Céline', 'Godichon', '2020-05-26 16:47:20', NULL, NULL, NULL, NULL, NULL, NULL),
 (9, 'anne@anne.fr', '[\"ROLE_USER\"]', '$argon2i$v=19$m=65536,t=4,p=1$MWNFWS9oVnlBU3NpcjltUg$heM9tAaqldBs8Q58twvWQgpGeveyrsXsnXn+629busI', 'Anne', 'Anne', '2020-05-27 17:29:06', NULL, NULL, 33, NULL, '2020-01-01', '2020-02-26'),
 (10, 'anne.quiedeville@dotsafe.fr', '[\"ROLE_USER\"]', '$argon2i$v=19$m=65536,t=4,p=1$WTRBZ2wuNUlucDFxaXIzUA$XTD+rnx1tt50ite/eG5Fc8T94XFqqcDS89CF3p0KfNo', 'Anne', 'Dotsafe', '2020-05-27 17:36:26', '2020-05-28 17:35:57', NULL, NULL, NULL, '2020-05-25', '2020-07-20'),
-(11, 'coucou@truc.fr', '[\"ROLE_USER\"]', '$argon2i$v=19$m=65536,t=4,p=1$VnlnMThUNzRzYWU5MlM5YQ$9IaLmF5o0+ZCcj8yTQB8tzjhfVm4qopFYiJKNUzmko4', 'Cou', 'COU', '2020-05-29 15:36:14', '2020-05-29 17:30:01', 'Capture d’écran (59).png', NULL, 60, '2020-06-01', '2020-07-27');
+(11, 'testy@test.fr', '[\"ROLE_USER\"]', '$argon2i$v=19$m=65536,t=4,p=1$VnlnMThUNzRzYWU5MlM5YQ$9IaLmF5o0+ZCcj8yTQB8tzjhfVm4qopFYiJKNUzmko4', 'Testy', 'Test', '2020-05-29 15:36:14', '2020-05-29 17:30:01', NULL, NULL, 60, '2020-06-01', '2020-07-27');
 
 
 --

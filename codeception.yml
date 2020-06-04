@@ -14,9 +14,9 @@ params:
 modules:
     config:
         Db:
-            dsn: 'mysql:host=mysql;port=3306;dbname=bobo-bidon'
+            dsn: 'mysql:host=mysql;port=3306;dbname=bobo-bidon_test'
             user: 'root'
             password: 'root'
-            #dump: tests/_data/bobo-bidon_test.sql
-            #cleanup: true # reload dump between tests
-            #populate: true # load dump before all tests
+            dump: tests/_data/bobo-bidon_test.sql
+            cleanup: true # reload dump between tests
+            populate: true # load dump before all tests

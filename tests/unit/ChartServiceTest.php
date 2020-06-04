@@ -43,8 +43,8 @@ class ChartServiceTest extends \Codeception\Test\Unit
         $this->assertEquals(2, count($userSymptoms));
 
         // Create fake category repository to instantiate ChartService
-        $this->categoryRepository = $this->make(CategoryRepository::class);
-        $this->chartService = new ChartService($this->categoryRepository);
+        $categoryRepository = $this->make(CategoryRepository::class);
+        $this->chartService = new ChartService($categoryRepository);
     }
 
     protected function _after()

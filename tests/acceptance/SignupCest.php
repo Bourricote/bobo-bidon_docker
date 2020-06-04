@@ -6,6 +6,8 @@ use App\Tests\AcceptanceTester;
 
 class SignupCest
 {
+    private $userId;
+
     public function _before(AcceptanceTester $I)
     {
     }
@@ -24,10 +26,13 @@ class SignupCest
         $I->see('Mon profil');
         $I->click('Mon profil');
         $I->see('Ton email');
-        $userId = $I->grabFromCurrentUrl('~/user/profile/(\d+)$~');
+        $this->userId = $I->grabFromCurrentUrl('~/user/profile/(\d+)$~');
         $I->see('Se déconnecter');
         $I->click('Se déconnecter');
+    }
 
+    public function deleteNewUser(AcceptanceTester $I)
+    {
         // Sign in as admin
         $I->amOnPage('/');
         $I->fillField('email','anne.quiedeville@orange.fr');
@@ -38,7 +43,7 @@ class SignupCest
         // Delete new user
         $I->amOnPage('/user/admin');
         $I->see('anna.banana@orange.fr');
-        $I->amOnPage('/user/admin/' . $userId . '/edit');
+        $I->amOnPage('/user/admin/' . $this->userId . '/edit');
         $I->see('Delete');
         $I->click('Delete');
         $I->amOnPage('/user/admin');
