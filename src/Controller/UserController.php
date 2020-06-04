@@ -117,6 +117,11 @@ class UserController extends AbstractController
             }
             $this->getDoctrine()->getManager()->flush();
 
+            $this->addFlash(
+                'primary',
+                'Vos changements ont été sauvegardés !'
+            );
+
             return $this->redirectToRoute('profile', [
                 'user' => $user->getId(),
             ]);

@@ -13,14 +13,19 @@ class AddSymptomCest
     // tests
     public function AddSymptoms(FunctionalTester $I)
     {
+        // Sign in
         $I->amOnPage('/');
         $I->fillField('email','testy@test.fr');
         $I->fillField('password','coucou');
         $I->click('Connexion');
+
+        // Go to profile to grab user Id
         $I->see('Mon profil');
         $I->click('Mon profil');
         $I->see('Ton email');
         $this->userId = $I->grabFromCurrentUrl('~/user/profile/(\d+)$~');
+
+        // Go to form to add symptoms
         $I->amOnPage('/symptom/addsymptom/' . $this->userId);
         $I->see('Ajouter vos Symptômes');
         $date = new DateTime();
