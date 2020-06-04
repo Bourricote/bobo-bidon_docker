@@ -28,7 +28,6 @@ class FoodController extends AbstractController
         $search = new FoodSearch();
         $form = $this->createForm(FoodSearchType::class, $search);
         $form->handleRequest($request);
-
         $foods = $foodRepository->findByFoodSearchQuery($search);
 
         return $this->render('food/index_public.html.twig', [

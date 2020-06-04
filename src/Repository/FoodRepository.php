@@ -62,6 +62,11 @@ class FoodRepository extends ServiceEntityRepository
                 ->setParameter('category', $search->getCategory()->getName());
         }
 
+        if (null !== $search->getIsHighFodmap()) {
+            $query = $query
+                ->andwhere('f.isHighFodmap = :isHighFodmap')
+                ->setParameter('isHighFodmap', $search->getIsHighFodmap());
+        }
 
         return $query->getQuery()->getResult();
     }

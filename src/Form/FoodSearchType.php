@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Category;
+use App\Entity\Food;
 use App\Entity\FoodSearch;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -34,6 +35,19 @@ class FoodSearchType extends AbstractType
                     'placeholder' => 'Carottes, Saumon, Riz...',
                     'class' => 'form-control mb-2'
                 ]
+            ])
+            ->add('isHighFodmap', ChoiceType::class, [
+                'label' => 'Niveau en fodmap',
+                'choices' => [
+                    'Les deux' => null,
+                    'Bas' => 0,
+                    'Haut' => 1,
+                ],
+                'attr'  => [
+                    'class' => 'mb-2'
+                ],
+                'expanded' => true,
+                'multiple' => false,
             ])
         ;
     }

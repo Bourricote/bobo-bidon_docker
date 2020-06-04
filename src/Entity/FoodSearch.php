@@ -20,6 +20,11 @@ class FoodSearch
     private $searchText;
 
     /**
+     * @var(type="integer")
+     */
+    private $isHighFodmap;
+
+    /**
      * @return Category|null
      */
     public function getCategory(): ?Category
@@ -51,6 +56,23 @@ class FoodSearch
         $this->searchText = $searchText;
     }
 
+    /**
+     * @return int|null
+     */
+    public function getIsHighFodmap(): ?int
+    {
+        return $this->isHighFodmap;
+    }
 
+    /**
+     * @param int|null $isHighFodmap
+     * @return $this
+     */
+    public function setIsHighFodmap(?int $isHighFodmap): self
+    {
+        $this->isHighFodmap = $isHighFodmap;
+
+        return $this;
+    }
 
 }
