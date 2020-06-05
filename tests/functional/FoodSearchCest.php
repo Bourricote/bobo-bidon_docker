@@ -20,11 +20,11 @@ class FoodSearchCest
         $I->see('Aliments');
         $I->click('Aliments');
         $I->see('Bacon');
-        $I->see('Clementine');
+        $I->see('Apples');
         $I->see('Chercher');
-        $I->fillField('food_search[searchText]', 'clementine');
+        $I->fillField('food_search[searchText]', 'apples');
         $I->click('Chercher');
         $I->dontSee('Bacon');
-        $I->see('Clementine');
+        $I->see('Apples');
     }
 }

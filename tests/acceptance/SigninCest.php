@@ -24,6 +24,6 @@ class SigninCest
         $I->fillField('email','anne.quiedeville@orange.fr');
         $I->fillField('password','bidule');
         $I->click('Connexion');
-        $I->see('Invalid credentials');
+        $I->see('Identifiants invalides');
     }
 }
