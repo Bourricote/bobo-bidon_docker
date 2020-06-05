@@ -142,14 +142,24 @@ class ChartService
     public function generateDataForDietWeeks(User $user, array $categories)
     {
         if (!$user->getStartDate()) {
-            return ['done' => 0, 'left' => 1000, 'message' => 'Vous n\'avez pas commencé votre régime !'];
+            return [
+                'done' => 0,
+                'left' => 1000,
+                'message' => 'Vous n\'avez pas commencé votre régime !',
+                'category' => null
+            ];
         }
 
         $endDate = $user->getEndDate();
         $today = new DateTime();
 
         if ($today >= $endDate) {
-            return ['done' => 100, 'left' => 0, 'message' => 'Vous avez fini votre régime !'];
+            return [
+                'done' => 100,
+                'left' => 0,
+                'message' => 'Vous avez fini votre régime !',
+                'category' => null
+            ];
         }
 
         $nbOfWeeksDiet = 8;

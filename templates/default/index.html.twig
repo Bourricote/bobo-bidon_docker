@@ -15,7 +15,9 @@
             </div>
             <div class="card-footer text-center">
                 <p>{{ message }}</p>
-                <p>Catégorie d'aliments : {{ category.name }}</p>
+                {% if category %}
+                    <p>Catégorie d'aliments : {{ category.name }}</p>
+                {%  endif %}
             </div>
         </div>
     </div>
