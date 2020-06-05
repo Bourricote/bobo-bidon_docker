@@ -4,7 +4,7 @@ let weeks = [];
 let symptomsWeek = [];
 
 const nbWeeks = symptomsPerWeek.getAttribute('data-week-length');
-for (let nbr = 1; nbr < nbWeeks; nbr++) {
+for (let nbr = 1; nbr <= nbWeeks; nbr++) {
     let week = symptomsPerWeek.getAttribute('data-week-' + nbr);
     let symptom = symptomsPerWeek.getAttribute('data-symptom-' + nbr);
     weeks.push(week);
@@ -49,7 +49,7 @@ let symptomsDay = [];
 
 const nbDays = symptomsPerDay.getAttribute('data-day-length');
 
-for (let nbr = 1; nbr < nbDays; nbr++) {
+for (let nbr = 1; nbr <= nbDays; nbr++) {
     let day = symptomsPerDay.getAttribute('data-day-' + nbr);
     let symptom = symptomsPerDay.getAttribute('data-symptom-' + nbr);
     days.push(day);

@@ -9,6 +9,7 @@ use App\Entity\Symptom;
 use App\Entity\User;
 use App\Repository\CategoryRepository;
 use DateInterval;
+use DateTime;
 use Doctrine\Common\Collections\Collection;
 use phpDocumentor\Reflection\Types\Integer;
 
@@ -131,5 +132,48 @@ class ChartService
         }
 
         return ['nbSymptomsPerWeek' => $nbSymptomsPerWeek];
+    }
+
+    /**
+     * @param User $user
+     * @param array $categories
+     * @return float[]|int[]
+     */
+    public function generateDataForDietWeeks(User $user, array $categories)
+    {
+        if (!$user->getStartDate()) {
+            return ['done' => 0, 'left' => 1000, 'message' => 'Vous n\'avez pas commencé votre régime !'];
+        }
+
+        $endDate = $user->getEndDate();
+        $today = new DateTime();
+
+        if ($today >= $endDate) {
+            return ['done' => 100, 'left' => 0, 'message' => 'Vous avez fini votre régime !'];
+        }
+
+        $nbOfWeeksDiet = 8;
+
+        $startDate = $user->getStartDate();
+
+        $nbWeeksDone = (int)floor((($startDate->diff($today)->days) / self::DAYS_PER_WEEK));
+
+        $done = ($nbWeeksDone * 100) / $nbOfWeeksDiet;
+        $left = 100 - $done;
+        $message = 'Vous êtes à la semaine ' . ($nbWeeksDone + 1) . ' de votre régime !';
+
+        $currentCategory = null;
+        foreach ($categories as $category) {
+            if ($category->getDietWeek() === ($nbWeeksDone + 1)) {
+                $currentCategory = $category;
+            }
+        }
+
+        return [
+            'done' => $done,
+            'left' => $left,
+            'message' => $message,
+            'category' => $currentCategory,
+            ];
     }
 }

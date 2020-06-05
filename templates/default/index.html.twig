@@ -2,10 +2,28 @@
 
 
 {% block body %}
+<div class="row justify-content-center">
+    <div class="col-10 col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <canvas id="dietProgression"
+                        data-week-length="{{ weeks_data|length }}"
+                        {% for data_week in weeks_data %}
+                            data-week-{{ loop.index }} ="{{ data_week }}"
+                        {% endfor %}
+                ></canvas>
+            </div>
+            <div class="card-footer text-center">
+                <p>{{ message }}</p>
+                <p>Catégorie d'aliments : {{ category.name }}</p>
+            </div>
+        </div>
+    </div>
+</div>
 
-    <a href="{{ path('add_user_symptom', {'user' : app.user.id}) }}">Ajouter un symptôme</a>
-    <br>
-    <a href="{{ path('show_user_symptom') }}">Voir mes symptômes</a>
+{% endblock %}
 
-
+{% block javascripts %}
+    {{ encore_entry_script_tags('app') }}
+    {{ encore_entry_script_tags('dashboard') }}
 {% endblock %}

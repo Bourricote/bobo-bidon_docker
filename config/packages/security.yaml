@@ -40,5 +40,6 @@ security:
         - { path: ^/user, roles: ROLE_USER }
         - { path: ^/food, roles: ROLE_USER }
         - { path: ^/symptom, roles: ROLE_USER }
+        - { path: ^/home, roles: ROLE_USER }
 
 

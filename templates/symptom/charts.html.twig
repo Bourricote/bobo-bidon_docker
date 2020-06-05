@@ -16,7 +16,7 @@
             <div class="card-body">
                 <div class="mb-5 chart-container">
                     <canvas id="symptomsPerWeek"
-                            data-week-length="{{ label_weeks|length + 1 }}"
+                            data-week-length="{{ label_weeks|length }}"
                             {% for key, data_week in label_weeks %}
                                 data-week-label-{{ loop.index }}="{{ key }}"
                                 data-week-{{ loop.index }} ="{{ data_week }}"
@@ -64,7 +64,7 @@
             <div class="card-body">
                 <div class="mb-5 chart-container">
                     <canvas id="symptomsPerDay"
-                            data-day-length="{{ label_days|length + 1 }}"
+                            data-day-length="{{ label_days|length }}"
                             {% for key, data_day in label_days %}
                                 data-day-label-{{ loop.index }}="{{ key }}"
                                 data-day-{{ loop.index }} ="{{ data_day }}"
