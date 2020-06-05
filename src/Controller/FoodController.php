@@ -7,6 +7,7 @@ use App\Entity\FoodSearch;
 use App\Form\FoodSearchType;
 use App\Form\FoodType;
 use App\Repository\FoodRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,18 +18,27 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class FoodController extends AbstractController
 {
+    const ITEMS_PER_PAGE = 30;
+
     /**
      * @Route("/", name="food_index_user", methods={"GET"})
      * @param FoodRepository $foodRepository
      * @param Request $request
+     * @param PaginatorInterface $paginator
      * @return Response
      */
-    public function userIndex(FoodRepository $foodRepository, Request $request): Response
+    public function userIndex(FoodRepository $foodRepository, Request $request, PaginatorInterface $paginator): Response
     {
         $search = new FoodSearch();
         $form = $this->createForm(FoodSearchType::class, $search);
         $form->handleRequest($request);
-        $foods = $foodRepository->findByFoodSearchQuery($search);
+        $data = $foodRepository->findByFoodSearchQuery($search);
+
+        $foods = $paginator->paginate(
+            $data,
+            $request->query->getInt('page', 1),
+            self::ITEMS_PER_PAGE
+        );
 
         return $this->render('food/index_public.html.twig', [
             'form' => $form->createView(),

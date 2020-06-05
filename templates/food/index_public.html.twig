@@ -8,8 +8,9 @@
     <div class="d-flex container justify-content-center p-5">
         {{ form_start(form) }}
         <div class="row">
-            <div class="col-5">{{ form_row(form.category) }}</div>
-            <div class="col-5">{{ form_row(form.searchText) }}</div>
+            <div class="col-3">{{ form_row(form.category) }}</div>
+            <div class="col-4">{{ form_row(form.searchText) }}</div>
+            <div class="col-3">{{ form_row(form.isHighFodmap) }}</div>
             <div class="col-2"><button class="btn btn-bobo ml-2">Chercher</button></div>
         </div>
         {{ form_end(form) }}
@@ -45,4 +46,8 @@
         {% endfor %}
         </tbody>
     </table>
+
+    <div class="pagination align-self-end mr-4">
+        {{ knp_pagination_render(foods) }}
+    </div>
 {% endblock %}
