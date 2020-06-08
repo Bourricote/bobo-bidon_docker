@@ -1,27 +1,30 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Food index{% endblock %}
+{% block title %}Aliments{% endblock %}
 
 {% block body %}
-    <h1>Food index</h1>
+    <h1>Liste des aliments</h1>
 
-    <table class="table">
+    <a class="btn btn-bobo" href="{{ path('food_new') }}">Ajouter</a>
+
+    <table class="table table-striped text-center">
         <thead>
             <tr>
-                <th>Name</th>
+                <th>Nom</th>
                 <th>Fodmap</th>
+                <th>Catégorie</th>
                 <th>Oligos</th>
                 <th>Fructose</th>
                 <th>Polyols</th>
                 <th>Lactose</th>
-                <th>actions</th>
             </tr>
         </thead>
         <tbody>
         {% for food in foods %}
             <tr>
                 <td>{{ food.name }}</td>
-                <td>{% if food.fodmap == 'low' %}<i class="fas fa-check-circle textPinkMediumLight"></i> {% else %}<i class="fas fa-times-circle textPurpleDark"></i> {% endif %}</td>
+                <td><i class="fas {{ food.isHighFodmap ? 'fa-times-circle textPurpleDark' : 'fa-check-circle textPinkMediumLight' }}"></i></td>
+                <td>{{ food.category.name }}</td>
                 <td>{{ food.oligos }}</td>
                 <td>{{ food.fructose }}</td>
                 <td>{{ food.polyols }}</td>
@@ -33,11 +36,9 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="8">no records found</td>
+                <td colspan="8">Aucun résultat</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('food_new') }}">Create new</a>
 {% endblock %}

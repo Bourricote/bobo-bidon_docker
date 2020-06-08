@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Repository\CategoryRepository;
+use App\Repository\SymptomRepository;
 use App\Repository\UserRepository;
 use App\Service\ChartService;
 use DateInterval;
@@ -17,6 +19,14 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class UserController extends AbstractController
 {
+    private $symptomRepository;
+    private $categoryRepository;
+
+    public function __construct(SymptomRepository $symptomRepository, CategoryRepository $categoryRepository)
+    {
+        $this->symptomRepository = $symptomRepository;
+        $this->categoryRepository = $categoryRepository;
+    }
 
     /**
      * @Route("/charts/{user}", name="charts", methods={"GET"})
@@ -26,6 +36,9 @@ class UserController extends AbstractController
      */
     public function userCharts(User $user, ChartService $chartService): Response
     {
+        $allSymptoms = $this->symptomRepository->findAll();
+        $categories = $this->categoryRepository->findAll();
+
         if (!$user->getStartDate()) {
             $this->addFlash(
                 'error',
@@ -35,18 +48,41 @@ class UserController extends AbstractController
         }
 
         $dataDaysChart = $chartService->generateDataPerDay($user);
-        $dataDays = $dataDaysChart['dataDays'];
-        $symptomsPerDay = $dataDaysChart['symptomsPerDay'];
+        $labelsDays = $dataDaysChart['labelDays'];
+        $nbSymptomsPerDay = $dataDaysChart['nbSymptomsPerDay'];
 
-        $dataWeeksChart = $chartService->generateDataPerWeek($user);
-        $dataWeeks = $dataWeeksChart['dataWeeks'];
-        $symptomsPerWeek = $dataWeeksChart['symptomsPerWeek'];
+        $dataWeeksChart = $chartService->generateDataPerWeek($user, $categories);
+        $labelWeeks = $dataWeeksChart['labelWeeks'];
+        $nbSymptomsPerWeek = $dataWeeksChart['nbSymptomsPerWeek'];
 
         return $this->render('symptom/charts.html.twig', [
-            'data_symptoms_per_day' => $symptomsPerDay,
-            'data_days' => $dataDays,
-            'data_symptoms_per_week' => $symptomsPerWeek,
-            'data_weeks' => $dataWeeks,
+            'all_symptoms' => $allSymptoms,
+            'nb_symptoms_per_day' => $nbSymptomsPerDay,
+            'label_days' => $labelsDays,
+            'nb_symptoms_per_week' => $nbSymptomsPerWeek,
+            'label_weeks' => $labelWeeks,
+        ]);
+    }
+
+    /**
+     * @Route("/charts/symptom", name="chart_symptom", methods={"GET", "POST"})
+     * @param ChartService $chartService
+     * @return Response
+     */
+    public function userChartPerSymptom(ChartService $chartService): Response
+    {
+        $user = $this->getUser();
+
+        $json = file_get_contents('php://input');
+        $obj = json_decode($json);
+        $symptomId = $obj->symptom;
+        $symptom = $this->symptomRepository->findOneBy(['id' => $symptomId]);
+
+        $dataWeeksChart = $chartService->generateDataPerWeekPerSymptom($user, $symptom);
+        $nbSymptomsPerWeek = $dataWeeksChart['nbSymptomsPerWeek'];
+
+        return $this->json([
+            'symptoms' => $nbSymptomsPerWeek,
         ]);
     }
 
@@ -81,6 +117,11 @@ class UserController extends AbstractController
             }
             $this->getDoctrine()->getManager()->flush();
 
+            $this->addFlash(
+                'primary',
+                'Vos changements ont été sauvegardés !'
+            );
+
             return $this->redirectToRoute('profile', [
                 'user' => $user->getId(),
             ]);
@@ -102,7 +143,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/", name="user_index", methods={"GET"})
+     * @Route("/admin", name="user_index", methods={"GET"})
      * @param UserRepository $userRepository
      * @return Response
      */
@@ -114,7 +155,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="user_new", methods={"GET","POST"})
+     * @Route("/admin/new", name="user_new", methods={"GET","POST"})
      * @param Request $request
      * @return Response
      */
@@ -139,7 +180,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="user_show", methods={"GET"})
+     * @Route("/admin/{id}", name="user_show", methods={"GET"})
      * @param User $user
      * @return Response
      */
@@ -151,7 +192,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{user}/edit", name="user_edit", methods={"GET","POST"})
+     * @Route("/admin/{user}/edit", name="user_edit", methods={"GET","POST"})
      * @param Request $request
      * @param User $user
      * @return Response
@@ -174,7 +215,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="user_delete", methods={"DELETE"})
+     * @Route("/admin/{id}", name="user_delete", methods={"DELETE"})
      * @param Request $request
      * @param User $user
      * @return Response

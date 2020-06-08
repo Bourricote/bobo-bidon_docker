@@ -3,8 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Food;
+use App\Entity\FoodSearch;
+use App\Form\FoodSearchType;
 use App\Form\FoodType;
 use App\Repository\FoodRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,18 +18,51 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class FoodController extends AbstractController
 {
+    const ITEMS_PER_PAGE = 30;
+
     /**
-     * @Route("/", name="food_index", methods={"GET"})
+     * @Route("/", name="food_index_user", methods={"GET"})
+     * @param FoodRepository $foodRepository
+     * @param Request $request
+     * @param PaginatorInterface $paginator
+     * @return Response
      */
-    public function index(FoodRepository $foodRepository): Response
+    public function userIndex(FoodRepository $foodRepository, Request $request, PaginatorInterface $paginator): Response
     {
-        return $this->render('food/index.html.twig', [
-            'foods' => $foodRepository->findAll(),
+        $search = new FoodSearch();
+        $form = $this->createForm(FoodSearchType::class, $search);
+        $form->handleRequest($request);
+        $data = $foodRepository->findByFoodSearchQuery($search);
+
+        $foods = $paginator->paginate(
+            $data,
+            $request->query->getInt('page', 1),
+            self::ITEMS_PER_PAGE
+        );
+
+        return $this->render('food/index_public.html.twig', [
+            'form' => $form->createView(),
+            'foods' => $foods,
         ]);
     }
 
     /**
-     * @Route("/new", name="food_new", methods={"GET","POST"})
+     * @Route("/admin", name="food_index", methods={"GET"})
+     * @param FoodRepository $foodRepository
+     * @param Request $request
+     * @return Response
+     */
+    public function index(FoodRepository $foodRepository, Request $request): Response
+    {
+         return $this->render('food/index.html.twig', [
+            'foods' => $foodRepository->findBy([], ['name' => 'ASC']),
+        ]);
+    }
+
+    /**
+     * @Route("/admin/new", name="food_new", methods={"GET","POST"})
+     * @param Request $request
+     * @return Response
      */
     public function new(Request $request): Response
     {
@@ -49,7 +85,7 @@ class FoodController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="food_show", methods={"GET"})
+     * @Route("/admin/{id}", name="food_show", methods={"GET"})
      */
     public function show(Food $food): Response
     {
@@ -59,7 +95,7 @@ class FoodController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="food_edit", methods={"GET","POST"})
+     * @Route("/admin/{id}/edit", name="food_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Food $food): Response
     {
@@ -79,7 +115,7 @@ class FoodController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="food_delete", methods={"DELETE"})
+     * @Route("/admin/{id}", name="food_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Food $food): Response
     {

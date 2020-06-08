@@ -11,7 +11,7 @@
 - node
 
 ## Setup commands :
-- `docker-compose up` to mount and start containers (first time can be quite long as it builds containers)
+- `docker-compose up` to mount and start containers (first time can be quite long as it builds containers) (add `-d` to run it in daemon)
 - `docker exec -it -u dev sf4_php bash` to get in the php container 
 - `composer install`
 - `php bin/console d:s:u --force`
@@ -25,19 +25,25 @@ If error when `docker-compose up`:
 Try 
 - `sudo /etc/init.d/apache2 stop`
 
-## Routine commands :
-### To start working
-- `docker-compose up` to mount and start containers
-- `docker exec -it -u dev sf4_php bash` to get in the php container 
-- from there you can do the usual commands (`php bin/console make:controller` for example)
+## URLs
 - the **app** is available on http://localhost/
 - **phpmyadmin** is available on http://localhost:8081/
+- **maildev** is available on http://localhost:8001/
+
+## Routine commands :
+### To start working
+- `docker-compose start` to start containers
+- `docker exec -it -u dev sf4_php bash` to get in the php container (`exit` to get out)
+- from there you can do the usual commands (`php bin/console make:controller` for example)
+- `php vendor/bin/codecept run` to run tests with codeception (add `--steps` to see step by step) in php container (to remove deprecation notices run `export SYMFONY_DEPRECATIONS_HELPER=weak` before)
 - **git** commands must be performed outside the containers
 
 ### When you're done
-- `exit`
-- `docker-compose stop`
+- `exit` to get out of a container
+- `docker-compose stop` to stop containers
 
 ## Others commands :
+- if you changed `docker-compose.yml` : `docker-compose down` to unmount containers and `docker-compose up` to remount them
 - `docker ps` list containers and their ports (when outside a container)
 - `docker rm <containername>` to remove a container (if they say container is already in use for example)
+- `php vendor/bin/codecept generate:cest <suite> <testName>` to create a test (suites are `acceptance`/`functional`/`unit`)

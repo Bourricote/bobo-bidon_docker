@@ -28,7 +28,7 @@ class AddSymptomsType extends AbstractType
             ->add('date', DateType::class, [
                 'widget'    => 'single_text',
                 'attr'      => [
-                    'class' => ' form-control mb-2'
+                    'class' => 'form-control mb-2'
                 ]
             ])
             ->add('symptoms', EntityType::class, [

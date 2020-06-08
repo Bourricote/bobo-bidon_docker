@@ -4,13 +4,30 @@
 namespace App\Service;
 
 
+use App\Entity\Category;
+use App\Entity\Symptom;
 use App\Entity\User;
+use App\Repository\CategoryRepository;
 use DateInterval;
+use DateTime;
+use Doctrine\Common\Collections\Collection;
+use phpDocumentor\Reflection\Types\Integer;
 
 class ChartService
 {
+    const DAYS_PER_WEEK = 7;
+
+        /**
+     * Calculate number of all symptoms per day for chart SymptomsPerDay
+     * @param User $user
+     * @return array[]
+     */
     public function generateDataPerDay(User $user)
     {
+        if (!$user->getStartDate()) {
+            return null;
+        }
+
         $userSymptoms = $user->getUserSymptoms();
 
         $startDate = $user->getStartDate();
@@ -20,31 +37,83 @@ class ChartService
 
         $nbDays = $startDateDays->diff($endDate)->days;
 
-        $symptomsPerDay = [];
+        $nbSymptomsPerDay = [];
 
-        $dataDays = [];
+        $labelsDays = [];
         for ($i = 0; $i <= $nbDays; $i++) {
             if ( $i!= 0){
                 $newDate = $startDateDays->add(new DateInterval('P1D'));
             } else {
                 $newDate = $startDateDays;
             }
-            $dataDays[] = date_format($newDate, 'd/m/Y');
+            $labelsDays[] = date_format($newDate, 'd/m/Y');
             $j = 0;
             foreach ($userSymptoms as $userSymptom) {
                 if (date_format($userSymptom->getDate(), 'd/m/Y') == date_format($newDate, 'd/m/Y')) {
                     $j ++ ;
                 }
             }
-            $symptomsPerDay[] = $j;
+            $nbSymptomsPerDay[] = $j;
         }
 
-        $result = ['dataDays' => $dataDays, 'symptomsPerDay' => $symptomsPerDay];
-
-        return $result;
+        return ['labelDays' => $labelsDays, 'nbSymptomsPerDay' => $nbSymptomsPerDay];
     }
 
-    public function generateDataPerWeek(User $user)
+    /**
+     * Calculate number of all symptoms per week for chart SymptomsPerWeek
+     * @param User $user
+     * @param array $categories
+     * @return array[]
+     */
+    public function generateDataPerWeek(User $user, array $categories)
+    {
+        if (!$user->getStartDate()) {
+            return null;
+        }
+
+        $userSymptoms = $user->getUserSymptoms();
+
+        $startDate = $user->getStartDate();
+        $startDateWeeks = clone $startDate;
+
+        $endDate = $user->getEndDate();
+
+        $nbWeeks = (($startDateWeeks->diff($endDate)->days) / self::DAYS_PER_WEEK);
+
+        $nbSymptomsPerWeek = [];
+        $labelWeeks = [];
+        $oldDate = clone $startDateWeeks;
+
+        for ($i = 0; $i < $nbWeeks; $i++) {
+            $newDate = $startDateWeeks->add(new DateInterval('P7D'));
+            if ($i < 2) {
+                $labelWeeks[] = $i + 1 . '. -';
+            }
+            foreach ($categories as $category) {
+                if ($category->getDietWeek() === $i + 1) {
+                    $labelWeeks[] = $i + 1 . '. ' . $category->getName();
+                }
+            }
+            $j = 0;
+            foreach ($userSymptoms as $userSymptom) {
+                if ($userSymptom->getDate() >= $oldDate && $userSymptom->getDate() < $newDate) {
+                    $j ++ ;
+                }
+            }
+            $nbSymptomsPerWeek[] = $j;
+            $oldDate = clone $newDate;
+        }
+
+        return ['labelWeeks' => $labelWeeks, 'nbSymptomsPerWeek' => $nbSymptomsPerWeek];
+    }
+
+    /**
+     * Calculate number of given symptom per week for chart perSymptom
+     * @param User $user
+     * @param Symptom $symptom
+     * @return array[]
+     */
+    public function generateDataPerWeekPerSymptom(User $user, Symptom $symptom)
     {
         $userSymptoms = $user->getUserSymptoms();
 
@@ -53,28 +122,112 @@ class ChartService
 
         $endDate = $user->getEndDate();
 
-        $nbWeeks = (($startDateWeeks->diff($endDate)->days) / 7);
+        $nbWeeks = (($startDateWeeks->diff($endDate)->days) / self::DAYS_PER_WEEK);
 
-        $symptomsPerWeek = [];
+        $nbSymptomsPerWeek = [];
 
-        $dataWeeks = [];
         $oldDate = clone $startDateWeeks;
         for ($i = 0; $i <= $nbWeeks; $i++) {
             $newDate = $startDateWeeks->add(new DateInterval('P7D'));
-
-            $dataWeeks[] = date_format($newDate, 'd/m/Y');
             $j = 0;
             foreach ($userSymptoms as $userSymptom) {
-                if ($userSymptom->getDate() >= $oldDate && $userSymptom->getDate() < $newDate) {
+                if ($userSymptom->getSymptom() === $symptom && $userSymptom->getDate() >= $oldDate && $userSymptom->getDate() < $newDate) {
                     $j ++ ;
                 }
             }
-            $symptomsPerWeek[] = $j;
+            $nbSymptomsPerWeek[] = $j;
             $oldDate = clone $newDate;
         }
 
-        $result = ['dataWeeks' => $dataWeeks, 'symptomsPerWeek' => $symptomsPerWeek];
+        return ['nbSymptomsPerWeek' => $nbSymptomsPerWeek];
+    }
 
-        return $result;
+    /**
+     * @param User $user
+     * @param array $categories
+     * @return float[]|int[]
+     */
+    public function generateDataForDietWeeks(User $user, array $categories)
+    {
+        //Diet not started yet
+        if (!$user->getStartDate()) {
+            return [
+                'weeks_data' => [0, 100],
+                'message' => 'Vous n\'avez pas commencé votre régime !',
+                'category' => null
+            ];
+        }
+
+        //Diet ended
+        $endDate = $user->getEndDate();
+        $today = new DateTime();
+
+        if ($today >= $endDate) {
+            return [
+                'weeks_data' => [100, 0],
+                'message' => 'Vous avez fini votre régime !',
+                'category' => null
+            ];
+        }
+
+        //Diet in progress
+        $nbOfWeeksDiet = 8;
+
+        $startDate = $user->getStartDate();
+
+        $nbWeeksDone = (int)floor((($startDate->diff($today)->days) / self::DAYS_PER_WEEK));
+
+        $done = ($nbWeeksDone * 100) / $nbOfWeeksDiet;
+        $left = 100 - $done;
+        $message = 'Vous êtes à la semaine ' . ($nbWeeksDone + 1) . ' de votre régime !';
+
+        $currentCategory = null;
+        foreach ($categories as $category) {
+            if ($category->getDietWeek() === ($nbWeeksDone + 1)) {
+                $currentCategory = $category;
+            }
+        }
+
+        return [
+            'weeks_data' => [$done, $left],
+            'message' => $message,
+            'category' => $currentCategory,
+            ];
+    }
+
+    /**
+     * @param User $user
+     * @param array $categories
+     * @return float[]|int[]
+     */
+    public function generateDataForCategories(User $user, array $categories)
+    {
+        $data = $this->generateDataPerWeek($user, $categories);
+
+        if ($data === null) {
+            return null;
+        }
+
+        $categoriesLabels = array_slice($data['labelWeeks'], 2);
+        $symptoms = array_slice($data['nbSymptomsPerWeek'], 2);
+
+        $max = 0;
+        $worstCategory = '';
+        for ($i = 0; $i < count($categoriesLabels); $i++) {
+            $categoriesLabels[$i] = substr($categoriesLabels[$i], 3);
+            if ($symptoms[$i] > $max) {
+                foreach ($categories as $category) {
+                    if ($category->getName() === $categoriesLabels[$i]) {
+                        $worstCategory = $category;
+                    }
+                }
+                $max = $symptoms[$i];
+            }
+        }
+        return [
+            'categories_labels' =>$categoriesLabels,
+            'nbSymptomsPerWeek' => $symptoms,
+            'worst_category' => $worstCategory
+        ];
     }
 }

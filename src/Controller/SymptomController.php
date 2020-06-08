@@ -63,7 +63,7 @@ class SymptomController extends AbstractController
     }
 
     /**
-     * @Route("/", name="symptom_index", methods={"GET"})
+     * @Route("/admin", name="symptom_index", methods={"GET"})
      * @param SymptomRepository $symptomRepository
      * @return Response
      */
@@ -75,7 +75,7 @@ class SymptomController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="symptom_new", methods={"GET","POST"})
+     * @Route("/admin/new", name="symptom_new", methods={"GET","POST"})
      * @param Request $request
      * @return Response
      */
@@ -100,7 +100,7 @@ class SymptomController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="symptom_show", methods={"GET"})
+     * @Route("/admin/{id}", name="symptom_show", methods={"GET"})
      * @param Symptom $symptom
      * @return Response
      */
@@ -112,7 +112,7 @@ class SymptomController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="symptom_edit", methods={"GET","POST"})
+     * @Route("/admin/{id}/edit", name="symptom_edit", methods={"GET","POST"})
      * @param Request $request
      * @param Symptom $symptom
      * @return Response
@@ -135,7 +135,7 @@ class SymptomController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="symptom_delete", methods={"DELETE"})
+     * @Route("/admin/{id}", name="symptom_delete", methods={"DELETE"})
      * @param Request $request
      * @param Symptom $symptom
      * @return Response

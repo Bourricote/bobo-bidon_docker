@@ -9,6 +9,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Food
 {
+
+    const HIGH_FODMAP = true;
+    const LOW_FODMAP = false;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -22,9 +26,9 @@ class Food
     private $name;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="boolean")
      */
-    private $fodmap;
+    private $isHighFodmap;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="foods")
@@ -81,20 +85,20 @@ class Food
     }
 
     /**
-     * @return string|null
+     * @return bool|null
      */
-    public function getFodmap(): ?string
+    public function getIsHighFodmap(): ?bool
     {
-        return $this->fodmap;
+        return $this->isHighFodmap;
     }
 
     /**
-     * @param bool $fodmap
+     * @param bool $isHighFodmap
      * @return $this
      */
-    public function setFodmap(bool $fodmap): self
+    public function setIsHighFodmap(bool $isHighFodmap): self
     {
-        $this->setFodmap = $fodmap;
+        $this->isHighFodmap = $isHighFodmap;
 
         return $this;
     }

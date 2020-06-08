@@ -2,10 +2,53 @@
 
 
 {% block body %}
+<div class="row justify-content-center">
+    <div class="col-10 col-lg-6">
+        <div class="card mb-3">
+            <div class="card-body">
+                <canvas id="dietProgression"
+                        data-week-length="{{ dashboard1.weeks_data|length }}"
+                        {% for data_week in dashboard1.weeks_data %}
+                            data-week-{{ loop.index }} ="{{ data_week }}"
+                        {% endfor %}
+                ></canvas>
+            </div>
+            <div class="card-footer text-center">
+                <p>{{ dashboard1.message }}</p>
+                {% if dashboard1.category %}
+                    <p>Catégorie d'aliments :
+                        <a href="{{ path('category_public', {'id' : dashboard1.category.id}) }}">{{ dashboard1.category.name }}</a>
+                    </p>
+                {%  endif %}
+            </div>
+        </div>
+    </div>
+    {% if dashboard2 and dashboard2.worst_category %}
+        <div class="col-10 col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <canvas id="categories"
+                            data-categories-length="{{ dashboard2.categories_labels|length }}"
+                            {% for data_label in dashboard2.categories_labels %}
+                                data-label-{{ loop.index }} ="{{ data_label }}"
+                            {% endfor %}
+                            {% for data_symptom in dashboard2.nbSymptomsPerWeek %}
+                                data-symptom-{{ loop.index }} ="{{ data_symptom }}"
+                            {% endfor %}
+                    ></canvas>
+                </div>
+                <div class="card-footer text-center">
+                    <p>Catégorie qui a entraîné le plus de symptômes :</p>
+                        <a href="{{ path('category_public', {'id' : dashboard2.worst_category.id}) }}">{{ dashboard2.worst_category.name }}</a>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</div>
 
-    <a href="{{ path('add_user_symptom', {'user' : app.user.id}) }}">Ajouter un symptôme</a>
-    <br>
-    <a href="{{ path('show_user_symptom') }}">Voir mes symptômes</a>
+{% endblock %}
 
-
+{% block javascripts %}
+    {{ encore_entry_script_tags('app') }}
+    {{ encore_entry_script_tags('dashboard') }}
 {% endblock %}

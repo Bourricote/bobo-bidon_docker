@@ -2,7 +2,6 @@ version: '3'
 services:
     apache:
         build: .docker/apache
-        container_name: sf4_apache
         ports:
           - 80:80
         volumes:
@@ -14,7 +13,6 @@ services:
     mysql:
         image: mysql
         command: "--default-authentication-plugin=mysql_native_password"
-        container_name: sf4_mysql
         volumes:
             - .docker/data/db:/var/lib/mysql
         # expose:
@@ -40,7 +38,6 @@ services:
 
     phpmyadmin:
         image: phpmyadmin/phpmyadmin
-        container_name: sf4_phpmyadmin
         environment:
           PMA_HOST: mysql
           PMA_PORT: 3306
@@ -50,10 +47,10 @@ services:
             - mysql
 
     maildev:
-        image: djfarrelly/maildev
-        container_name: sf4_maildev
-        ports:
-          - 8001:80
+      image: maildev/maildev:1.1.0
+      ports:
+        - 8001:80
+      command: bin/maildev --web 80 --smtp 25 --hide-extensions STARTTLS
 
     node:
       image: node:13-alpine
