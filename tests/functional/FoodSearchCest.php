@@ -15,6 +15,7 @@ class FoodSearchCest
         $I->fillField('email','testy@test.fr');
         $I->fillField('password','coucou');
         $I->click('Connexion');
+        $I->see('Bobo-bidon');
 
         // Go to food section and search by name
         $I->see('Aliments');
