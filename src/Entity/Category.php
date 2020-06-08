@@ -30,6 +30,7 @@ class Category
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Food", mappedBy="category", orphanRemoval=true)
+     * @ORM\OrderBy({"name" = "ASC"})
      */
     private $foods;
 

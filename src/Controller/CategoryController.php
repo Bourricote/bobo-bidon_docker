@@ -16,6 +16,20 @@ use Symfony\Component\Routing\Annotation\Route;
 class CategoryController extends AbstractController
 {
     /**
+     * @Route("/categorie/{id}", name="category_public", methods={"GET"})
+     * @param Category $category
+     * @return Response
+     */
+    public function showPublic(Category $category): Response
+    {
+        $foods = $category->getFoods();
+        return $this->render('category/show_public.html.twig', [
+            'category' => $category,
+            'foods' => $foods,
+        ]);
+    }
+
+    /**
      * @Route("/admin", name="category_index", methods={"GET"})
      * @param CategoryRepository $categoryRepository
      * @return Response

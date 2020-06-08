@@ -4,20 +4,22 @@
 
 {% block body %}
     <h1>Liste des aliments</h1>
-
-    <div class="d-flex container justify-content-center p-5">
-        {{ form_start(form) }}
-        <div class="row">
-            <div class="col-3">{{ form_row(form.category) }}</div>
-            <div class="col-4">{{ form_row(form.searchText) }}</div>
-            <div class="col-3">{{ form_row(form.isHighFodmap) }}</div>
-            <div class="col-2"><button class="btn btn-bobo ml-2">Chercher</button></div>
+    <div class="card">
+        <div class="d-flex container justify-content-center p-5">
+            {{ form_start(form) }}
+            <div class="row">
+                <div class="col-10 col-lg-3">{{ form_row(form.category) }}</div>
+                <div class="col-10 col-lg-4">{{ form_row(form.searchText) }}</div>
+                <div class="col-10 col-lg-3">{{ form_row(form.isHighFodmap) }}</div>
+                <div class="col-10 col-lg-2">
+                    <button class="btn btn-bobo ml-2">Chercher</button>
+                </div>
+            </div>
+            {{ form_end(form) }}
         </div>
-        {{ form_end(form) }}
-    </div>
 
-    <table class="table table-striped text-center">
-        <thead>
+        <table class="table table-striped text-center">
+            <thead>
             <tr>
                 <th>Nom</th>
                 <th>Fodmap</th>
@@ -27,25 +29,28 @@
                 <th>Polyols</th>
                 <th>Lactose</th>
             </tr>
-        </thead>
-        <tbody>
-        {% for food in foods %}
-            <tr>
-                <td>{{ food.name }}</td>
-                <td><i class="fas {{ food.isHighFodmap ? 'fa-times-circle textPurpleDark' : 'fa-check-circle textPinkMediumLight' }}"></i></td>
-                <td>{{ food.category.name }}</td>
-                <td>{{ food.oligos }}</td>
-                <td>{{ food.fructose }}</td>
-                <td>{{ food.polyols }}</td>
-                <td>{{ food.lactose }}</td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="8">Aucun résultat</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            {% for food in foods %}
+                <tr>
+                    <td>{{ food.name }}</td>
+                    <td>
+                        <i class="fas {{ food.isHighFodmap ? 'fa-times-circle textPurpleDark' : 'fa-check-circle textPinkMediumLight' }}"></i>
+                    </td>
+                    <td>{{ food.category.name }}</td>
+                    <td>{{ food.oligos }}</td>
+                    <td>{{ food.fructose }}</td>
+                    <td>{{ food.polyols }}</td>
+                    <td>{{ food.lactose }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="8">Aucun résultat</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
     <div class="pagination align-self-end mr-4">
         {{ knp_pagination_render(foods) }}

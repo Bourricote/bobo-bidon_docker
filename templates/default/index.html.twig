@@ -17,31 +17,33 @@
                 <p>{{ dashboard1.message }}</p>
                 {% if dashboard1.category %}
                     <p>Catégorie d'aliments :
-                        <span class="textPurpleMediumDark font-weight-bold">{{ dashboard1.category.name }}</span>
+                        <a href="{{ path('category_public', {'id' : dashboard1.category.id}) }}">{{ dashboard1.category.name }}</a>
                     </p>
                 {%  endif %}
             </div>
         </div>
     </div>
-    <div class="col-10 col-lg-6">
-        <div class="card">
-            <div class="card-body">
-                <canvas id="categories"
-                        data-categories-length="{{ dashboard2.categories_labels|length }}"
-                        {% for data_label in dashboard2.categories_labels %}
-                            data-label-{{ loop.index }} ="{{ data_label }}"
-                        {% endfor %}
-                        {% for data_symptom in dashboard2.nbSymptomsPerWeek %}
-                            data-symptom-{{ loop.index }} ="{{ data_symptom }}"
-                        {% endfor %}
-                ></canvas>
-            </div>
-            <div class="card-footer text-center">
-                <p>Catégorie qui a entraîné le plus de symptômes :</p>
-                <p class="textPurpleMediumDark font-weight-bold">{{ dashboard2.worst_category.name }}</p>
+    {% if dashboard2 and dashboard2.worst_category %}
+        <div class="col-10 col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <canvas id="categories"
+                            data-categories-length="{{ dashboard2.categories_labels|length }}"
+                            {% for data_label in dashboard2.categories_labels %}
+                                data-label-{{ loop.index }} ="{{ data_label }}"
+                            {% endfor %}
+                            {% for data_symptom in dashboard2.nbSymptomsPerWeek %}
+                                data-symptom-{{ loop.index }} ="{{ data_symptom }}"
+                            {% endfor %}
+                    ></canvas>
+                </div>
+                <div class="card-footer text-center">
+                    <p>Catégorie qui a entraîné le plus de symptômes :</p>
+                        <a href="{{ path('category_public', {'id' : dashboard2.worst_category.id}) }}">{{ dashboard2.worst_category.name }}</a>
+                </div>
             </div>
         </div>
-    </div>
+    {% endif %}
 </div>
 
 {% endblock %}

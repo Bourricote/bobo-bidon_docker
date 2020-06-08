@@ -35,7 +35,7 @@ Try
 - `docker-compose start` to start containers
 - `docker exec -it -u dev sf4_php bash` to get in the php container (`exit` to get out)
 - from there you can do the usual commands (`php bin/console make:controller` for example)
-- `php vendor/bin/codecept run`to run tests with codeception (add `--steps` to see step by step) in php container (to remove deprecation notices run `export SYMFONY_DEPRECATIONS_HELPER=weak` before)
+- `php vendor/bin/codecept run` to run tests with codeception (add `--steps` to see step by step) in php container (to remove deprecation notices run `export SYMFONY_DEPRECATIONS_HELPER=weak` before)
 - **git** commands must be performed outside the containers
 
 ### When you're done

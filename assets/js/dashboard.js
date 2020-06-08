@@ -11,16 +11,21 @@ for (let nbr = 1; nbr <= nbData; nbr++) {
 let dietProgressionChart = new Chart(dietProgression, {
     type: 'doughnut',
     data: {
+        labels: ['Passé', 'A venir'],
         datasets: [{
             data: dataWeeks,
             backgroundColor: ['rgba(153, 102, 255, 0.8)', 'rgba(0, 0, 0, 0.1)'],
             borderWidth: 0
         }]
     },
-
+    options: {
+        legend: {
+            display: false,
+        },
+    }
 });
 
-// Catgeories
+// Categories
 let categories = document.getElementById('categories');
 let categoriesLabels = [];
 let nbSymptoms = [];
@@ -51,21 +56,8 @@ let categoriesChart = new Chart(categories, {
         }]
     },
     options: {
-        //maintainAspectRatio: false,
         legend: {
             display: false,
         },
-        /*scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero: true,
-                    mirror: true,
-                    padding: -10,
-                },
-                gridLines: {
-                    display: false
-                }
-            }],
-        }*/
     }
 });

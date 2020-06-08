@@ -24,6 +24,10 @@ class ChartService
      */
     public function generateDataPerDay(User $user)
     {
+        if (!$user->getStartDate()) {
+            return null;
+        }
+
         $userSymptoms = $user->getUserSymptoms();
 
         $startDate = $user->getStartDate();
@@ -63,6 +67,10 @@ class ChartService
      */
     public function generateDataPerWeek(User $user, array $categories)
     {
+        if (!$user->getStartDate()) {
+            return null;
+        }
+
         $userSymptoms = $user->getUserSymptoms();
 
         $startDate = $user->getStartDate();
@@ -195,6 +203,11 @@ class ChartService
     public function generateDataForCategories(User $user, array $categories)
     {
         $data = $this->generateDataPerWeek($user, $categories);
+
+        if ($data === null) {
+            return null;
+        }
+
         $categoriesLabels = array_slice($data['labelWeeks'], 2);
         $symptoms = array_slice($data['nbSymptomsPerWeek'], 2);
 
