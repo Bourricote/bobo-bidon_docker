@@ -20,3 +20,52 @@ let dietProgressionChart = new Chart(dietProgression, {
 
 });
 
+// Catgeories
+let categories = document.getElementById('categories');
+let categoriesLabels = [];
+let nbSymptoms = [];
+
+const nbCategoriesLabels = categories.getAttribute('data-categories-length');
+for (let nbr = 1; nbr <= nbCategoriesLabels; nbr++) {
+    let label = categories.getAttribute('data-label-' + nbr);
+    let nbSymptom = categories.getAttribute('data-symptom-' + nbr);
+    categoriesLabels.push(label);
+    nbSymptoms.push(nbSymptom);
+}
+
+let categoriesChart = new Chart(categories, {
+    type: 'doughnut',
+    data: {
+        labels: categoriesLabels,
+        datasets: [{
+            data: nbSymptoms,
+            backgroundColor: [
+                '#E66DAA',
+                '#B067CF',
+                '#8B6FD2',
+                '#F19CC8',
+                '#CE95E5',
+                '#B29EE7'
+            ],
+            borderWidth: 0
+        }]
+    },
+    options: {
+        //maintainAspectRatio: false,
+        legend: {
+            display: false,
+        },
+        /*scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true,
+                    mirror: true,
+                    padding: -10,
+                },
+                gridLines: {
+                    display: false
+                }
+            }],
+        }*/
+    }
+});

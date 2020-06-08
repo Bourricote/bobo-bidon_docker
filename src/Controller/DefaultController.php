@@ -23,15 +23,15 @@ class DefaultController extends AbstractController
     {
         $categories = $categoryRepository->findAll();
 
-        $data = $chartService->generateDataForDietWeeks($user, $categories);
-        $weeksData = [0 => $data['done'], 1 => $data['left']];
-        $message = $data['message'];
-        $category = $data['category'];
+        // First dashboard card: diet progression
+        $dashboard1 = $chartService->generateDataForDietWeeks($user, $categories);
+
+        // Second dashboard card: worst category
+        $dashboard2 = $chartService->generateDataForCategories($user, $categories);
 
         return $this->render('default/index.html.twig', [
-            'weeks_data' => $weeksData,
-            'message' => $message,
-            'category' => $category,
+            'dashboard1' => $dashboard1,
+            'dashboard2' => $dashboard2,
         ]);
     }
 

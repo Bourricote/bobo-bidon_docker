@@ -73,10 +73,10 @@ class ChartService
         $nbWeeks = (($startDateWeeks->diff($endDate)->days) / self::DAYS_PER_WEEK);
 
         $nbSymptomsPerWeek = [];
-
         $labelWeeks = [];
         $oldDate = clone $startDateWeeks;
-        for ($i = 0; $i <= $nbWeeks; $i++) {
+
+        for ($i = 0; $i < $nbWeeks; $i++) {
             $newDate = $startDateWeeks->add(new DateInterval('P7D'));
             if ($i < 2) {
                 $labelWeeks[] = $i + 1 . '. -';
@@ -141,27 +141,28 @@ class ChartService
      */
     public function generateDataForDietWeeks(User $user, array $categories)
     {
+        //Diet not started yet
         if (!$user->getStartDate()) {
             return [
-                'done' => 0,
-                'left' => 1000,
+                'weeks_data' => [0, 100],
                 'message' => 'Vous n\'avez pas commencé votre régime !',
                 'category' => null
             ];
         }
 
+        //Diet ended
         $endDate = $user->getEndDate();
         $today = new DateTime();
 
         if ($today >= $endDate) {
             return [
-                'done' => 100,
-                'left' => 0,
+                'weeks_data' => [100, 0],
                 'message' => 'Vous avez fini votre régime !',
                 'category' => null
             ];
         }
 
+        //Diet in progress
         $nbOfWeeksDiet = 8;
 
         $startDate = $user->getStartDate();
@@ -180,10 +181,40 @@ class ChartService
         }
 
         return [
-            'done' => $done,
-            'left' => $left,
+            'weeks_data' => [$done, $left],
             'message' => $message,
             'category' => $currentCategory,
             ];
+    }
+
+    /**
+     * @param User $user
+     * @param array $categories
+     * @return float[]|int[]
+     */
+    public function generateDataForCategories(User $user, array $categories)
+    {
+        $data = $this->generateDataPerWeek($user, $categories);
+        $categoriesLabels = array_slice($data['labelWeeks'], 2);
+        $symptoms = array_slice($data['nbSymptomsPerWeek'], 2);
+
+        $max = 0;
+        $worstCategory = '';
+        for ($i = 0; $i < count($categoriesLabels); $i++) {
+            $categoriesLabels[$i] = substr($categoriesLabels[$i], 3);
+            if ($symptoms[$i] > $max) {
+                foreach ($categories as $category) {
+                    if ($category->getName() === $categoriesLabels[$i]) {
+                        $worstCategory = $category;
+                    }
+                }
+                $max = $symptoms[$i];
+            }
+        }
+        return [
+            'categories_labels' =>$categoriesLabels,
+            'nbSymptomsPerWeek' => $symptoms,
+            'worst_category' => $worstCategory
+        ];
     }
 }

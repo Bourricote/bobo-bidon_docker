@@ -4,20 +4,41 @@
 {% block body %}
 <div class="row justify-content-center">
     <div class="col-10 col-lg-6">
-        <div class="card">
+        <div class="card mb-3">
             <div class="card-body">
                 <canvas id="dietProgression"
-                        data-week-length="{{ weeks_data|length }}"
-                        {% for data_week in weeks_data %}
+                        data-week-length="{{ dashboard1.weeks_data|length }}"
+                        {% for data_week in dashboard1.weeks_data %}
                             data-week-{{ loop.index }} ="{{ data_week }}"
                         {% endfor %}
                 ></canvas>
             </div>
             <div class="card-footer text-center">
-                <p>{{ message }}</p>
-                {% if category %}
-                    <p>Catégorie d'aliments : {{ category.name }}</p>
+                <p>{{ dashboard1.message }}</p>
+                {% if dashboard1.category %}
+                    <p>Catégorie d'aliments :
+                        <span class="textPurpleMediumDark font-weight-bold">{{ dashboard1.category.name }}</span>
+                    </p>
                 {%  endif %}
+            </div>
+        </div>
+    </div>
+    <div class="col-10 col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <canvas id="categories"
+                        data-categories-length="{{ dashboard2.categories_labels|length }}"
+                        {% for data_label in dashboard2.categories_labels %}
+                            data-label-{{ loop.index }} ="{{ data_label }}"
+                        {% endfor %}
+                        {% for data_symptom in dashboard2.nbSymptomsPerWeek %}
+                            data-symptom-{{ loop.index }} ="{{ data_symptom }}"
+                        {% endfor %}
+                ></canvas>
+            </div>
+            <div class="card-footer text-center">
+                <p>Catégorie qui a entraîné le plus de symptômes :</p>
+                <p class="textPurpleMediumDark font-weight-bold">{{ dashboard2.worst_category.name }}</p>
             </div>
         </div>
     </div>
