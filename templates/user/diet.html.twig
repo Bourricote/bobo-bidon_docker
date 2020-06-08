@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Régime {% endblock %}
+
+{% block body %}
+    <div class="page-header">
+        <h1>Mon régime</h1>
+    </div>
+
+    <ul class="timeline">
+        {% for category in categories %}
+            <li class="{{ loop.index is odd ? '' : 'timeline-inverted' }}">
+                <div class="timeline-badge"><i class="fas fa-times-circle"></i></div>
+                <div class="timeline-panel">
+                    <a href="{{ path('category_public', {'id' : category.id}) }}">
+                        <div class="timeline-heading">
+                            <h4 class="timeline-title">Semaine {{ category.dietWeek }}</h4>
+                        </div>
+                        <div class="timeline-body">
+                            <p>Réintroduire : {{ category.name }}</p>
+                        </div>
+                    </a>
+                </div>
+            </li>
+            {#<li class="{{ loop.index is odd ? '' : 'timeline-inverted' }}" {{ statuses[step.id] == 'in-progress' ? 'id="active"' : '' }}>
+                <div class="timeline-badge" style="background-color: {{ statuses[step.id] == 'completed' ? '#aeaeae;' : step.color }}" ><i
+                            class="{{ step.fontAwesome }}" style="color:#495057;"></i></div>
+                <div class="timeline-panel {{ statuses[step.id] }}">
+                    <div class="timeline-heading">
+                        <h4 class="timeline-title" >{{statuses[step.id] == 'in-progress' ? '<b>Etape en cours : </b>': ''}} {{ step.name }}</h4>
+                        <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> Durée : {{ durations[step.id] }}
+                            </small></p>
+                    </div>
+                    <div class="timeline-body">
+                        <p>{{ category.name }}</p>
+                    </div>
+                </div>
+            </li>#}
+        {% endfor %}
+    </ul>
+{% endblock %}

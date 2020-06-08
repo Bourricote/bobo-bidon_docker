@@ -29,6 +29,37 @@ class UserController extends AbstractController
     }
 
     /**
+     * @Route("/diet/{user}", name="diet", methods={"GET"})
+     * @param User $user
+     * @param ChartService $chartService
+     * @return Response
+     */
+    public function userDiet(User $user, ChartService $chartService): Response
+    {
+        $categories = $this->categoryRepository->findAll();
+
+        /*if (!$user->getStartDate()) {
+            $this->addFlash(
+                'error',
+                'Vous devez renseigner une date de début de régime !'
+            );
+            return $this->redirectToRoute('home');
+        }
+
+        $dataDaysChart = $chartService->generateDataPerDay($user);
+        $labelsDays = $dataDaysChart['labelDays'];
+        $nbSymptomsPerDay = $dataDaysChart['nbSymptomsPerDay'];
+
+        $dataWeeksChart = $chartService->generateDataPerWeek($user, $categories);
+        $labelWeeks = $dataWeeksChart['labelWeeks'];
+        $nbSymptomsPerWeek = $dataWeeksChart['nbSymptomsPerWeek'];*/
+
+        return $this->render('user/diet.html.twig', [
+            'categories' => $categories,
+        ]);
+    }
+
+    /**
      * @Route("/charts/{user}", name="charts", methods={"GET"})
      * @param User $user
      * @param ChartService $chartService
@@ -55,7 +86,7 @@ class UserController extends AbstractController
         $labelWeeks = $dataWeeksChart['labelWeeks'];
         $nbSymptomsPerWeek = $dataWeeksChart['nbSymptomsPerWeek'];
 
-        return $this->render('symptom/charts.html.twig', [
+        return $this->render('user/charts.html.twig', [
             'all_symptoms' => $allSymptoms,
             'nb_symptoms_per_day' => $nbSymptomsPerDay,
             'label_days' => $labelsDays,
