@@ -4,14 +4,10 @@
 namespace App\Service;
 
 
-use App\Entity\Category;
 use App\Entity\Symptom;
 use App\Entity\User;
-use App\Repository\CategoryRepository;
 use DateInterval;
 use DateTime;
-use Doctrine\Common\Collections\Collection;
-use phpDocumentor\Reflection\Types\Integer;
 
 class ChartService
 {
@@ -19,7 +15,7 @@ class ChartService
     const NB_WEEKS_DIET = 8;
     const NB_DAYS_DIET = self::NB_WEEKS_DIET * 7;
 
-        /**
+    /**
      * Calculate number of all symptoms per day for chart SymptomsPerDay
      * @param User $user
      * @return array[]
@@ -145,6 +141,7 @@ class ChartService
     }
 
     /**
+     * Calculate number of days of diet done for chart of dashboard1
      * @param User $user
      * @param array $categories
      * @return float[]|int[]
@@ -196,6 +193,7 @@ class ChartService
     }
 
     /**
+     * Calculate number of symptoms per category for chart of dashboard2
      * @param User $user
      * @param array $categories
      * @return float[]|int[]

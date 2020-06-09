@@ -8,6 +8,7 @@ use App\Repository\CategoryRepository;
 use App\Repository\SymptomRepository;
 use App\Repository\UserRepository;
 use App\Service\ChartService;
+use App\Service\TimelineService;
 use DateInterval;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,31 +32,39 @@ class UserController extends AbstractController
     /**
      * @Route("/diet/{user}", name="diet", methods={"GET"})
      * @param User $user
-     * @param ChartService $chartService
+     * @param TimelineService $timelineService
      * @return Response
      */
-    public function userDiet(User $user, ChartService $chartService): Response
+    public function userDiet(User $user, TimelineService $timelineService): Response
     {
         $categories = $this->categoryRepository->findAll();
 
-        /*if (!$user->getStartDate()) {
-            $this->addFlash(
-                'error',
-                'Vous devez renseigner une date de début de régime !'
-            );
-            return $this->redirectToRoute('home');
+        $weeks = [];
+        for ($i = 1; $i <= 2; $i++) {
+            $weeks[$i] = [
+                'week_nb' => $i,
+                'message' => 'Régime strict sans FODMAPs',
+                'category_id' => null,
+                'status' => ''
+            ];
         }
 
-        $dataDaysChart = $chartService->generateDataPerDay($user);
-        $labelsDays = $dataDaysChart['labelDays'];
-        $nbSymptomsPerDay = $dataDaysChart['nbSymptomsPerDay'];
+        foreach ($categories as $category) {
+            if ($category->getDietWeek() !== 0) {
+                $weeks[$i] = [
+                    'week_nb' => $category->getDietWeek(),
+                    'message' => 'Réintroduire : ' . $category->getName(),
+                    'category_id' => $category->getId(),
+                    'status' => ''
+                ];
+            }
+            $i++;
+        }
 
-        $dataWeeksChart = $chartService->generateDataPerWeek($user, $categories);
-        $labelWeeks = $dataWeeksChart['labelWeeks'];
-        $nbSymptomsPerWeek = $dataWeeksChart['nbSymptomsPerWeek'];*/
+        $weeks = $timelineService->generateTimeline($user, $weeks);
 
         return $this->render('user/diet.html.twig', [
-            'categories' => $categories,
+            'weeks' => $weeks,
         ]);
     }
 

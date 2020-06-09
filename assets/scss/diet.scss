@@ -4,7 +4,7 @@
   position: relative;
 
   .completed {
-    background-color: #aeaeae;
+    background-color: #E66DAA;
     color: #5f5f5f;
   }
   .timeline-badge.completed {
@@ -12,7 +12,7 @@
   }
 ;
   .in-progress {
-    background-color: white;
+    background-color: #B29EE7;
     color: dimgray;
     transform: scale(1.10);
     &:hover {
@@ -21,7 +21,7 @@
   }
 
   .future {
-    background-color: #cacaca;
+    background-color: #F19CC8;
     color: #5f5f5f;
   }
 }

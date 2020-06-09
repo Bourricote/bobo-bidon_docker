@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class CategoryController extends AbstractController
 {
     /**
-     * @Route("/categorie/{id}", name="category_public", methods={"GET"})
+     * @Route("/{id}", name="category_public", methods={"GET"})
      * @param Category $category
      * @return Response
      */
