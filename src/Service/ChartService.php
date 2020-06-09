@@ -16,6 +16,8 @@ use phpDocumentor\Reflection\Types\Integer;
 class ChartService
 {
     const DAYS_PER_WEEK = 7;
+    const NB_WEEKS_DIET = 8;
+    const NB_DAYS_DIET = self::NB_WEEKS_DIET * 7;
 
         /**
      * Calculate number of all symptoms per day for chart SymptomsPerDay
@@ -152,7 +154,7 @@ class ChartService
         //Diet not started yet
         if (!$user->getStartDate()) {
             return [
-                'weeks_data' => [0, 100],
+                'weeks_data' => [0, self::NB_DAYS_DIET],
                 'message' => 'Vous n\'avez pas commencé votre régime !',
                 'category' => null
             ];
@@ -164,21 +166,19 @@ class ChartService
 
         if ($today >= $endDate) {
             return [
-                'weeks_data' => [100, 0],
+                'weeks_data' => [self::NB_DAYS_DIET, 0],
                 'message' => 'Vous avez fini votre régime !',
                 'category' => null
             ];
         }
 
         //Diet in progress
-        $nbOfWeeksDiet = 8;
-
         $startDate = $user->getStartDate();
 
-        $nbWeeksDone = (int)floor((($startDate->diff($today)->days) / self::DAYS_PER_WEEK));
+        $daysDone = $startDate->diff($today)->days;
+        $nbWeeksDone = (int)floor($daysDone / self::DAYS_PER_WEEK);
 
-        $done = ($nbWeeksDone * 100) / $nbOfWeeksDiet;
-        $left = 100 - $done;
+        $daysLeft = (self::NB_DAYS_DIET) - $daysDone;
         $message = 'Vous êtes à la semaine ' . ($nbWeeksDone + 1) . ' de votre régime !';
 
         $currentCategory = null;
@@ -189,7 +189,7 @@ class ChartService
         }
 
         return [
-            'weeks_data' => [$done, $left],
+            'weeks_data' => [$daysDone, $daysLeft],
             'message' => $message,
             'category' => $currentCategory,
             ];
