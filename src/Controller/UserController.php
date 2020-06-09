@@ -38,30 +38,7 @@ class UserController extends AbstractController
     public function userDiet(User $user, TimelineService $timelineService): Response
     {
         $categories = $this->categoryRepository->findAll();
-
-        $weeks = [];
-        for ($i = 1; $i <= 2; $i++) {
-            $weeks[$i] = [
-                'week_nb' => $i,
-                'message' => 'Régime strict sans FODMAPs',
-                'category_id' => null,
-                'status' => ''
-            ];
-        }
-
-        foreach ($categories as $category) {
-            if ($category->getDietWeek() !== 0) {
-                $weeks[$i] = [
-                    'week_nb' => $category->getDietWeek(),
-                    'message' => 'Réintroduire : ' . $category->getName(),
-                    'category_id' => $category->getId(),
-                    'status' => ''
-                ];
-            }
-            $i++;
-        }
-
-        $weeks = $timelineService->generateTimeline($user, $weeks);
+        $weeks = $timelineService->generateTimeline($user, $categories);
 
         return $this->render('user/diet.html.twig', [
             'weeks' => $weeks,

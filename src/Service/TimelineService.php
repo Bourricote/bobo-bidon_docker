@@ -10,12 +10,44 @@ use DateTime;
 class TimelineService
 {
     /**
-     * Calculate number of all symptoms per day for chart SymptomsPerDay
-     * @param User $user
-     * @param array $weeks
+     * Generate weeks array for timeline
+     * @param array $categories
      * @return array[]
      */
-    public function generateTimeline(User $user, array $weeks)
+    protected function generateWeeks(array $categories)
+    {
+        $weeks = [];
+        for ($i = 1; $i <= 2; $i++) {
+            $weeks[$i] = [
+                'week_nb' => $i,
+                'message' => 'Régime strict sans FODMAPs',
+                'category_id' => null,
+                'status' => ''
+            ];
+        }
+
+        foreach ($categories as $category) {
+            if ($category->getDietWeek() !== 0) {
+                $weeks[$i] = [
+                    'week_nb' => $category->getDietWeek(),
+                    'message' => 'Réintroduire : ' . $category->getName(),
+                    'category_id' => $category->getId(),
+                    'status' => ''
+                ];
+            }
+            $i++;
+        }
+
+        return $weeks;
+    }
+
+    /**
+     * Generate all required to display diet timeline per user
+     * @param User $user
+     * @param array $categories
+     * @return array[]
+     */
+    public function generateTimeline(User $user, array $categories)
     {
         //Diet not started yet
         if (!$user->getStartDate()) {
@@ -36,6 +68,8 @@ class TimelineService
                 $nbWeeksDone = (int)floor($daysDone / ChartService::DAYS_PER_WEEK);
             }
         }
+
+        $weeks = $this->generateWeeks($categories);
 
         for ($i = 1; $i <= count($weeks); $i++) {
             if ($weeks[$i]['week_nb'] <= $nbWeeksDone) {
