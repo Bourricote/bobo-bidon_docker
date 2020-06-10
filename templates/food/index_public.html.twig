@@ -24,10 +24,10 @@
                 <th>Nom</th>
                 <th>Fodmap</th>
                 <th>Catégorie</th>
-                <th class="d-none d-lg-block">Oligos</th>
-                <th class="d-none d-lg-block">Fructose</th>
-                <th class="d-none d-lg-block">Polyols</th>
-                <th class="d-none d-lg-block">Lactose</th>
+                <th class="d-none d-lg-table-cell">Oligos</th>
+                <th class="d-none d-lg-table-cell">Fructose</th>
+                <th class="d-none d-lg-table-cell">Polyols</th>
+                <th class="d-none d-lg-table-cell">Lactose</th>
             </tr>
             </thead>
             <tbody>
@@ -38,10 +38,10 @@
                         <i class="fas {{ food.isHighFodmap ? 'fa-times-circle textPurpleDark' : 'fa-check-circle textPinkMediumLight' }}"></i>
                     </td>
                     <td>{{ food.category.name }}</td>
-                    <td class="d-none d-lg-block">{{ food.oligos }}</td>
-                    <td class="d-none d-lg-block">{{ food.fructose }}</td>
-                    <td class="d-none d-lg-block">{{ food.polyols }}</td>
-                    <td class="d-none d-lg-block">{{ food.lactose }}</td>
+                    <td class="d-none d-lg-table-cell">{{ food.oligos }}</td>
+                    <td class="d-none d-lg-table-cell">{{ food.fructose }}</td>
+                    <td class="d-none d-lg-table-cell">{{ food.polyols }}</td>
+                    <td class="d-none d-lg-table-cell">{{ food.lactose }}</td>
                 </tr>
             {% else %}
                 <tr>
