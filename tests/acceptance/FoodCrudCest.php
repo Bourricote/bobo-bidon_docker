@@ -7,7 +7,7 @@ class FoodCrudCest
 
     public function _before(AcceptanceTester $I)
     {
-        // Sign in as admin and go to Admin section for symptoms
+        // Sign in as admin and go to Admin section for foods
         $I->amOnPage('/');
         $I->fillField('email','anne.quiedeville@orange.fr');
         $I->fillField('password','password');

@@ -46,8 +46,8 @@ class SignupCest
         $I->amOnPage('/user/admin');
         $I->see('anna.banana@orange.fr');
         $I->amOnPage('/user/admin/' . $this->userId . '/edit');
-        $I->see('Delete');
-        $I->click('Delete');
+        $I->see('Supprimer');
+        $I->click('Supprimer');
         $I->amOnPage('/user/admin');
         $I->dontSee('anna.banana@orange.fr');
     }
