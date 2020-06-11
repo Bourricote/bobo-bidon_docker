@@ -43,7 +43,7 @@ class CategoryCrudCest
     public function editCategory(AcceptanceTester $I)
     {
         $I->amOnPage('/category/admin/' . $this->categoryId . '/edit');
-        $I->see('Retour à la liste');
+        $I->see('Modifier la catégorie');
         $I->fillField('Nom', 'Catégorie Test bis');
         $I->click('Enregistrer');
         $I->see('Catégorie Test bis');
