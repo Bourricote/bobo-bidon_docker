@@ -102,6 +102,10 @@ class ChartService
             $oldDate = clone $newDate;
         }
 
+        if (count($labelWeeks) !== count($nbSymptomsPerWeek)) {
+            return null;
+        }
+
         return ['labelWeeks' => $labelWeeks, 'nbSymptomsPerWeek' => $nbSymptomsPerWeek];
     }
 
