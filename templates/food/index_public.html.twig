@@ -5,6 +5,9 @@
 {% block body %}
     <h1>Liste des aliments</h1>
     <div class="card">
+        <div class="card-header text-center">
+            <a class="btn btn-lg btn-bobo" href="{{ path('category_public_index') }}">Voir les catégories</a>
+        </div>
         <div class="d-flex container justify-content-center p-5">
             {{ form_start(form) }}
             <div class="row">
