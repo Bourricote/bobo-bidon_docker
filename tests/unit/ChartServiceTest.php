@@ -52,7 +52,7 @@ class ChartServiceTest extends \Codeception\Test\Unit
     }
 
     // tests
-    public function testDayDataChartService()
+    public function testGenerateDataPerDay()
     {
         // Check results of ChartService GenerateDataPerDay
         $dataDaysChart = $this->chartService->generateDataPerDay($this->user);
@@ -60,18 +60,19 @@ class ChartServiceTest extends \Codeception\Test\Unit
         $this->assertEquals(2, $dataDaysChart['nbSymptomsPerDay'][0]);
     }
 
-    public function testWeekDataChartService()
+    public function testGenerateDataPerWeek()
     {
-        // Create a category and put it in an array
-        $category = new Category();
-        $category->setDietWeek(3);
-        $category->setName('Les Trucs');
-
-        $categories = [$category];
+        // Create categories and put them in an array
+        for ($i = 3; $i <= 8; $i++) {
+            $category = new Category();
+            $category->setDietWeek($i);
+            $category->setName('Les Trucs ' . $i);
+            $categories[] = $category;
+        }
 
         // Check results of ChartService GenerateDataPerWeek
         $dataWeeksChart = $this->chartService->generateDataPerWeek($this->user, $categories);
-        $this->assertEquals('3. Les Trucs', $dataWeeksChart['labelWeeks'][2]);
+        $this->assertEquals('3. Les Trucs 3', $dataWeeksChart['labelWeeks'][2]);
         $this->assertEquals(2, $dataWeeksChart['nbSymptomsPerWeek'][0]);
     }
 }
