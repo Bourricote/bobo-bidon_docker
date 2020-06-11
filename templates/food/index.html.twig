@@ -5,11 +5,14 @@
 {% block body %}
     <h1>Liste des aliments</h1>
 
-    <a class="btn btn-bobo" href="{{ path('food_new') }}">Ajouter</a>
+    <a class="btn btn-bobo mb-2" href="{{ path('food_new') }}">Ajouter</a>
 
-    <table class="table table-striped text-center">
-        <thead>
+    <div class="card">
+
+        <table class="table table-striped text-center">
+            <thead>
             <tr>
+                <th>Id</th>
                 <th>Nom</th>
                 <th>Fodmap</th>
                 <th>Catégorie</th>
@@ -17,28 +20,33 @@
                 <th>Fructose</th>
                 <th>Polyols</th>
                 <th>Lactose</th>
+                <th>Actions</th>
             </tr>
-        </thead>
-        <tbody>
-        {% for food in foods %}
-            <tr>
-                <td>{{ food.name }}</td>
-                <td><i class="fas {{ food.isHighFodmap ? 'fa-times-circle textPurpleDark' : 'fa-check-circle textPinkMediumLight' }}"></i></td>
-                <td>{{ food.category.name }}</td>
-                <td>{{ food.oligos }}</td>
-                <td>{{ food.fructose }}</td>
-                <td>{{ food.polyols }}</td>
-                <td>{{ food.lactose }}</td>
-                <td>
-                    <a href="{{ path('food_show', {'id': food.id}) }}">show</a>
-                    <a href="{{ path('food_edit', {'id': food.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="8">Aucun résultat</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            {% for food in foods %}
+                <tr>
+                    <td>{{ food.id }}</td>
+                    <td>{{ food.name }}</td>
+                    <td>
+                        <i class="fas {{ food.isHighFodmap ? 'fa-times-circle textPurpleDark' : 'fa-check-circle textPinkMediumLight' }}"></i>
+                    </td>
+                    <td>{{ food.category.name }}</td>
+                    <td>{{ food.oligos }}</td>
+                    <td>{{ food.fructose }}</td>
+                    <td>{{ food.polyols }}</td>
+                    <td>{{ food.lactose }}</td>
+                    <td>
+                        <a href="{{ path('food_show', {'id': food.id}) }}">Voir</a>
+                        <a href="{{ path('food_edit', {'id': food.id}) }}">Modifier</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="8">Aucun résultat</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

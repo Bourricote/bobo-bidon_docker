@@ -6,30 +6,32 @@
     <h1>Symptom index</h1>
     <a class="btn btn-bobo mb-2" href="{{ path('symptom_new') }}">Ajouter</a>
 
-    <table class="table">
-        <thead>
+    <div class="card">
+        <table class="table">
+            <thead>
             <tr>
                 <th>Id</th>
                 <th>Name</th>
                 <th>actions</th>
             </tr>
-        </thead>
-        <tbody>
-        {% for symptom in symptoms %}
-            <tr>
-                <td>{{ symptom.id }}</td>
-                <td>{{ symptom.name }}</td>
-                <td>
-                    <a href="{{ path('symptom_show', {'id': symptom.id}) }}">show</a>
-                    <a href="{{ path('symptom_edit', {'id': symptom.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            {% for symptom in symptoms %}
+                <tr>
+                    <td>{{ symptom.id }}</td>
+                    <td>{{ symptom.name }}</td>
+                    <td>
+                        <a href="{{ path('symptom_show', {'id': symptom.id}) }}">show</a>
+                        <a href="{{ path('symptom_edit', {'id': symptom.id}) }}">edit</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
 {% endblock %}

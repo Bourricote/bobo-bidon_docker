@@ -27,7 +27,7 @@ class SymptomCrudCest
         $I->click('Ajouter');
         $I->fillField('Nom','Symptôme Test');
         $I->click('Enregistrer');
-        $I->amOnPage('/symptom/admin');
+        $I->seeCurrentUrlEquals('/symptom/admin');
         $I->see('Symptôme Test');
         $this->symptomId = $I->grabTextFrom('//table/tbody/tr[last()]/td[1]');
     }

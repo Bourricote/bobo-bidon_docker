@@ -14,8 +14,8 @@ class CategoryCrudCest
         $I->click('Connexion');
         $I->see('Bobo-Bidon');
         $I->click('Gestion');
-        $I->see('Catégories d\'aliments');
-        $I->click('Catégories d\'aliments');
+        $I->see('Catégories d\'aliments', '//a[contains(@href,\'/category/admin\')]');
+        $I->click('//a[contains(@href,\'/category/admin\')]');
         $I->seeCurrentUrlEquals('/category/admin');
     }
 
@@ -28,7 +28,7 @@ class CategoryCrudCest
         $I->fillField('Nom','Catégorie Test');
         $I->fillField('Semaine de régime',1);
         $I->click('Enregistrer');
-        $I->amOnPage('/category/admin');
+        $I->seeCurrentUrlEquals('/category/admin');
         $I->see('Catégorie Test');
         $this->categoryId = $I->grabTextFrom('//table/tbody/tr[last()]/td[1]');
     }
