@@ -4,9 +4,9 @@
 
 {% block body %}
     <h1>Symptom</h1>
-
-    <table class="table">
-        <tbody>
+    <div class="card">
+        <table class="table">
+            <tbody>
             <tr>
                 <th>Id</th>
                 <td>{{ symptom.id }}</td>
@@ -15,12 +15,14 @@
                 <th>Name</th>
                 <td>{{ symptom.name }}</td>
             </tr>
-        </tbody>
-    </table>
+            </tbody>
+        </table>
 
-    <a href="{{ path('symptom_index') }}">back to list</a>
+        <a href="{{ path('symptom_index') }}">Retour à la liste</a>
 
-    <a href="{{ path('symptom_edit', {'id': symptom.id}) }}">edit</a>
+        <a href="{{ path('symptom_edit', {'id': symptom.id}) }}">Modifier</a>
 
-    {{ include('symptom/_delete_form.html.twig') }}
+        {{ include('symptom/_delete_form.html.twig') }}
+    </div>
+
 {% endblock %}

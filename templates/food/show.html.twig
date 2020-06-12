@@ -4,9 +4,9 @@
 
 {% block body %}
     <h1>Food</h1>
-
-    <table class="table">
-        <tbody>
+    <div class="card">
+        <table class="table">
+            <tbody>
             <tr>
                 <th>Id</th>
                 <td>{{ food.id }}</td>
@@ -17,7 +17,7 @@
             </tr>
             <tr>
                 <th>Fodmap</th>
-                <td>{{ food.fodmap }}</td>
+                <td><i class="fas {{ food.isHighFodmap ? 'fa-times-circle textPurpleDark' : 'fa-check-circle textPinkMediumLight' }}"></i></td>
             </tr>
             <tr>
                 <th>Oligos</th>
@@ -35,12 +35,14 @@
                 <th>Lactose</th>
                 <td>{{ food.lactose }}</td>
             </tr>
-        </tbody>
-    </table>
+            </tbody>
+        </table>
 
-    <a href="{{ path('food_index') }}">back to list</a>
+        <a href="{{ path('food_index') }}">Retour à la liste</a>
 
-    <a href="{{ path('food_edit', {'id': food.id}) }}">edit</a>
+        <a href="{{ path('food_edit', {'id': food.id}) }}">Modifier</a>
 
-    {{ include('food/_delete_form.html.twig') }}
+        {{ include('food/_delete_form.html.twig') }}
+    </div>
+
 {% endblock %}

@@ -9,6 +9,7 @@
 - maildev
 - apache
 - node
+- portainer
 
 ## Setup commands :
 - `docker-compose up` to mount and start containers (first time can be quite long as it builds containers) (add `-d` to run it in daemon)
@@ -29,6 +30,7 @@ Try
 - the **app** is available on http://localhost/
 - **phpmyadmin** is available on http://localhost:8081/
 - **maildev** is available on http://localhost:8001/
+- **portainer** is available on http://localhost:9000/
 
 ## Routine commands :
 ### To start working

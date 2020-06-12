@@ -16,7 +16,19 @@ use Symfony\Component\Routing\Annotation\Route;
 class CategoryController extends AbstractController
 {
     /**
-     * @Route("/categorie/{id}", name="category_public", methods={"GET"})
+     * @Route("/public/", name="category_public_index", methods={"GET"})
+     * @param CategoryRepository $categoryRepository
+     * @return Response
+     */
+    public function publicIndex(CategoryRepository $categoryRepository): Response
+    {
+        return $this->render('category/index_public.html.twig', [
+            'categories' => $categoryRepository->findAll(),
+        ]);
+    }
+
+    /**
+     * @Route("/public/{id}", name="category_public", methods={"GET"})
      * @param Category $category
      * @return Response
      */

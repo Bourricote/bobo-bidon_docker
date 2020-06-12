@@ -5,6 +5,9 @@
 {% block body %}
     <h1>Liste des aliments</h1>
     <div class="card">
+        <div class="card-header text-center">
+            <a class="btn btn-lg btn-bobo" href="{{ path('category_public_index') }}">Voir les catégories</a>
+        </div>
         <div class="d-flex container justify-content-center p-5">
             {{ form_start(form) }}
             <div class="row">
@@ -24,10 +27,10 @@
                 <th>Nom</th>
                 <th>Fodmap</th>
                 <th>Catégorie</th>
-                <th>Oligos</th>
-                <th>Fructose</th>
-                <th>Polyols</th>
-                <th>Lactose</th>
+                <th class="d-none d-lg-table-cell">Oligos</th>
+                <th class="d-none d-lg-table-cell">Fructose</th>
+                <th class="d-none d-lg-table-cell">Polyols</th>
+                <th class="d-none d-lg-table-cell">Lactose</th>
             </tr>
             </thead>
             <tbody>
@@ -38,10 +41,10 @@
                         <i class="fas {{ food.isHighFodmap ? 'fa-times-circle textPurpleDark' : 'fa-check-circle textPinkMediumLight' }}"></i>
                     </td>
                     <td>{{ food.category.name }}</td>
-                    <td>{{ food.oligos }}</td>
-                    <td>{{ food.fructose }}</td>
-                    <td>{{ food.polyols }}</td>
-                    <td>{{ food.lactose }}</td>
+                    <td class="d-none d-lg-table-cell">{{ food.oligos }}</td>
+                    <td class="d-none d-lg-table-cell">{{ food.fructose }}</td>
+                    <td class="d-none d-lg-table-cell">{{ food.polyols }}</td>
+                    <td class="d-none d-lg-table-cell">{{ food.lactose }}</td>
                 </tr>
             {% else %}
                 <tr>
@@ -52,7 +55,7 @@
         </table>
     </div>
 
-    <div class="pagination align-self-end mr-4">
+    <div class="pagination mt-4">
         {{ knp_pagination_render(foods) }}
     </div>
 {% endblock %}

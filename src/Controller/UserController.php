@@ -8,6 +8,7 @@ use App\Repository\CategoryRepository;
 use App\Repository\SymptomRepository;
 use App\Repository\UserRepository;
 use App\Service\ChartService;
+use App\Service\TimelineService;
 use DateInterval;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,6 +27,22 @@ class UserController extends AbstractController
     {
         $this->symptomRepository = $symptomRepository;
         $this->categoryRepository = $categoryRepository;
+    }
+
+    /**
+     * @Route("/diet/{user}", name="diet", methods={"GET"})
+     * @param User $user
+     * @param TimelineService $timelineService
+     * @return Response
+     */
+    public function userDiet(User $user, TimelineService $timelineService): Response
+    {
+        $categories = $this->categoryRepository->findAll();
+        $weeks = $timelineService->generateTimeline($user, $categories);
+
+        return $this->render('user/diet.html.twig', [
+            'weeks' => $weeks,
+        ]);
     }
 
     /**
@@ -55,7 +72,7 @@ class UserController extends AbstractController
         $labelWeeks = $dataWeeksChart['labelWeeks'];
         $nbSymptomsPerWeek = $dataWeeksChart['nbSymptomsPerWeek'];
 
-        return $this->render('symptom/charts.html.twig', [
+        return $this->render('user/charts.html.twig', [
             'all_symptoms' => $allSymptoms,
             'nb_symptoms_per_day' => $nbSymptomsPerDay,
             'label_days' => $labelsDays,
@@ -162,7 +179,7 @@ class UserController extends AbstractController
     public function new(Request $request): Response
     {
         $user = new User();
-        $form = $this->createForm(UserType::class, $user);
+        $form = $this->createForm(UserType::class, $user, ['admin' => true]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

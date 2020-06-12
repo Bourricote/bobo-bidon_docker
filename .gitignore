@@ -10,6 +10,8 @@
 .vs
 .docker/data/
 /public/upload
+portainer/
+
 
 
 ###> symfony/webpack-encore-bundle ###
