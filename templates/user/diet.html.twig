@@ -10,7 +10,7 @@
     <ul class="timeline">
         {% for week in weeks %}
             <li class="{{ loop.index is odd ? '' : 'timeline-inverted' }}">
-                <div class="timeline-badge"><i class="fas fa-times-circle"></i></div>
+                <div class="timeline-badge {{ week.status }}"><i class="fas fa-times-circle"></i></div>
                 <div class="timeline-panel {{ week.status }}">
                     {% if week.category_id %}
                         <a href="{{ path('category_public', {'id' : week.category_id}) }}">
