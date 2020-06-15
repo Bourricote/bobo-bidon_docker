@@ -14,7 +14,7 @@
         </div>
         <div id="collapseWeeks" class="collapse" aria-labelledby="headingOne" data-parent="#accordionCharts">
             <div class="card-body">
-                <div class="mb-5 chart-container">
+                <div class="chart-container">
                     <canvas id="symptomsPerWeek"
                             data-week-length="{{ label_weeks|length }}"
                             {% for key, data_week in label_weeks %}
@@ -48,7 +48,7 @@
                             </button>
                     {% endfor %}
                 </div>
-                <div class="mb-5 chart-container">
+                <div class="chart-container">
                     <canvas id="perSymptom"></canvas>
                 </div>
             </div>
@@ -62,7 +62,7 @@
         </div>
         <div id="collapseDays" class="collapse" aria-labelledby="headingThree" data-parent="#accordionCharts">
             <div class="card-body">
-                <div class="mb-5 chart-container">
+                <div class="chart-container">
                     <canvas id="symptomsPerDay"
                             data-day-length="{{ label_days|length }}"
                             {% for key, data_day in label_days %}

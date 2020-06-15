@@ -1,27 +1,35 @@
-.chart-container {
-  position: relative;
-  margin: auto;
-  height: 75vh;
-  width: 95%;
+.accordion {
+  .chart-container {
+    position: relative;
+    margin: auto;
+    height: 70vh;
+    width: 95%;
+  }
+
+  .btn-link {
+    color: $purpleBasic;
+    &:hover {
+      color: $purpleMediumLight;
+      text-decoration: none;
+    }
+    &:active {
+      color: $pinkBasic;
+      text-decoration: none;
+    }
+  }
+
+  .symptomButton {
+    font-size: 0.7rem;
+    height: 10vh;
+    background-color: #B29EE7;
+    &:hover {
+      background-color: #6C4DBD;
+      color: white;
+    }
+  }
+
+  .card-header {
+    background-color: whitesmoke;
+  }
 }
 
-.btn-link {
-  color: $purpleBasic;
-  &:hover {
-    color: $purpleMediumLight;
-    text-decoration: none;
-  }
-  &:active {
-    color: $pinkBasic;
-    text-decoration: none;
-  }
-}
-.symptomButton {
-  font-size: 0.7rem;
-  height: 10vh;
-  background-color: #B29EE7;
-  &:hover {
-    background-color: #6C4DBD;
-    color: white;
-  }
-}

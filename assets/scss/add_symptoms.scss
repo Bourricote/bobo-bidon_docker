@@ -1,11 +1,3 @@
-.add_symptoms {
-  .container {
-    h5 {
-      margin-bottom: -20px;
-    }
-  }
-}
-
 #add_symptoms_symptoms {
   label {
     width: 90%;
@@ -18,13 +10,24 @@
     opacity: 0.5;
     background-color: $pinkMediumLight;
   }
+
   input {
     display: none;
   }
+
   input:checked + label {
       opacity: 1;
   }
+
+  .form-check {
+    padding: 0;
+  }
 }
 
-
-
+#add_symptoms_time {
+  display: flex;
+  justify-content: space-between;
+  .form-control {
+    width: 45%;
+  }
+}
