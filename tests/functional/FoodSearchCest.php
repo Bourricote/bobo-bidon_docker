@@ -5,21 +5,18 @@ class FoodSearchCest
 {
     public function _before(FunctionalTester $I)
     {
-    }
-
-    // tests
-    public function FoodSearch(FunctionalTester $I)
-    {
-        // Sign in
         $I->amOnPage('/');
         $I->fillField('email','testy@test.fr');
         $I->fillField('password','coucou');
         $I->click('Connexion');
         $I->see('Bobo-bidon');
-
-        // Go to food section and search by name
         $I->see('Aliments');
         $I->click('Aliments');
+    }
+
+    // tests
+    public function FoodSearchByName(FunctionalTester $I)
+    {
         $I->see('Bacon');
         $I->see('Apples');
         $I->see('Chercher');
@@ -28,4 +25,27 @@ class FoodSearchCest
         $I->dontSee('Bacon');
         $I->see('Apples');
     }
+
+    public function FoodSearchByCategory(FunctionalTester $I)
+    {
+        $I->seeElement('//td[text()=\'Boissons\']');
+        $I->seeElement('//td[text()=\'Fruits\']');
+        $I->see('Chercher');
+        $I->selectOption('//select[@id=\'food_search_category\']', 'Fruits');
+        $I->click('Chercher');
+        $I->dontSeeElement('//td[text()=\'Boissons\']');
+        $I->seeElement('//td[text()=\'Fruits\']');
+    }
+
+    public function FoodSearchByFodmapLevel(FunctionalTester $I)
+    {
+        $I->seeElement('i', ['class' => 'fas fa-check-circle textPinkMediumLight']);
+        $I->seeElement('i', ['class' => 'fas fa-times-circle textPurpleDark']);
+        $I->see('Chercher');
+        $I->selectOption('//fieldset/div/div/input[@id=\'food_search_isHighFodmap_1\']', '1');
+        $I->click('Chercher');
+        $I->dontSeeElement('i', ['class' => 'fas fa-times-circle textPurpleDark']);
+        $I->seeElement('i', ['class' => 'fas fa-check-circle textPinkMediumLight']);
+    }
+
 }
