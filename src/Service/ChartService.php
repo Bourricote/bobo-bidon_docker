@@ -16,6 +16,29 @@ class ChartService
     const NB_DAYS_DIET = self::NB_WEEKS_DIET * 7;
 
     /**
+     * Gives array of all diet weeks with category label when necessary
+     * @param array $categories
+     * @return float[]|int[]
+     */
+    public function generateDietWeeksLabels(array $categories)
+    {
+        $labelWeeks = [];
+
+        for ($i = 0; $i < self::NB_WEEKS_DIET; $i++) {
+            if ($i < 2) {
+                $labelWeeks[] = $i + 1 . '. -';
+            }
+            foreach ($categories as $category) {
+                if ($category->getDietWeek() === $i + 1) {
+                    $labelWeeks[] = $i + 1 . '. ' . $category->getName();
+                }
+            }
+        }
+
+        return $labelWeeks;
+    }
+
+    /**
      * Calculate number of all symptoms per day for chart SymptomsPerDay
      * @param User $user
      * @return array[]
@@ -74,25 +97,12 @@ class ChartService
         $startDate = $user->getStartDate();
         $startDateWeeks = clone $startDate;
 
-        $endDate = $user->getEndDate();
-
-        $nbWeeks = (($startDateWeeks->diff($endDate)->days) / self::DAYS_PER_WEEK);
-
         $nbSymptomsPerWeek = [];
-        $labelWeeks = [];
         $oldDate = clone $startDateWeeks;
 
-        for ($i = 0; $i < $nbWeeks; $i++) {
+        for ($i = 0; $i < self::NB_WEEKS_DIET; $i++) {
             $newDate = $startDateWeeks->add(new DateInterval('P7D'));
-            if ($i < 2) {
-                $labelWeeks[] = $i + 1 . '. -';
-            }
-            foreach ($categories as $category) {
-                if ($category->getDietWeek() === $i + 1) {
-                    $labelWeeks[] = $i + 1 . '. ' . $category->getName();
-                }
-            }
-            $j = 0;
+                        $j = 0;
             foreach ($userSymptoms as $userSymptom) {
                 if ($userSymptom->getDate() >= $oldDate && $userSymptom->getDate() < $newDate) {
                     $j ++ ;
@@ -101,6 +111,8 @@ class ChartService
             $nbSymptomsPerWeek[] = $j;
             $oldDate = clone $newDate;
         }
+
+        $labelWeeks = $this->generateDietWeeksLabels($categories);
 
         if (count($labelWeeks) !== count($nbSymptomsPerWeek)) {
             return null;
@@ -122,14 +134,10 @@ class ChartService
         $startDate = $user->getStartDate();
         $startDateWeeks = clone $startDate;
 
-        $endDate = $user->getEndDate();
-
-        $nbWeeks = (($startDateWeeks->diff($endDate)->days) / self::DAYS_PER_WEEK);
-
         $nbSymptomsPerWeek = [];
 
         $oldDate = clone $startDateWeeks;
-        for ($i = 0; $i <= $nbWeeks; $i++) {
+        for ($i = 0; $i <= self::NB_WEEKS_DIET; $i++) {
             $newDate = $startDateWeeks->add(new DateInterval('P7D'));
             $j = 0;
             foreach ($userSymptoms as $userSymptom) {
@@ -231,5 +239,37 @@ class ChartService
             'nbSymptomsPerWeek' => $symptoms,
             'worst_category' => $worstCategory
         ];
+    }
+
+    /**
+     * Returns array of diet weeks with associated symptoms
+     * @param User $user
+     * @param array $categories
+     * @return float[]|int[]
+     */
+    public function associateSymptomsToDietWeeks(User $user, array $categories)
+    {
+        $startDate = $user->getStartDate();
+        $startDateWeeks = clone $startDate;
+
+        $userSymptoms = $user->getUserSymptoms();
+
+        $oldDate = clone $startDate;
+
+        $labelWeeks = $this->generateDietWeeksLabels($categories);
+        $weeksWithSymptoms = [];
+
+        foreach ($labelWeeks as $week) {
+            $weeksWithSymptoms[$week] = [];
+            $newDate = $startDateWeeks->add(new DateInterval('P7D'));
+            foreach ($userSymptoms as $userSymptom) {
+                if ($userSymptom->getDate() >= $oldDate && $userSymptom->getDate() < $newDate) {
+                    $weeksWithSymptoms[$week][] = $userSymptom;
+                }
+            }
+            $oldDate = clone $newDate;
+        }
+
+        return $weeksWithSymptoms;
     }
 }

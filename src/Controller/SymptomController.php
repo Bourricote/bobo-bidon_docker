@@ -31,7 +31,7 @@ class SymptomController extends AbstractController
     {
         $form = $this->createForm(AddSymptomsType::class);
         $form->handleRequest($request);
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
 
             $date = $data['date'];

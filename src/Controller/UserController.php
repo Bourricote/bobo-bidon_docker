@@ -151,12 +151,18 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/showsymptom", name="show_user_symptom", methods={"GET"})
+     * @Route("/showsymptom/{user}", name="show_user_symptom", methods={"GET"})
      * @return Response
      */
-    public function showUserSymptoms(): Response
+    public function showUserSymptoms(User $user, ChartService $chartService): Response
     {
-        return $this->render('symptom/show_user_symptom.html.twig');
+        $categories = $this->categoryRepository->findAll();
+
+        $weeksWithSymptoms = $chartService->associateSymptomsToDietWeeks($user, $categories);
+
+        return $this->render('symptom/show_user_symptom.html.twig', [
+            'weeksWithSymptoms' => $weeksWithSymptoms,
+        ]);
     }
 
     /**

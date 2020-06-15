@@ -4,7 +4,7 @@
 
     <div class="row justify-content-center">
         <div class="col-lg-9 col-md-12">
-            <div class="card">
+            {#<div class="card">
                 <div class="card-header d-flex justify-content-between">
                     <div>
                         <h4>{{ app.user.firstname }} {{ app.user.lastname }}</h4>
@@ -19,7 +19,20 @@
                             à {{ userSymptom.time|date('H:i') }}</p>
                     {% endfor %}
                 </div>
-            </div>
+            </div>#}
+            {% for key, week in weeksWithSymptoms %}
+                <div class="card mb-2">
+                    <div class="card-header">
+                        <h5>Semaine {{ key }}</h5>
+                    </div>
+                    <div class="card-body">
+                        {% for userSymptom in week %}
+                            <p><b>{{ userSymptom.symptom.name }}</b> le {{ userSymptom.date|date('d/m/Y') }}
+                                à {{ userSymptom.time|date('H:i') }}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
         </div>
     </div>
 
