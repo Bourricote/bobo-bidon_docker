@@ -4,9 +4,11 @@
 
 {% block body %}
 
-    <h3>Catégories d'aliments</h3>
     <div class="container">
         <div class="row">
+            <div class="col-12 text-center">
+                <h3>Catégories d'aliments</h3>
+            </div>
             {% for category in categories %}
                 <div class="col-4 col-lg-3 p-1 categoryCol">
                     <div class="btn categoryButton d-flex justify-content-center align-items-center">
