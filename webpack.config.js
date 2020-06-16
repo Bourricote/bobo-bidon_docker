@@ -32,6 +32,7 @@ Encore
     .addEntry('charts', './assets/js/charts.js')
     .addEntry('dashboard', './assets/js/dashboard.js')
     .addEntry('fillProfileInput', './assets/js/fillProfileInput.js')
+    .addEntry('addFoodForm', './assets/js/addFoodForm.js')
     //.addEntry('page1', './assets/js/page1.js')
     //.addEntry('page2', './assets/js/page2.js')
 
