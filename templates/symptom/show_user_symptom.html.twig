@@ -4,32 +4,20 @@
 
     <div class="row justify-content-center">
         <div class="col-lg-9 col-md-12">
-            {#<div class="card">
-                <div class="card-header d-flex justify-content-between">
-                    <div>
-                        <h4>{{ app.user.firstname }} {{ app.user.lastname }}</h4>
-                    </div>
-                    <div>
-                        <a class="btn btn-bobo" href="{{ path('add_user_symptom', {'user' : app.user.id}) }}">Ajouter un symptôme</a>
-                    </div>
-                </div>
-                <div class="card-body">
-                    {% for userSymptom in app.user.userSymptoms %}
-                        <p>{{ userSymptom.symptom.name }} le {{ userSymptom.date|date('d/m/Y') }}
-                            à {{ userSymptom.time|date('H:i') }}</p>
-                    {% endfor %}
-                </div>
-            </div>#}
-            {% for key, week in weeksWithSymptoms %}
+            {% for key, symptoms in weeksWithSymptoms %}
                 <div class="card mb-2">
-                    <div class="card-header">
+                    <div class="card-header bgPurpleMediumLight">
                         <h5>Semaine {{ key }}</h5>
                     </div>
                     <div class="card-body">
-                        {% for userSymptom in week %}
-                            <p><b>{{ userSymptom.symptom.name }}</b> le {{ userSymptom.date|date('d/m/Y') }}
-                                à {{ userSymptom.time|date('H:i') }}</p>
-                        {% endfor %}
+                        {% if symptoms %}
+                            {% for symptom in symptoms %}
+                                <p><b>{{ symptom.symptom.name }}</b> le {{ symptom.date|date('d/m/Y') }}
+                                    à {{ symptom.time|date('H:i') }}</p>
+                            {% endfor %}
+                        {% else %}
+                            <p>Pas de symptôme enregistré cette semaine</p>
+                        {% endif %}
                     </div>
                 </div>
             {% endfor %}

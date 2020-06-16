@@ -103,6 +103,7 @@ class User implements UserInterface, Serializable
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\UserSymptom", mappedBy="user", orphanRemoval=true)
+     * @ORM\OrderBy({"date"="ASC"})
      */
     private $userSymptoms;
 
