@@ -152,6 +152,8 @@ class UserController extends AbstractController
 
     /**
      * @Route("/showsymptom/{user}", name="show_user_symptom", methods={"GET"})
+     * @param User $user
+     * @param ChartService $chartService
      * @return Response
      */
     public function showUserSymptoms(User $user, ChartService $chartService): Response
