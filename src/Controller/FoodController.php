@@ -4,9 +4,13 @@ namespace App\Controller;
 
 use App\Entity\Food;
 use App\Entity\FoodSearch;
+use App\Entity\User;
+use App\Entity\UserFood;
+use App\Form\AddFoodsType;
 use App\Form\FoodSearchType;
 use App\Form\FoodType;
 use App\Repository\FoodRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -43,6 +47,44 @@ class FoodController extends AbstractController
         return $this->render('food/index_public.html.twig', [
             'form' => $form->createView(),
             'foods' => $foods,
+        ]);
+    }
+
+    /**
+     * @Route("/addfood/{user}", name="add_user_food", methods={"GET","POST"})
+     * @param User $user
+     * @param EntityManagerInterface $entityManager
+     * @param Request $request
+     * @return Response
+     */
+    public function addFood(User $user, EntityManagerInterface $entityManager, Request $request): Response
+    {
+        $form = $this->createForm(AddFoodsType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+
+            $date = $data['date'];
+            $time = $data['time'];
+            $food = $data['food'];
+
+            $userFood = new UserFood();
+            $userFood->setUser($user);
+            $userFood->setDate($date);
+            $userFood->setTime($time);
+            $userFood->setFood($food);
+
+            $entityManager->persist($userFood);
+
+            $entityManager->flush();
+            $this->addFlash(
+                'primary',
+                'Vos changements ont été sauvegardés !'
+            );
+        }
+
+        return $this->render('food/add_user_food.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 

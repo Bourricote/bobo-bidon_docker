@@ -131,7 +131,6 @@ let perSymptomChart = new Chart(perSymptom, {
 
 Chart.defaults.global.defaultFontFamily = 'Poppins';
 
-
 for (let i =0; i < symptomsButtons.length; i++) {
     symptomsButtons[i].addEventListener('click', function () {
         fetch(
