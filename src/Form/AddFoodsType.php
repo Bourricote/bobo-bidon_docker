@@ -6,6 +6,7 @@ use App\Entity\Category;
 use App\Entity\Food;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -45,7 +46,12 @@ class AddFoodsType extends AbstractType
                 'attr'         => [
                     'class' => 'd-flex flex-column'
                 ],
-            ]);
+            ])
+            ->add('foods', CollectionType::class, [
+                'entry_type' => FoodListType::class,
+                'entry_options' => ['label' => false],
+                'allow_add' => true,
+            ]);;
 
         $formModifier = function (FormInterface $form, Category $category = null) {
             $foods = null === $category ? [] : $category->getFoods();
@@ -56,13 +62,13 @@ class AddFoodsType extends AbstractType
                 'placeholder'  => '',
                 'choice_label' => 'name',
                 'choices'      => $foods,
+                'mapped'       => false,
             ]);
         };
 
         $builder->addEventListener(
             FormEvents::PRE_SET_DATA,
             function (FormEvent $event) use ($formModifier) {
-                // this would be your entity, i.e. SportMeetup
                 $data = $event->getData();
                 $formModifier($event->getForm(), $data['category']);
             }
@@ -79,26 +85,6 @@ class AddFoodsType extends AbstractType
                 // the parent to the callback functions!
                 $formModifier($event->getForm()->getParent(), $category);
             }
-        );
-    }
-
-    private function addFoodField(FormInterface $form, ?Category $category)
-    {
-        $form->add(
-            'food',
-            EntityType::class,
-
-            [
-                'label'           => ' ',
-                'placeholder'     => $category ? 'Sélectionnez un aliment' : 'Sélectionnez une catégorie',
-                'class'           => Food::class,
-                'choice_label'    => 'name',
-                'auto_initialize' => false,
-                'choices'         => $category ? $category->getFoods() : [],
-                'attr'            => [
-                    'class' => 'd-flex flex-column'
-                ],
-            ]
         );
     }
 

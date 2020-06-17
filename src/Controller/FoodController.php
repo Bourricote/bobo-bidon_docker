@@ -57,7 +57,7 @@ class FoodController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function addFood(User $user, EntityManagerInterface $entityManager, Request $request): Response
+    public function addFood(User $user, EntityManagerInterface $entityManager, Request $request, FoodRepository $foodRepository): Response
     {
         $form = $this->createForm(AddFoodsType::class);
         $form->handleRequest($request);
@@ -66,15 +66,18 @@ class FoodController extends AbstractController
 
             $date = $data['date'];
             $time = $data['time'];
-            $food = $data['food'];
+            $foods = $data['foods'];
 
-            $userFood = new UserFood();
-            $userFood->setUser($user);
-            $userFood->setDate($date);
-            $userFood->setTime($time);
-            $userFood->setFood($food);
+            foreach ($foods as $food) {
+                $userFood = new UserFood();
+                $userFood->setUser($user);
+                $userFood->setDate($date);
+                $userFood->setTime($time);
+                $foodObject = $foodRepository->findOneBy(['id' => $food['id']]);
+                $userFood->setFood($foodObject);
 
-            $entityManager->persist($userFood);
+                $entityManager->persist($userFood);
+            }
 
             $entityManager->flush();
             $this->addFlash(
