@@ -12,7 +12,11 @@
             <p class="mb-1">(Sélectionnez une catégorie pour filtrer la liste d'aliments) </p>
             {{ form_row(form.category) }}
 
-            <h5 class="textPurpleDark mt-4">Aliment : </h5>
+            <div class="d-flex align-items-center justify-content-between">
+                <h5 class="textPurpleDark mt-4">Aliment : </h5>
+                <img id="loader" src="{{ asset('build/images/loader.gif') }}" style="display: none" alt="loader"/>
+            </div>
+
             {{ form_row(form.food) }}
 
             <button type="button" id="add_food_link" class="btn bgPurpleBasic text-white mb-2">+</button>

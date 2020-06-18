@@ -1,8 +1,11 @@
 // Dynamic food select //
 
 let $category = $('#add_foods_category');
+let $loader = $('#loader');
+console.log($loader);
 // When category gets selected ...
 $category.change(function() {
+    $('#loader').show();
     // ... retrieve the corresponding form.
     let $form = $(this).closest('form');
     // Simulate form data, but only include the selected category value.
@@ -19,6 +22,7 @@ $category.change(function() {
                 // ... with the returned one from the AJAX response.
                 $(html).find('#add_foods_food')
             );
+            $('#loader').hide();
             // Food field now displays the appropriate foods.
         }
     });
@@ -40,10 +44,7 @@ jQuery(document).ready(function () {
     $collectionHolder.data('index', $collectionHolder.find('input').length);
 
     $addFoodButton.on('click', function (e) {
-        console.log('clic');
         let $selectedFood = $('#add_foods_food').children("option:selected");
-        console.log($selectedFood.val());
-
         let inputsIds = addFoodSelect($collectionHolder, $newLinkLi);
         let $newInputName = $('#' + inputsIds[0]);
         let $newInputId = $('#' + inputsIds[1]);
