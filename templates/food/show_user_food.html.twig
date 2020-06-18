@@ -5,6 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-lg-9 col-md-12">
             {% for key, foods in weeksWithFoods %}
+                {% set categoryWeek = loop.index %}
                 <div class="card mb-2">
                     <div class="card-header bgPurpleMediumLight">
                         <h5>Semaine {{ key }}</h5>
@@ -12,8 +13,16 @@
                     <div class="card-body">
                         {% if foods %}
                             {% for food in foods %}
-                                <p><b>{{ food.food.name }}</b> le {{ food.date|date('d/m/Y') }}
-                                    à {{ food.time|date('H:i') }}</p>
+                                <p>
+                                    <i class="fas {{ food.food.isHighFodmap ? 'fa-times-circle textPurpleDark' : 'fa-check-circle textPinkMediumLight' }}"></i>
+                                    {% if food.food.category.dietWeek == categoryWeek %}
+                                        <b> {{ food.food.name }} </b>
+                                    {% else %}
+                                        {{ food.food.name }}
+                                    {% endif %}
+                                    le {{ food.date|date('d/m/Y') }}
+                                    à {{ food.time|date('H:i') }}
+                                </p>
                             {% endfor %}
                         {% else %}
                             <p>Pas d'aliment enregistré cette semaine</p>

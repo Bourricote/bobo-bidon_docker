@@ -45,7 +45,7 @@ jQuery(document).ready(function () {
 
     $addFoodButton.on('click', function (e) {
         let $selectedFood = $('#add_foods_food').children("option:selected");
-        let inputsIds = addFoodSelect($collectionHolder, $newLinkLi);
+        let inputsIds = addFoodItem($collectionHolder, $newLinkLi);
         let $newInputName = $('#' + inputsIds[0]);
         let $newInputId = $('#' + inputsIds[1]);
         $newInputName.val($selectedFood.text());
@@ -54,7 +54,7 @@ jQuery(document).ready(function () {
 
 });
 
-function addFoodSelect($collectionHolder, $newLinkLi) {
+function addFoodItem($collectionHolder, $newLinkLi) {
     // Get the data-prototype explained earlier
     let prototype = $collectionHolder.data('prototype');
 
