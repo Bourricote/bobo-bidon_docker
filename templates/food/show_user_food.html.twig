@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="row justify-content-center">
+        <div class="col-lg-9 col-md-12">
+            {% for key, foods in weeksWithFoods %}
+                <div class="card mb-2">
+                    <div class="card-header bgPurpleMediumLight">
+                        <h5>Semaine {{ key }}</h5>
+                    </div>
+                    <div class="card-body">
+                        {% if foods %}
+                            {% for food in foods %}
+                                <p><b>{{ food.food.name }}</b> le {{ food.date|date('d/m/Y') }}
+                                    à {{ food.time|date('H:i') }}</p>
+                            {% endfor %}
+                        {% else %}
+                            <p>Pas d'aliment enregistré cette semaine</p>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}

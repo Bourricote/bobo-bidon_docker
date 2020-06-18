@@ -272,4 +272,36 @@ class ChartService
 
         return $weeksWithSymptoms;
     }
+
+    /**
+     * Returns array of diet weeks with associated foods
+     * @param User $user
+     * @param array $categories
+     * @return float[]|int[]
+     */
+    public function associateFoodsToDietWeeks(User $user, array $categories)
+    {
+        $startDate = $user->getStartDate();
+        $startDateWeeks = clone $startDate;
+
+        $userFoods = $user->getUserFoods();
+
+        $oldDate = clone $startDate;
+
+        $labelWeeks = $this->generateDietWeeksLabels($categories);
+        $weeksWithFoods = [];
+
+        foreach ($labelWeeks as $week) {
+            $weeksWithFoods[$week] = [];
+            $newDate = $startDateWeeks->add(new DateInterval('P7D'));
+            foreach ($userFoods as $userFood) {
+                if ($userFood->getDate() >= $oldDate && $userFood->getDate() < $newDate) {
+                    $weeksWithFoods[$week][] = $userFood;
+                }
+            }
+            $oldDate = clone $newDate;
+        }
+
+        return $weeksWithFoods;
+    }
 }

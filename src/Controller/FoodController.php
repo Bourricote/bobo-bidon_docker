@@ -9,7 +9,9 @@ use App\Entity\UserFood;
 use App\Form\AddFoodsType;
 use App\Form\FoodSearchType;
 use App\Form\FoodType;
+use App\Repository\CategoryRepository;
 use App\Repository\FoodRepository;
+use App\Service\ChartService;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -55,6 +57,7 @@ class FoodController extends AbstractController
      * @param User $user
      * @param EntityManagerInterface $entityManager
      * @param Request $request
+     * @param FoodRepository $foodRepository
      * @return Response
      */
     public function addFood(User $user, EntityManagerInterface $entityManager, Request $request, FoodRepository $foodRepository): Response
@@ -90,6 +93,24 @@ class FoodController extends AbstractController
 
         return $this->render('food/add_user_food.html.twig', [
             'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/showfood/{user}", name="show_user_food", methods={"GET"})
+     * @param User $user
+     * @param ChartService $chartService
+     * @param CategoryRepository $categoryRepository
+     * @return Response
+     */
+    public function showUserFoods(User $user, ChartService $chartService, CategoryRepository $categoryRepository): Response
+    {
+        $categories = $categoryRepository->findAll();
+
+        $weeksWithFoods = $chartService->associateFoodsToDietWeeks($user, $categories);
+
+        return $this->render('food/show_user_food.html.twig', [
+            'weeksWithFoods' => $weeksWithFoods,
         ]);
     }
 

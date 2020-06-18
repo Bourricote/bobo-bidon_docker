@@ -7,7 +7,9 @@ use App\Entity\User;
 use App\Entity\UserSymptom;
 use App\Form\AddSymptomsType;
 use App\Form\SymptomType;
+use App\Repository\CategoryRepository;
 use App\Repository\SymptomRepository;
+use App\Service\ChartService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -59,6 +61,24 @@ class SymptomController extends AbstractController
 
             return $this->render('symptom/add_user_symptom.html.twig', [
             'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/showsymptom/{user}", name="show_user_symptom", methods={"GET"})
+     * @param User $user
+     * @param ChartService $chartService
+     * @param CategoryRepository $categoryRepository
+     * @return Response
+     */
+    public function showUserSymptoms(User $user, ChartService $chartService, CategoryRepository $categoryRepository): Response
+    {
+        $categories = $categoryRepository->findAll();
+
+        $weeksWithSymptoms = $chartService->associateSymptomsToDietWeeks($user, $categories);
+
+        return $this->render('symptom/show_user_symptom.html.twig', [
+            'weeksWithSymptoms' => $weeksWithSymptoms,
         ]);
     }
 
