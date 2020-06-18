@@ -4,23 +4,27 @@
 
     <div class="row justify-content-center">
         <div class="col-lg-9 col-md-12">
-            {% for key, symptoms in weeksWithSymptoms %}
-                <div class="card mb-2">
-                    <div class="card-header bgPurpleMediumLight">
-                        <h5>Semaine {{ key }}</h5>
+            {% if weeksWithSymptoms %}
+                {% for key, symptoms in weeksWithSymptoms %}
+                    <div class="card mb-2">
+                        <div class="card-header bgPurpleMediumLight">
+                            <h5>Semaine {{ key }}</h5>
+                        </div>
+                        <div class="card-body">
+                            {% if symptoms %}
+                                {% for symptom in symptoms %}
+                                    <p><b>{{ symptom.symptom.name }}</b> le {{ symptom.date|date('d/m/Y') }}
+                                        à {{ symptom.time|date('H:i') }}</p>
+                                {% endfor %}
+                            {% else %}
+                                <p>Pas de symptôme enregistré cette semaine</p>
+                            {% endif %}
+                        </div>
                     </div>
-                    <div class="card-body">
-                        {% if symptoms %}
-                            {% for symptom in symptoms %}
-                                <p><b>{{ symptom.symptom.name }}</b> le {{ symptom.date|date('d/m/Y') }}
-                                    à {{ symptom.time|date('H:i') }}</p>
-                            {% endfor %}
-                        {% else %}
-                            <p>Pas de symptôme enregistré cette semaine</p>
-                        {% endif %}
-                    </div>
-                </div>
-            {% endfor %}
+                {% endfor %}
+            {% else %}
+                {% include '_diet_error.html.twig' %}
+            {% endif %}
         </div>
     </div>
 

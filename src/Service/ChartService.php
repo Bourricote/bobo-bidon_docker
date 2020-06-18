@@ -15,6 +15,13 @@ class ChartService
     const NB_WEEKS_DIET = 8;
     const NB_DAYS_DIET = self::NB_WEEKS_DIET * 7;
 
+    private $userService;
+
+    public function __construct(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
+
     /**
      * Gives array of all diet weeks with category label when necessary
      * @param array $categories
@@ -45,7 +52,7 @@ class ChartService
      */
     public function generateDataPerDay(User $user)
     {
-        if (!$user->getStartDate()) {
+        if (!$this->userService->userHasStartedDiet($user)) {
             return null;
         }
 
@@ -88,7 +95,7 @@ class ChartService
      */
     public function generateDataPerWeek(User $user, array $categories)
     {
-        if (!$user->getStartDate()) {
+        if (!$this->userService->userHasStartedDiet($user)) {
             return null;
         }
 
@@ -129,6 +136,10 @@ class ChartService
      */
     public function generateDataPerWeekPerSymptom(User $user, Symptom $symptom)
     {
+        if (!$this->userService->userHasStartedDiet($user)) {
+            return null;
+        }
+
         $userSymptoms = $user->getUserSymptoms();
 
         $startDate = $user->getStartDate();
@@ -249,6 +260,10 @@ class ChartService
      */
     public function associateSymptomsToDietWeeks(User $user, array $categories)
     {
+        if (!$this->userService->userHasStartedDiet($user)) {
+            return null;
+        }
+
         $startDate = $user->getStartDate();
         $startDateWeeks = clone $startDate;
 
@@ -281,6 +296,10 @@ class ChartService
      */
     public function associateFoodsToDietWeeks(User $user, array $categories)
     {
+        if (!$this->userService->userHasStartedDiet($user)) {
+            return null;
+        }
+
         $startDate = $user->getStartDate();
         $startDateWeeks = clone $startDate;
 

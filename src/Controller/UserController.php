@@ -56,14 +56,6 @@ class UserController extends AbstractController
         $allSymptoms = $this->symptomRepository->findAll();
         $categories = $this->categoryRepository->findAll();
 
-        if (!$user->getStartDate()) {
-            $this->addFlash(
-                'error',
-                'Vous devez renseigner une date de début de régime !'
-            );
-            return $this->redirectToRoute('home');
-        }
-
         $dataDaysChart = $chartService->generateDataPerDay($user);
         $labelsDays = $dataDaysChart['labelDays'];
         $nbSymptomsPerDay = $dataDaysChart['nbSymptomsPerDay'];
