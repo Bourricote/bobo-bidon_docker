@@ -16,14 +16,13 @@ class FoodListType extends AbstractType
         $builder
             ->add('name', TextType::class, [
                 'label' => false,
-                //'disabled' => true,
                 'attr'  => [
-                    'class' => 'form-control mb-2'
+                    'class' => 'form-control mb-2',
+                    'readonly' => true,
                 ]
             ])
             ->add('id', HiddenType::class, [
                 'label' => false,
-                //'disabled' => true,
                 'attr'  => [
                     'class' => 'form-control mb-2'
                 ]

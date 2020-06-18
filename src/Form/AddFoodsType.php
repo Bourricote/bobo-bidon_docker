@@ -48,6 +48,7 @@ class AddFoodsType extends AbstractType
                 ],
             ])
             ->add('foods', CollectionType::class, [
+                'label' => false,
                 'entry_type' => FoodListType::class,
                 'entry_options' => ['label' => false],
                 'allow_add' => true,

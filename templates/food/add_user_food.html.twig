@@ -12,6 +12,7 @@
             {{ form_row(form.category) }}
             <h5 class="textPurpleDark mt-4 mb-1">Aliment : </h5>
             {{ form_row(form.food) }}
+            <button type="button" id="add_food_link" class="btn btn-bobo">+</button>
 
             <ul class="foods" data-prototype="{{ form_widget(form.foods.vars.prototype)|e('html_attr') }}">
                 {% for food in form.foods %}

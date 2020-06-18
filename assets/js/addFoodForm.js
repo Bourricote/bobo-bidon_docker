@@ -1,4 +1,4 @@
-// Dynamic food select
+// Dynamic food select //
 
 let $category = $('#add_foods_category');
 // When category gets selected ...
@@ -25,14 +25,12 @@ $category.change(function() {
 });
 
 
-// Add new food to list
-
+// Add new food to list //
 
 let $collectionHolder;
-let $foodSelect = $('#add_foods_food');
 
 // setup an "add a food" link
-let $addFoodButton = $('<button type="button" class="btn btn-bobo add_food_link">Add a food</button>');
+let $addFoodButton = $('#add_food_link');
 let $newLinkLi = $('<li></li>').append($addFoodButton);
 
 jQuery(document).ready(function () {
@@ -46,20 +44,17 @@ jQuery(document).ready(function () {
     // index when inserting a new item (e.g. 2)
     $collectionHolder.data('index', $collectionHolder.find('input').length);
 
+    $addFoodButton.on('click', function (e) {
+        console.log('clic');
+        let $selectedFood = $('#add_foods_food').children("option:selected");
+        console.log($selectedFood.val());
 
-    $foodSelect.change(function() {
-        let $selectedFood = $(this).children("option:selected");
-        console.log($selectedFood);
-        $addFoodButton.on('click', function (e) {
-            // add a new food form (see next code block)
-            let inputsIds = addFoodSelect($collectionHolder, $newLinkLi);
-            let $newInputName = $('#' + inputsIds[0]);
-            let $newInputId = $('#' + inputsIds[1]);
-            $newInputName.val($selectedFood.text());
-            $newInputId.val($selectedFood.val());
-        });
-    })
-
+        let inputsIds = addFoodSelect($collectionHolder, $newLinkLi);
+        let $newInputName = $('#' + inputsIds[0]);
+        let $newInputId = $('#' + inputsIds[1]);
+        $newInputName.val($selectedFood.text());
+        $newInputId.val($selectedFood.val());
+    });
 
 });
 
@@ -87,7 +82,7 @@ function addFoodSelect($collectionHolder, $newLinkLi) {
 
     // Display the form in the page in an li, before the "Add a tag" link li
     let $newFormLi = $('<li></li>').append(newForm);
-    $newLinkLi.before($newFormLi);
+    $newLinkLi.after($newFormLi);
 
     return [newInputName, newInputId];
 }
