@@ -7,18 +7,21 @@
             {{ form_start(form) }}
             {{ form_row(form.date) }}
             {{ form_row(form.time) }}
+
             <h5 class="textPurpleDark mt-4 mb-2">Catégorie : </h5>
             <p class="mb-1">(Sélectionnez une catégorie pour filtrer la liste d'aliments) </p>
             {{ form_row(form.category) }}
-            <h5 class="textPurpleDark mt-4 mb-1">Aliment : </h5>
-            {{ form_row(form.food) }}
-            <button type="button" id="add_food_link" class="btn btn-bobo">+</button>
 
-            <ul class="foods" data-prototype="{{ form_widget(form.foods.vars.prototype)|e('html_attr') }}">
+            <h5 class="textPurpleDark mt-4">Aliment : </h5>
+            {{ form_row(form.food) }}
+
+            <button type="button" id="add_food_link" class="btn bgPurpleBasic text-white mb-2">+</button>
+
+            <div class="foods" data-prototype="{{ form_widget(form.foods.vars.prototype)|e('html_attr') }}">
                 {% for food in form.foods %}
-                    <li>{{ form_row(food.name) }}</li>
+                    <p>{{ form_row(food.name) }}</p>
                 {% endfor %}
-            </ul>
+            </div>
             <button class="btn btn-lg btn-bobo mt-2">{{ button_label|default('Ajouter') }}</button>
             {{ form_end(form) }}
         </div>

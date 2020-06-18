@@ -84,6 +84,8 @@ class FoodController extends AbstractController
                 'primary',
                 'Vos changements ont été sauvegardés !'
             );
+
+            return $this->redirectToRoute('food_index_user');
         }
 
         return $this->render('food/add_user_food.html.twig', [

@@ -26,17 +26,12 @@ $category.change(function() {
 
 
 // Add new food to list //
-
-let $collectionHolder;
-
-// setup an "add a food" link
-let $addFoodButton = $('#add_food_link');
-let $newLinkLi = $('<li></li>').append($addFoodButton);
-
 jQuery(document).ready(function () {
-    // Get the ul that holds the collection of tags
-    $collectionHolder = $('ul.foods');
+    let $collectionHolder = $('div.foods');
 
+    // setup an "add a food" link
+    let $addFoodButton = $('#add_food_link');
+    let $newLinkLi = $collectionHolder.append($addFoodButton);
     // add the "add a food" anchor and li to the tags ul
     $collectionHolder.append($newLinkLi);
 
@@ -81,7 +76,7 @@ function addFoodSelect($collectionHolder, $newLinkLi) {
     $collectionHolder.data('index', index + 1);
 
     // Display the form in the page in an li, before the "Add a tag" link li
-    let $newFormLi = $('<li></li>').append(newForm);
+    let $newFormLi = $collectionHolder.append(newForm);
     $newLinkLi.after($newFormLi);
 
     return [newInputName, newInputId];

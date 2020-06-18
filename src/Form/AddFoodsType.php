@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Category;
 use App\Entity\Food;
+use App\Repository\FoodRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -17,6 +18,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AddFoodsType extends AbstractType
 {
+    private $foodRepository;
+
+    public function __construct(FoodRepository $foodRepository)
+    {
+        $this->foodRepository = $foodRepository;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
@@ -54,8 +62,8 @@ class AddFoodsType extends AbstractType
                 'allow_add' => true,
             ]);;
 
-        $formModifier = function (FormInterface $form, Category $category = null) {
-            $foods = null === $category ? [] : $category->getFoods();
+        $formModifier = function (FormInterface $form, FoodRepository $foodRepository, Category $category = null) {
+            $foods = null === $category ? $foodRepository->findBy([], ['name' => 'ASC']) : $category->getFoods();
 
             $form->add('food', EntityType::class, [
                 'label'        => ' ',
@@ -71,7 +79,7 @@ class AddFoodsType extends AbstractType
             FormEvents::PRE_SET_DATA,
             function (FormEvent $event) use ($formModifier) {
                 $data = $event->getData();
-                $formModifier($event->getForm(), $data['category']);
+                $formModifier($event->getForm(), $this->foodRepository, $data['category']);
             }
         );
 
@@ -84,7 +92,7 @@ class AddFoodsType extends AbstractType
 
                 // since we've added the listener to the child, we'll have to pass on
                 // the parent to the callback functions!
-                $formModifier($event->getForm()->getParent(), $category);
+                $formModifier($event->getForm()->getParent(), $this->foodRepository, $category);
             }
         );
     }
