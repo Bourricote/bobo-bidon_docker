@@ -9,14 +9,26 @@
     <a class="navbar-brand" href="{{ path('home', {'user' : app.user.id}) }}">Bobo-Bidon</a>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <li>
+            <li class="nav-item">
                 <a class="nav-link" href="{{ path('diet', {'user' : app.user.id}) }}">Régime</a>
             </li>
-            <li>
-                <a class="nav-link" href="{{ path('charts', {'user' : app.user.id}) }}">Symptômes</a>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Symptômes
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{{ path('charts', {'user' : app.user.id}) }}">Graphiques</a>
+                    <a class="dropdown-item" href="{{ path('show_user_symptom', {'user' : app.user.id}) }}">Historique</a>
+                </div>
             </li>
-            <li>
-                <a class="nav-link" href="{{ path('food_index_user') }}">Aliments</a>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Aliments
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{{ path('food_index_user') }}">Liste</a>
+                    <a class="dropdown-item" href="{{ path('show_user_food', {'user' : app.user.id}) }}">Historique</a>
+                </div>
             </li>
         </ul>
 

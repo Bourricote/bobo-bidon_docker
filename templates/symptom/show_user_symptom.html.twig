@@ -5,9 +5,18 @@
     <div class="row justify-content-center">
 
         {% if weeksWithSymptoms %}
-            <div class="col-12 d-flex justify-content-around align-items-center mb-2">
-                <h4>Historique de symptômes</h4>
-                <img src="{{ asset('build/images/undraw_booked.png') }}" style="max-width:40%"/>
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-12 d-flex justify-content-around align-items-center mb-2">
+                        <h4>Historique de symptômes</h4>
+                        <img src="{{ asset('build/images/undraw_booked.png') }}" style="max-width:40%"/>
+                    </div>
+                    <div class="col-12 text-center">
+                        <a class="btn btn-lg btn-bobo my-3"
+                           href="{{ path('add_user_symptom', {'user' : app.user.id}) }}">Ajouter
+                            symptômes</a>
+                    </div>
+                </div>
             </div>
             {% for key, symptoms in weeksWithSymptoms %}
                 <div class="col-12 col-lg-5">

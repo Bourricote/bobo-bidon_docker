@@ -5,9 +5,18 @@
     <div class="row justify-content-center">
 
         {% if weeksWithFoods %}
-            <div class="col-12 d-flex justify-content-around align-items-center mb-2">
-                <h4>Historique d'aliments</h4>
-                <img src="{{ asset('build/images/undraw_cookie_love.png') }}" style="max-width:40%"/>
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-12 d-flex justify-content-around align-items-center mb-2">
+                        <h4>Historique d'aliments</h4>
+                        <img src="{{ asset('build/images/undraw_cookie_love.png') }}" style="max-width:40%"/>
+                    </div>
+                    <div class="col-12 text-center">
+                        <a class="btn btn-lg btn-bobo my-3"
+                           href="{{ path('add_user_food', { 'user' : app.user.id }) }}">Ajouter
+                            aliments</a>
+                    </div>
+                </div>
             </div>
             {% for key, foods in weeksWithFoods %}
                 {% set categoryWeek = loop.index %}
