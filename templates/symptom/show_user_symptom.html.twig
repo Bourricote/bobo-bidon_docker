@@ -3,9 +3,14 @@
 {% block body %}
 
     <div class="row justify-content-center">
-        <div class="col-lg-9 col-md-12">
-            {% if weeksWithSymptoms %}
-                {% for key, symptoms in weeksWithSymptoms %}
+
+        {% if weeksWithSymptoms %}
+            <div class="col-12 d-flex justify-content-around align-items-center mb-2">
+                <h4>Historique de symptômes</h4>
+                <img src="{{ asset('build/images/undraw_booked.png') }}" style="max-width:40%"/>
+            </div>
+            {% for key, symptoms in weeksWithSymptoms %}
+                <div class="col-12 col-lg-5">
                     <div class="card mb-2">
                         <div class="card-header bgPurpleMediumLight">
                             <h5>Semaine {{ key }}</h5>
@@ -21,11 +26,14 @@
                             {% endif %}
                         </div>
                     </div>
-                {% endfor %}
-            {% else %}
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="col-12 col-lg-5">
                 {% include '_diet_error.html.twig' %}
-            {% endif %}
-        </div>
+            </div>
+        {% endif %}
+
     </div>
 
 {% endblock %}

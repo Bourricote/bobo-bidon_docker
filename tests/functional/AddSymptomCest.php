@@ -29,7 +29,7 @@ class AddSymptomCest
         $I->checkOption('Douleurs abdominales');
         $I->checkOption('Ballonnements');
         $I->click('Ajouter');
-        $I->see('Vos changements ont été sauvegardés !');
+        $I->see('Symptômes sauvegardés !');
         $I->amOnPage('/symptom/showsymptom/' . $this->userId);
         $I->see('Douleurs abdominales le ' . date_format($date,'d/m/Y') . ' à 00:00');
         $I->see('Ballonnements le '. date_format($date,'d/m/Y') . ' à 00:00');

@@ -24,7 +24,7 @@ class GenericService
 
         for ($i = 0; $i < self::NB_WEEKS_DIET; $i++) {
             if ($i < 2) {
-                $labelWeeks[] = $i + 1 . '. -';
+                $labelWeeks[] = $i + 1 . '. Régime strict';
             }
             foreach ($categories as $category) {
                 if ($category->getDietWeek() === $i + 1) {

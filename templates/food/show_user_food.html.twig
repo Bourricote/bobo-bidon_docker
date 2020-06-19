@@ -3,10 +3,15 @@
 {% block body %}
 
     <div class="row justify-content-center">
-        <div class="col-lg-9 col-md-12">
-            {% if weeksWithFoods %}
-                {% for key, foods in weeksWithFoods %}
-                    {% set categoryWeek = loop.index %}
+
+        {% if weeksWithFoods %}
+            <div class="col-12 d-flex justify-content-around align-items-center mb-2">
+                <h4>Historique d'aliments</h4>
+                <img src="{{ asset('build/images/undraw_cookie_love.png') }}" style="max-width:40%"/>
+            </div>
+            {% for key, foods in weeksWithFoods %}
+                {% set categoryWeek = loop.index %}
+                <div class="col-12 col-lg-5">
                     <div class="card mb-2">
                         <div class="card-header bgPurpleMediumLight">
                             <h5>Semaine {{ key }}</h5>
@@ -30,12 +35,14 @@
                             {% endif %}
                         </div>
                     </div>
-                {% endfor %}
-            {% else %}
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="col-12 col-lg-5">
                 {% include '_diet_error.html.twig' %}
-            {% endif %}
+            </div>
+        {% endif %}
 
-        </div>
     </div>
 
 {% endblock %}
