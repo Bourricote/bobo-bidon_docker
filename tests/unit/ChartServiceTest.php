@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Entity\UserSymptom;
 use App\Repository\CategoryRepository;
 use App\Service\ChartService;
+use App\Service\UserService;
 use DateInterval;
 use DateTime;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -19,6 +20,7 @@ class ChartServiceTest extends \Codeception\Test\Unit
     private $user;
     private $symptom;
     private $categories;
+    private $userService;
     private $chartService;
     
     protected function _before()
@@ -61,9 +63,9 @@ class ChartServiceTest extends \Codeception\Test\Unit
             $this->categories[] = $category;
         }
 
-        // Create fake category repository to instantiate ChartService
-        $categoryRepository = $this->make(CategoryRepository::class);
-        $this->chartService = new ChartService($categoryRepository);
+        // Create UserService to instantiate ChartService
+        $this->userService = new UserService();
+        $this->chartService = new ChartService($this->userService );
     }
 
     protected function _after()
