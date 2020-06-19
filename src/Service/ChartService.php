@@ -58,21 +58,17 @@ class ChartService
 
         $userSymptoms = $user->getUserSymptoms();
 
-        $startDate = $user->getStartDate();
-        $startDateDays = clone $startDate;
-
-        $endDate = $user->getEndDate();
-
-        $nbDays = $startDateDays->diff($endDate)->days;
+        $dietDates = $this->userService->getUserDietDates($user);
+        $startDate = $dietDates['startDate'];
 
         $nbSymptomsPerDay = [];
 
         $labelsDays = [];
-        for ($i = 0; $i <= $nbDays; $i++) {
+        for ($i = 0; $i <= self::NB_DAYS_DIET; $i++) {
             if ( $i!= 0){
-                $newDate = $startDateDays->add(new DateInterval('P1D'));
+                $newDate = $startDate->add(new DateInterval('P1D'));
             } else {
-                $newDate = $startDateDays;
+                $newDate = $startDate;
             }
             $labelsDays[] = date_format($newDate, 'd/m/Y');
             $j = 0;
@@ -101,14 +97,14 @@ class ChartService
 
         $userSymptoms = $user->getUserSymptoms();
 
-        $startDate = $user->getStartDate();
-        $startDateWeeks = clone $startDate;
+        $dietDates = $this->userService->getUserDietDates($user);
+        $startDate = $dietDates['startDate'];
 
         $nbSymptomsPerWeek = [];
-        $oldDate = clone $startDateWeeks;
+        $oldDate = clone $startDate;
 
         for ($i = 0; $i < self::NB_WEEKS_DIET; $i++) {
-            $newDate = $startDateWeeks->add(new DateInterval('P7D'));
+            $newDate = $startDate->add(new DateInterval('P7D'));
                         $j = 0;
             foreach ($userSymptoms as $userSymptom) {
                 if ($userSymptom->getDate() >= $oldDate && $userSymptom->getDate() < $newDate) {
@@ -142,14 +138,14 @@ class ChartService
 
         $userSymptoms = $user->getUserSymptoms();
 
-        $startDate = $user->getStartDate();
-        $startDateWeeks = clone $startDate;
+        $dietDates = $this->userService->getUserDietDates($user);
+        $startDate = $dietDates['startDate'];
 
         $nbSymptomsPerWeek = [];
 
-        $oldDate = clone $startDateWeeks;
+        $oldDate = clone $startDate;
         for ($i = 0; $i <= self::NB_WEEKS_DIET; $i++) {
-            $newDate = $startDateWeeks->add(new DateInterval('P7D'));
+            $newDate = $startDate->add(new DateInterval('P7D'));
             $j = 0;
             foreach ($userSymptoms as $userSymptom) {
                 if ($userSymptom->getSymptom() === $symptom && $userSymptom->getDate() >= $oldDate && $userSymptom->getDate() < $newDate) {
@@ -172,7 +168,7 @@ class ChartService
     public function generateDataForDietWeeks(User $user, array $categories)
     {
         //Diet not started yet
-        if (!$user->getStartDate()) {
+        if (!$this->userService->userHasStartedDiet($user)) {
             return [
                 'weeks_data' => [0, self::NB_DAYS_DIET],
                 'message' => 'Vous n\'avez pas commencé votre régime !',
@@ -180,8 +176,11 @@ class ChartService
             ];
         }
 
+        $dietDates = $this->userService->getUserDietDates($user);
+        $startDate = $dietDates['startDate'];
+        $endDate = $dietDates['endDate'];
+
         //Diet ended
-        $endDate = $user->getEndDate();
         $today = new DateTime();
 
         if ($today >= $endDate) {
@@ -193,8 +192,6 @@ class ChartService
         }
 
         //Diet in progress
-        $startDate = $user->getStartDate();
-
         $daysDone = $startDate->diff($today)->days;
         $nbWeeksDone = (int)floor($daysDone / self::DAYS_PER_WEEK);
 
@@ -264,28 +261,13 @@ class ChartService
             return null;
         }
 
-        $startDate = $user->getStartDate();
-        $startDateWeeks = clone $startDate;
+        $dietDates = $this->userService->getUserDietDates($user);
+        $startDate = $dietDates['startDate'];
 
         $userSymptoms = $user->getUserSymptoms();
-
-        $oldDate = clone $startDate;
-
         $labelWeeks = $this->generateDietWeeksLabels($categories);
-        $weeksWithSymptoms = [];
 
-        foreach ($labelWeeks as $week) {
-            $weeksWithSymptoms[$week] = [];
-            $newDate = $startDateWeeks->add(new DateInterval('P7D'));
-            foreach ($userSymptoms as $userSymptom) {
-                if ($userSymptom->getDate() >= $oldDate && $userSymptom->getDate() < $newDate) {
-                    $weeksWithSymptoms[$week][] = $userSymptom;
-                }
-            }
-            $oldDate = clone $newDate;
-        }
-
-        return $weeksWithSymptoms;
+        return $this->associate($labelWeeks, $userSymptoms, $startDate);
     }
 
     /**
@@ -300,27 +282,31 @@ class ChartService
             return null;
         }
 
-        $startDate = $user->getStartDate();
-        $startDateWeeks = clone $startDate;
+        $dietDates = $this->userService->getUserDietDates($user);
+        $startDate = $dietDates['startDate'];
 
         $userFoods = $user->getUserFoods();
-
-        $oldDate = clone $startDate;
-
         $labelWeeks = $this->generateDietWeeksLabels($categories);
-        $weeksWithFoods = [];
+
+        return $this->associate($labelWeeks, $userFoods, $startDate);
+    }
+
+    public function associate(array $labelWeeks, $userData, DateTime $startDate)
+    {
+        $oldDate = clone $startDate;
+        $weeksWithData = [];
 
         foreach ($labelWeeks as $week) {
-            $weeksWithFoods[$week] = [];
-            $newDate = $startDateWeeks->add(new DateInterval('P7D'));
-            foreach ($userFoods as $userFood) {
-                if ($userFood->getDate() >= $oldDate && $userFood->getDate() < $newDate) {
-                    $weeksWithFoods[$week][] = $userFood;
+            $weeksWithData[$week] = [];
+            $newDate = $startDate->add(new DateInterval('P7D'));
+            foreach ($userData as $userDatum) {
+                if ($userDatum->getDate() >= $oldDate && $userDatum->getDate() < $newDate) {
+                    $weeksWithData[$week][] = $userDatum;
                 }
             }
             $oldDate = clone $newDate;
         }
 
-        return $weeksWithFoods;
+        return $weeksWithData;
     }
 }

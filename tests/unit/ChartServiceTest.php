@@ -20,7 +20,6 @@ class ChartServiceTest extends \Codeception\Test\Unit
     private $user;
     private $symptom;
     private $categories;
-    private $userService;
     private $chartService;
     
     protected function _before()
@@ -53,7 +52,7 @@ class ChartServiceTest extends \Codeception\Test\Unit
 
         // Check number of symptoms for user
         $userSymptoms = $this->user->getUserSymptoms();
-        $this->assertEquals(3, count($userSymptoms));
+        $this->assertCount(3, $userSymptoms);
 
         // Create categories and put them in an array
         for ($i = 3; $i <= 8; $i++) {
@@ -64,8 +63,8 @@ class ChartServiceTest extends \Codeception\Test\Unit
         }
 
         // Create UserService to instantiate ChartService
-        $this->userService = new UserService();
-        $this->chartService = new ChartService($this->userService );
+        $userService = new UserService();
+        $this->chartService = new ChartService($userService);
     }
 
     protected function _after()
