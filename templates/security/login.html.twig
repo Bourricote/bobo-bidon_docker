@@ -5,6 +5,7 @@
         <div class="fodmap">
             <div class="emptyUseful"></div>
             <div class="container text-center">
+                <h1 class="mb-3 textPurpleBasic ">Bobo-bidon</h1>
                 <form method="post">
                     {% if error %}
                         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
@@ -17,8 +18,7 @@
                         </div>
                     {% endif %}
 
-
-                    <h1 class="h3 mb-3 font-weight-normal">Connectez-vous ! </h1>
+                    <h1 class="h4 mb-3 font-weight-normal">Connectez-vous ! </h1>
                     <div class="d-flex flex-column align-items-center">
                         <div>
                             <label for="inputEmail">Email</label>
@@ -26,7 +26,7 @@
                                    class="form-control"
                                    required autofocus>
                         </div>
-                        <div class="mt-5">
+                        <div class="mt-4">
                             <label for="inputPassword">Mot de passe</label>
                             <input type="password" name="password" id="inputPassword" class="form-control " required>
 
@@ -35,17 +35,17 @@
                         </div>
                     </div>
 
-                    <div class="checkbox mt-5">
+                    {#<div class="checkbox mt-4">
                         <label>
                             <input type="checkbox" name="_remember_me"> Se souvenir de moi
                         </label>
-                    </div>
-                    <button class="btn btn-lg btn-bobo" type="submit">
+                    </div>#}
+                    <button class="btn btn-lg btn-bobo mt-4" type="submit">
                         Connexion
                     </button>
                 </form>
 
-                <p class="mt-5">Pas encore inscrit-e ?</p>
+                <p class="mt-4">Pas encore inscrit-e ?</p>
                     <div>
                         <a href="{{ path('app_register') }}">Créez un compte</a>
                     </div>
