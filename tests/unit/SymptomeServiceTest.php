@@ -5,14 +5,15 @@ use App\Entity\Symptom;
 use App\Entity\User;
 use App\Entity\UserSymptom;
 use App\Repository\CategoryRepository;
-use App\Service\ChartService;
+use App\Service\SymptomService;
+use App\Service\GenericService;
 use App\Service\UserService;
 use DateInterval;
 use DateTime;
 use DateTimeImmutable;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
-class ChartServiceTest extends \Codeception\Test\Unit
+class SymptomeServiceTest extends \Codeception\Test\Unit
 {
     /**
      * @var UnitTester
@@ -74,9 +75,10 @@ class ChartServiceTest extends \Codeception\Test\Unit
             $this->categories[] = $category;
         }
 
-        // Create UserService to instantiate ChartService
+        // Create UserService and GenericService to instantiate SymptomService
         $userService = new UserService();
-        $this->chartService = new ChartService($userService);
+        $genericService = new GenericService();
+        $this->chartService = new SymptomService($userService, $genericService);
     }
 
     protected function _after()

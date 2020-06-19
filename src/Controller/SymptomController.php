@@ -53,7 +53,7 @@ class SymptomController extends AbstractController
             $entityManager->flush();
             $this->addFlash(
                 'primary',
-                'Vos changements ont été sauvegardés !'
+                'Symptômes sauvegardés !'
             );
 
             return $this->redirectToRoute('charts', ['user' => $user->getId()]);

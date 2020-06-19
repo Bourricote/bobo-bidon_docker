@@ -86,7 +86,7 @@ class FoodController extends AbstractController
             $entityManager->flush();
             $this->addFlash(
                 'primary',
-                'Vos changements ont été sauvegardés !'
+                'Aliments sauvegardés !'
             );
 
             return $this->redirectToRoute('food_index_user');
