@@ -11,7 +11,8 @@ use App\Form\FoodSearchType;
 use App\Form\FoodType;
 use App\Repository\CategoryRepository;
 use App\Repository\FoodRepository;
-use App\Service\ChartService;
+use App\Service\FoodService;
+use App\Service\SymptomService;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -99,15 +100,15 @@ class FoodController extends AbstractController
     /**
      * @Route("/showfood/{user}", name="show_user_food", methods={"GET"})
      * @param User $user
-     * @param ChartService $chartService
+     * @param FoodService $foodService
      * @param CategoryRepository $categoryRepository
      * @return Response
      */
-    public function showUserFoods(User $user, ChartService $chartService, CategoryRepository $categoryRepository): Response
+    public function showUserFoods(User $user, FoodService $foodService, CategoryRepository $categoryRepository): Response
     {
         $categories = $categoryRepository->findAll();
 
-        $weeksWithFoods = $chartService->associateFoodsToDietWeeks($user, $categories);
+        $weeksWithFoods = $foodService->associateFoodsToDietWeeks($user, $categories);
 
         return $this->render('food/show_user_food.html.twig', [
             'weeksWithFoods' => $weeksWithFoods,

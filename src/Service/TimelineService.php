@@ -9,6 +9,15 @@ use DateTime;
 
 class TimelineService
 {
+    private $userService;
+    private $genericService;
+
+    public function __construct(UserService $userService, GenericService $genericService)
+    {
+        $this->userService = $userService;
+        $this->genericService = $genericService;
+    }
+
     /**
      * Generate weeks array for timeline
      * @param array $categories
@@ -50,22 +59,20 @@ class TimelineService
     public function generateTimeline(User $user, array $categories)
     {
         //Diet not started yet
-        if (!$user->getStartDate()) {
+        if (!$this->userService->userHasStartedDiet($user)) {
             $nbWeeksDone =  -1;
         } else {
             //Diet ended
-            $endDate = $user->getEndDate();
+            $dietDates = $this->userService->getUserDietDates($user);
+            $endDate = $dietDates['endDate'];
             $today = new DateTime();
-
             if ($today >= $endDate) {
-                $nbWeeksDone = ChartService::NB_WEEKS_DIET;
+                $nbWeeksDone = $this->genericService::NB_WEEKS_DIET;
             } else {
                 //Diet in progress
-                $startDate = $user->getStartDate();
-                $today = new DateTime();
-
+                $startDate = $dietDates['startDate'];
                 $daysDone = $startDate->diff($today)->days;
-                $nbWeeksDone = (int)floor($daysDone / ChartService::DAYS_PER_WEEK);
+                $nbWeeksDone = (int)floor($daysDone / $this->genericService::DAYS_PER_WEEK);
             }
         }
 

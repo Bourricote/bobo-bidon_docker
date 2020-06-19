@@ -7,7 +7,7 @@ use App\Form\UserType;
 use App\Repository\CategoryRepository;
 use App\Repository\SymptomRepository;
 use App\Repository\UserRepository;
-use App\Service\ChartService;
+use App\Service\SymptomService;
 use App\Service\TimelineService;
 use DateInterval;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -48,19 +48,19 @@ class UserController extends AbstractController
     /**
      * @Route("/charts/{user}", name="charts", methods={"GET"})
      * @param User $user
-     * @param ChartService $chartService
+     * @param SymptomService $symptomService
      * @return Response
      */
-    public function userCharts(User $user, ChartService $chartService): Response
+    public function userCharts(User $user, SymptomService $symptomService): Response
     {
         $allSymptoms = $this->symptomRepository->findAll();
         $categories = $this->categoryRepository->findAll();
 
-        $dataDaysChart = $chartService->generateDataPerDay($user);
+        $dataDaysChart = $symptomService->generateDataPerDay($user);
         $labelsDays = $dataDaysChart['labelDays'];
         $nbSymptomsPerDay = $dataDaysChart['nbSymptomsPerDay'];
 
-        $dataWeeksChart = $chartService->generateDataPerWeek($user, $categories);
+        $dataWeeksChart = $symptomService->generateDataPerWeek($user, $categories);
         $labelWeeks = $dataWeeksChart['labelWeeks'];
         $nbSymptomsPerWeek = $dataWeeksChart['nbSymptomsPerWeek'];
 
@@ -75,10 +75,10 @@ class UserController extends AbstractController
 
     /**
      * @Route("/charts/symptom", name="chart_symptom", methods={"GET", "POST"})
-     * @param ChartService $chartService
+     * @param SymptomService $symptomService
      * @return Response
      */
-    public function userChartPerSymptom(ChartService $chartService): Response
+    public function userChartPerSymptom(SymptomService $symptomService): Response
     {
         $user = $this->getUser();
 
@@ -87,7 +87,7 @@ class UserController extends AbstractController
         $symptomId = $obj->symptom;
         $symptom = $this->symptomRepository->findOneBy(['id' => $symptomId]);
 
-        $dataWeeksChart = $chartService->generateDataPerWeekPerSymptom($user, $symptom);
+        $dataWeeksChart = $symptomService->generateDataPerWeekPerSymptom($user, $symptom);
         $nbSymptomsPerWeek = $dataWeeksChart['nbSymptomsPerWeek'];
 
         return $this->json([

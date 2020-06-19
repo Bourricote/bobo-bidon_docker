@@ -9,40 +9,15 @@ use App\Entity\User;
 use DateInterval;
 use DateTime;
 
-class ChartService
+class SymptomService
 {
-    const DAYS_PER_WEEK = 7;
-    const NB_WEEKS_DIET = 8;
-    const NB_DAYS_DIET = self::NB_WEEKS_DIET * 7;
-
     private $userService;
+    private $genericService;
 
-    public function __construct(UserService $userService)
+    public function __construct(UserService $userService, GenericService $genericService)
     {
         $this->userService = $userService;
-    }
-
-    /**
-     * Gives array of all diet weeks with category label when necessary
-     * @param array $categories
-     * @return float[]|int[]
-     */
-    public function generateDietWeeksLabels(array $categories)
-    {
-        $labelWeeks = [];
-
-        for ($i = 0; $i < self::NB_WEEKS_DIET; $i++) {
-            if ($i < 2) {
-                $labelWeeks[] = $i + 1 . '. -';
-            }
-            foreach ($categories as $category) {
-                if ($category->getDietWeek() === $i + 1) {
-                    $labelWeeks[] = $i + 1 . '. ' . $category->getName();
-                }
-            }
-        }
-
-        return $labelWeeks;
+        $this->genericService = $genericService;
     }
 
     /**
@@ -64,7 +39,7 @@ class ChartService
         $nbSymptomsPerDay = [];
 
         $labelsDays = [];
-        for ($i = 0; $i <= self::NB_DAYS_DIET; $i++) {
+        for ($i = 0; $i <= $this->genericService::NB_DAYS_DIET; $i++) {
             if ( $i!= 0){
                 $newDate = $startDate->add(new DateInterval('P1D'));
             } else {
@@ -103,7 +78,7 @@ class ChartService
         $nbSymptomsPerWeek = [];
         $oldDate = clone $startDate;
 
-        for ($i = 0; $i < self::NB_WEEKS_DIET; $i++) {
+        for ($i = 0; $i < $this->genericService::NB_WEEKS_DIET; $i++) {
             $newDate = $startDate->add(new DateInterval('P7D'));
                         $j = 0;
             foreach ($userSymptoms as $userSymptom) {
@@ -115,7 +90,7 @@ class ChartService
             $oldDate = clone $newDate;
         }
 
-        $labelWeeks = $this->generateDietWeeksLabels($categories);
+        $labelWeeks = $this->genericService->generateDietWeeksLabels($categories);
 
         if (count($labelWeeks) !== count($nbSymptomsPerWeek)) {
             return null;
@@ -144,7 +119,7 @@ class ChartService
         $nbSymptomsPerWeek = [];
 
         $oldDate = clone $startDate;
-        for ($i = 0; $i <= self::NB_WEEKS_DIET; $i++) {
+        for ($i = 0; $i <= $this->genericService::NB_WEEKS_DIET; $i++) {
             $newDate = $startDate->add(new DateInterval('P7D'));
             $j = 0;
             foreach ($userSymptoms as $userSymptom) {
@@ -170,7 +145,7 @@ class ChartService
         //Diet not started yet
         if (!$this->userService->userHasStartedDiet($user)) {
             return [
-                'weeks_data' => [0, self::NB_DAYS_DIET],
+                'weeks_data' => [0, $this->genericService::NB_DAYS_DIET],
                 'message' => 'Vous n\'avez pas commencé votre régime !',
                 'category' => null
             ];
@@ -185,7 +160,7 @@ class ChartService
 
         if ($today >= $endDate) {
             return [
-                'weeks_data' => [self::NB_DAYS_DIET, 0],
+                'weeks_data' => [$this->genericService::NB_DAYS_DIET, 0],
                 'message' => 'Vous avez fini votre régime !',
                 'category' => null
             ];
@@ -193,9 +168,9 @@ class ChartService
 
         //Diet in progress
         $daysDone = $startDate->diff($today)->days;
-        $nbWeeksDone = (int)floor($daysDone / self::DAYS_PER_WEEK);
+        $nbWeeksDone = (int)floor($daysDone / $this->genericService::DAYS_PER_WEEK);
 
-        $daysLeft = (self::NB_DAYS_DIET) - $daysDone;
+        $daysLeft = ($this->genericService::NB_DAYS_DIET) - $daysDone;
         $message = 'Vous êtes à la semaine ' . ($nbWeeksDone + 1) . ' de votre régime !';
 
         $currentCategory = null;
@@ -253,7 +228,7 @@ class ChartService
      * Returns array of diet weeks with associated symptoms
      * @param User $user
      * @param array $categories
-     * @return float[]|int[]
+     * @return array[]|null
      */
     public function associateSymptomsToDietWeeks(User $user, array $categories)
     {
@@ -265,48 +240,9 @@ class ChartService
         $startDate = $dietDates['startDate'];
 
         $userSymptoms = $user->getUserSymptoms();
-        $labelWeeks = $this->generateDietWeeksLabels($categories);
+        $labelWeeks = $this->genericService->generateDietWeeksLabels($categories);
 
-        return $this->associate($labelWeeks, $userSymptoms, $startDate);
+        return $this->genericService->associate($labelWeeks, $userSymptoms, $startDate);
     }
 
-    /**
-     * Returns array of diet weeks with associated foods
-     * @param User $user
-     * @param array $categories
-     * @return float[]|int[]
-     */
-    public function associateFoodsToDietWeeks(User $user, array $categories)
-    {
-        if (!$this->userService->userHasStartedDiet($user)) {
-            return null;
-        }
-
-        $dietDates = $this->userService->getUserDietDates($user);
-        $startDate = $dietDates['startDate'];
-
-        $userFoods = $user->getUserFoods();
-        $labelWeeks = $this->generateDietWeeksLabels($categories);
-
-        return $this->associate($labelWeeks, $userFoods, $startDate);
-    }
-
-    public function associate(array $labelWeeks, $userData, DateTime $startDate)
-    {
-        $oldDate = clone $startDate;
-        $weeksWithData = [];
-
-        foreach ($labelWeeks as $week) {
-            $weeksWithData[$week] = [];
-            $newDate = $startDate->add(new DateInterval('P7D'));
-            foreach ($userData as $userDatum) {
-                if ($userDatum->getDate() >= $oldDate && $userDatum->getDate() < $newDate) {
-                    $weeksWithData[$week][] = $userDatum;
-                }
-            }
-            $oldDate = clone $newDate;
-        }
-
-        return $weeksWithData;
-    }
 }
