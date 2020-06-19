@@ -3,8 +3,10 @@
 {% block body %}
     {% if nb_symptoms_per_week %}
         <div class="text-center mb-2">
-            <a class="btn btn-lg btn-bobo" href="{{ path('add_user_symptom', {'user' : app.user.id}) }}">Ajouter un
+            <a class="btn btn-lg btn-bobo mb-2" href="{{ path('add_user_symptom', {'user' : app.user.id}) }}">Ajouter un
                 symptôme</a>
+            <img src="{{ asset('build/images/undraw_medicine.png') }}" style="max-width:50%"/>
+
         </div>
 
         <div class="accordion" id="accordionCharts">
