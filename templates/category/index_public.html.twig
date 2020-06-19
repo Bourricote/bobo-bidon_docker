@@ -10,13 +10,15 @@
                 <h3>Catégories d'aliments</h3>
             </div>
             {% for category in categories %}
+
                 <div class="col-4 col-lg-3 p-1 categoryCol">
-                    <div class="btn categoryButton d-flex justify-content-center align-items-center">
-                        <a  href="{{ path('category_public', {'id' : category.id}) }}">
+                    <a href="{{ path('category_public', {'id' : category.id}) }}">
+                        <div class="btn categoryButton d-flex justify-content-center align-items-center textPurpleBasic">
                             {{ category.name }}
-                        </a>
-                    </div>
+                        </div>
+                    </a>
                 </div>
+
             {% endfor %}
         </div>
         <img src="{{ asset('build/images/undraw_diet.png') }}" style="max-width:50%" class="mt-3"/>
