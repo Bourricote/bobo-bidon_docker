@@ -24,7 +24,7 @@ class SymptomeServiceTest extends \Codeception\Test\Unit
     private $userDietEnded;
     private $symptom;
     private $categories;
-    private $chartService;
+    private $symptomService;
     
     protected function _before()
     {
@@ -78,7 +78,7 @@ class SymptomeServiceTest extends \Codeception\Test\Unit
         // Create UserService and GenericService to instantiate SymptomService
         $userService = new UserService();
         $genericService = new GenericService();
-        $this->chartService = new SymptomService($userService, $genericService);
+        $this->symptomService = new SymptomService($userService, $genericService);
     }
 
     protected function _after()
@@ -89,56 +89,56 @@ class SymptomeServiceTest extends \Codeception\Test\Unit
     public function testGenerateDataPerDay()
     {
         // test for userDietInProgress
-        $data = $this->chartService->generateDataPerDay($this->userDietInProgress);
+        $data = $this->symptomService->generateDataPerDay($this->userDietInProgress);
         $this->assertEquals(date_format(new DateTime(), 'd/m/Y'), $data['labelDays'][0]);
         $this->assertEquals(2, $data['nbSymptomsPerDay'][0]);
 
         // test for userDietNotStarted
-        $data = $this->chartService->generateDataPerDay($this->userDietNotStarted);
+        $data = $this->symptomService->generateDataPerDay($this->userDietNotStarted);
         $this->assertEquals(null, $data);
     }
 
     public function testGenerateDataPerWeek()
     {
         // test for userDietInProgress
-        $data = $this->chartService->generateDataPerWeek($this->userDietInProgress, $this->categories);
+        $data = $this->symptomService->generateDataPerWeek($this->userDietInProgress, $this->categories);
         $this->assertEquals('3. Les Trucs 3', $data['labelWeeks'][2]);
         $this->assertEquals(2, $data['nbSymptomsPerWeek'][0]);
 
         // test for userDietNotStarted
-        $data = $this->chartService->generateDataPerWeek($this->userDietNotStarted, $this->categories);
+        $data = $this->symptomService->generateDataPerWeek($this->userDietNotStarted, $this->categories);
         $this->assertEquals(null, $data);
     }
 
     public function testGenerateDataPerWeekPerSymptom()
     {
         // test for userDietInProgress
-        $data = $this->chartService->generateDataPerWeekPerSymptom($this->userDietInProgress, $this->symptom);
+        $data = $this->symptomService->generateDataPerWeekPerSymptom($this->userDietInProgress, $this->symptom);
         $this->assertEquals(2, $data['nbSymptomsPerWeek'][0]);
 
         // test for userDietNotStarted
-        $data = $this->chartService->generateDataPerWeekPerSymptom($this->userDietNotStarted, $this->symptom);
+        $data = $this->symptomService->generateDataPerWeekPerSymptom($this->userDietNotStarted, $this->symptom);
         $this->assertEquals(null, $data);
     }
 
     public function testGenerateDataForDietWeeks()
     {
         // test for userDietInProgress
-        $data1 = $this->chartService->generateDataForDietWeeks($this->userDietInProgress, $this->categories);
+        $data1 = $this->symptomService->generateDataForDietWeeks($this->userDietInProgress, $this->categories);
         $this->assertEquals(0, $data1['weeks_data'][0]);
         $this->assertEquals(56, $data1['weeks_data'][1]);
         $this->assertEquals('Vous êtes à la semaine 1 de votre régime !', $data1['message']);
         $this->assertEquals(null, $data1['category']);
 
         // test for userDietNotStarted
-        $data2 = $this->chartService->generateDataForDietWeeks($this->userDietNotStarted, $this->categories);
+        $data2 = $this->symptomService->generateDataForDietWeeks($this->userDietNotStarted, $this->categories);
         $this->assertEquals(0, $data2['weeks_data'][0]);
         $this->assertEquals(56, $data2['weeks_data'][1]);
         $this->assertEquals('Vous n\'avez pas commencé votre régime !', $data2['message']);
         $this->assertEquals(null, $data2['category']);
 
         // test for userDietEnded
-        $data3 = $this->chartService->generateDataForDietWeeks($this->userDietEnded, $this->categories);
+        $data3 = $this->symptomService->generateDataForDietWeeks($this->userDietEnded, $this->categories);
         $this->assertEquals(56, $data3['weeks_data'][0]);
         $this->assertEquals(0, $data3['weeks_data'][1]);
         $this->assertEquals('Vous avez fini votre régime !', $data3['message']);
@@ -148,13 +148,13 @@ class SymptomeServiceTest extends \Codeception\Test\Unit
     public function testGenerateDataForCategories()
     {
         // test for userDietInProgress
-        $data = $this->chartService->generateDataForCategories($this->userDietInProgress, $this->categories);
+        $data = $this->symptomService->generateDataForCategories($this->userDietInProgress, $this->categories);
         $this->assertEquals('Les Trucs 3', $data['categories_labels'][0]);
         $this->assertEquals(1, $data['nbSymptomsPerWeek'][0]);
         $this->assertEquals('Les Trucs 3', $data['worst_category']->getName());
 
         // test for userDietNotStarted
-        $data = $this->chartService->generateDataForCategories($this->userDietNotStarted, $this->categories);
+        $data = $this->symptomService->generateDataForCategories($this->userDietNotStarted, $this->categories);
         $this->assertEquals(null, $data);
     }
 }
