@@ -20,14 +20,14 @@
 
             {{ form_row(form.food) }}
 
-            <button type="button" id="add_food_link" class="btn bgPurpleBasic text-white mb-2">+</button>
+            <button type="button" id="add_food_link" class="btn bgPurpleBasic text-white mb-2">Ajouter à la liste</button>
 
             <div class="foods" data-prototype="{{ form_widget(form.foods.vars.prototype)|e('html_attr') }}">
                 {% for food in form.foods %}
                     <p>{{ form_row(food.name) }}</p>
                 {% endfor %}
             </div>
-            <button class="btn btn-lg btn-bobo mt-2">{{ button_label|default('Ajouter') }}</button>
+            <button class="btn btn-lg btn-bobo mt-2">{{ button_label|default('Enregistrer') }}</button>
             {{ form_end(form) }}
         </div>
     </div>
