@@ -15,6 +15,7 @@ class SigninCest
         $I->fillField('password','password');
         $I->click('Connexion');
         $I->see('Bobo-Bidon');
+        $I->see('Bonjour Anne !');
         $I->see('Mon profil');
     }
 

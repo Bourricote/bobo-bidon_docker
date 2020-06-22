@@ -16,6 +16,7 @@ class LoginCest
         $I->fillField('password','password');
         $I->click('Connexion');
         $I->see('Bobo-bidon');
+        $I->see('Bonjour Anne !');
         $I->see('Gestion');
 
         // Sign out
