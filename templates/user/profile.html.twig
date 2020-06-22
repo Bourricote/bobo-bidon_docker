@@ -26,23 +26,19 @@
                                 <strong>{{ user.startDate ? user.startDate|date('d/m/Y') : '' }}</strong></p>
                             <p>Fin du régime le : <strong>{{ user.endDate ? user.endDate|date('d/m/Y') : '' }}</strong>
                             </p>
-
-                            {% if user.id == app.user.id %}
-                                <div>
-                                    <a href="{{ path('edit_profile', {'user' : user.id}) }}">Modifier mon profil</a>
-                                </div>
-                                <div>
-                                    <a href="{{ path('reset_password', {'user' : user.id}) }}">Modifier mon mot de
-                                        passe</a>
-                                </div>
-                            {% endif %}
                         </div>
                     </div>
-                    <div class="card-footer">
-                        <a href="{{ path('show_user_symptom', {'user' : user.id}) }}">Historique de symptômes </a>
-                        <a href="{{ path('show_user_food', {'user' : user.id}) }}">Historique d'aliments </a>
-
-                    </div>
+                    {% if user.id == app.user.id %}
+                        <div class="card-footer">
+                            <div>
+                                <a href="{{ path('edit_profile', {'user' : user.id}) }}">Modifier mon profil</a>
+                            </div>
+                            <div>
+                                <a href="{{ path('reset_password', {'user' : user.id}) }}">Modifier mon mot de
+                                    passe</a>
+                            </div>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
