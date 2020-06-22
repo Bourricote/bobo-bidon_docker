@@ -9,14 +9,18 @@
               href="{{ asset('build/images/balloon.png') }}">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css"
               integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
+
+        {{ encore_entry_link_tags('app') }}
+
         {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
         {% endblock %}
     </head>
     <body>
     {% block main %}{% endblock %}
+
+    {{ encore_entry_script_tags('app') }}
+
     {% block javascripts %}
-        {{ encore_entry_script_tags('app') }}
     {% endblock %}
     </body>
 

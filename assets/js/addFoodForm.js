@@ -1,8 +1,6 @@
 // Dynamic food select //
 
 let $category = $('#add_foods_category');
-let $loader = $('#loader');
-console.log($loader);
 // When category gets selected ...
 $category.change(function() {
     $('#loader').show();
