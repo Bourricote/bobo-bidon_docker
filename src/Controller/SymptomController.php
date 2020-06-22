@@ -71,7 +71,7 @@ class SymptomController extends AbstractController
      * @param CategoryRepository $categoryRepository
      * @return Response
      */
-    public function showUserSymptoms(User $user, SymptomService $symptomService, CategoryRepository $categoryRepository): Response
+    public function showUserSymptomsHistory(User $user, SymptomService $symptomService, CategoryRepository $categoryRepository): Response
     {
         $categories = $categoryRepository->findAll();
 

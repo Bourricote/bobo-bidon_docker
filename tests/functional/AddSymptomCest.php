@@ -23,7 +23,7 @@ class AddSymptomCest
 
         // Go to form to add symptoms
         $I->amOnPage('/symptom/addsymptom/' . $this->userId);
-        $I->see('Ajouter vos Symptômes');
+        $I->see('Ajoutez vos Symptômes');
         $date = new DateTime();
         $I->fillField('Date', date_format($date, 'Y-m-d'));
         $I->checkOption('Douleurs abdominales');

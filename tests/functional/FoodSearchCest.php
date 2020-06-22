@@ -10,8 +10,7 @@ class FoodSearchCest
         $I->fillField('password','coucou');
         $I->click('Connexion');
         $I->see('Bobo-bidon');
-        $I->see('Aliments');
-        $I->click('Aliments');
+        $I->amOnPage('/food/');
     }
 
     // tests

@@ -89,7 +89,7 @@ class FoodController extends AbstractController
                 'Aliments sauvegardés !'
             );
 
-            return $this->redirectToRoute('food_index_user');
+            return $this->redirectToRoute('show_user_food', ['user' => $user->getId()]);
         }
 
         return $this->render('food/add_user_food.html.twig', [
@@ -104,7 +104,7 @@ class FoodController extends AbstractController
      * @param CategoryRepository $categoryRepository
      * @return Response
      */
-    public function showUserFoods(User $user, FoodService $foodService, CategoryRepository $categoryRepository): Response
+    public function showUserFoodsHistory(User $user, FoodService $foodService, CategoryRepository $categoryRepository): Response
     {
         $categories = $categoryRepository->findAll();
 
