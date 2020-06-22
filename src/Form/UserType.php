@@ -47,14 +47,14 @@ class UserType extends AbstractType
                     'class' => ' form-control mb-2'
                 ]
             ])
-            ->add('endDate', DateType::class, [
+            /*->add('endDate', DateType::class, [
                 'widget'    => 'single_text',
                 'label'     => 'Date de fin de régime ',
                 'required'  => false,
                 'attr'      => [
                     'class' => ' form-control mb-2'
                 ]
-            ])
+            ])*/
             ->add('age', TextType::class, [
                 'label' => 'Age',
                 'attr'  => [
