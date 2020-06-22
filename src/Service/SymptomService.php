@@ -145,7 +145,7 @@ class SymptomService
         //Diet not started yet
         if (!$this->userService->userHasStartedDiet($user)) {
             return [
-                'weeks_data' => [0, $this->genericService::NB_DAYS_DIET],
+                'days_data' => [0, $this->genericService::NB_DAYS_DIET ],
                 'message' => 'Vous n\'avez pas commencé votre régime !',
                 'category' => null
             ];
@@ -160,7 +160,7 @@ class SymptomService
 
         if ($today >= $endDate) {
             return [
-                'weeks_data' => [$this->genericService::NB_DAYS_DIET, 0],
+                'days_data' => [$this->genericService::NB_DAYS_DIET , 0],
                 'message' => 'Vous avez fini votre régime !',
                 'category' => null
             ];
@@ -181,7 +181,7 @@ class SymptomService
         }
 
         return [
-            'weeks_data' => [$daysDone, $daysLeft],
+            'days_data' => [$daysDone, $daysLeft],
             'message' => $message,
             'category' => $currentCategory,
             ];

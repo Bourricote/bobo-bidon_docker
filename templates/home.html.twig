@@ -12,9 +12,9 @@
         <div class="card mb-3">
             <div class="card-body">
                 <canvas id="dietProgression"
-                        data-week-length="{{ dashboard1.weeks_data|length }}"
-                        {% for data_week in dashboard1.weeks_data %}
-                            data-week-{{ loop.index }} ="{{ data_week }}"
+                        data-days-length="{{ dashboard1.days_data|length }}"
+                        {% for data_days in dashboard1.days_data %}
+                            data-days-{{ loop.index }} ="{{ data_days }}"
                         {% endfor %}
                 ></canvas>
             </div>
