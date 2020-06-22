@@ -102,6 +102,10 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
         } elseif ($route === 'app_register') {
             $user = $this->entityManager->getRepository(User::class)
                 ->findOneBy(['email' => ($request->get('registration_form')['email'])]);
+            // Register route in session for redirection after setStartDate
+            $session = $request->getSession();
+            $routeName = $request->attributes->get('_route');
+            $session->set('fromRegistration', $routeName);
         }
 
         return new RedirectResponse($this->urlGenerator->generate('home', ['user' => $user->getId()]));

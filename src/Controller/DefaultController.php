@@ -9,6 +9,7 @@ use App\Service\SymptomService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends AbstractController
 {
@@ -17,9 +18,15 @@ class DefaultController extends AbstractController
      * @param User $user
      * @param SymptomService $chartService
      * @param CategoryRepository $categoryRepository
+     * @param Request $request
      * @return Response
      */
-    public function index(User $user, SymptomService $chartService, CategoryRepository $categoryRepository): Response
+    public function home(
+        User $user,
+        SymptomService $chartService,
+        CategoryRepository $categoryRepository,
+        Request $request
+    ): Response
     {
         $categories = $categoryRepository->findAll();
 
@@ -29,9 +36,16 @@ class DefaultController extends AbstractController
         // Second dashboard card: worst category
         $dashboard2 = $chartService->generateDataForCategories($user, $categories);
 
+        // Boolean to know if First connection modal should show
+        $fromRegistration = false;
+        if ($request->getSession()->get('fromRegistration')) {
+            $fromRegistration = true;
+        }
+
         return $this->render('home.html.twig', [
             'dashboard1' => $dashboard1,
             'dashboard2' => $dashboard2,
+            'fromRegistration' => $fromRegistration
         ]);
     }
 

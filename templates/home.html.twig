@@ -45,9 +45,32 @@
     {% endif %}
 </div>
 
+    {% if fromRegistration %}
+    <!-- Modal -->
+    <div class="modal fade" id="homeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content text-center">
+                <div class="modal-header">
+                    <h5 class="modal-title">Bienvenue sur bobo-bidon !</h5>
+                </div>
+                <div class="modal-body">
+                    <img src="{{ asset('build/images/undraw_balloons.png') }}" style="max-width:80%"/>
+                </div>
+                <div class="modal-footer">
+                    <p>Si vous ne l'avez pas encore fait, pensez à renseigner la date de début de votre régime sur votre profil !</p>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">C'est fait !</button>
+                    <a class="btn btn-bobo"
+                       href="{{ path('profile', {'user' : app.user.id}) }}">Mon profil</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
 {% endblock %}
 
 {% block javascripts %}
     {{ encore_entry_script_tags('app') }}
+    {{ encore_entry_script_tags('homeModal') }}
     {{ encore_entry_script_tags('dashboard') }}
 {% endblock %}
