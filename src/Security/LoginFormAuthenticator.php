@@ -104,8 +104,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
                 ->findOneBy(['email' => ($request->get('registration_form')['email'])]);
             // Register route in session for redirection after setStartDate
             $session = $request->getSession();
-            $routeName = $request->attributes->get('_route');
-            $session->set('fromRegistration', $routeName);
+            $session->set('fromRegistration', true);
         }
 
         return new RedirectResponse($this->urlGenerator->generate('home', ['user' => $user->getId()]));

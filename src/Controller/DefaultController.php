@@ -40,6 +40,8 @@ class DefaultController extends AbstractController
         $fromRegistration = false;
         if ($request->getSession()->get('fromRegistration')) {
             $fromRegistration = true;
+            $session = $request->getSession();
+            $session->set('fromRegistration', false);
         }
 
         return $this->render('home.html.twig', [
