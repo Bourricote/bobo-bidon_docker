@@ -102,13 +102,24 @@ class FoodController extends AbstractController
      * @param User $user
      * @param FoodService $foodService
      * @param CategoryRepository $categoryRepository
+     * @param Request $request
      * @return Response
      */
-    public function showUserFoodsHistory(User $user, FoodService $foodService, CategoryRepository $categoryRepository): Response
+    public function showUserFoodsHistory(
+        User $user,
+        FoodService $foodService,
+        CategoryRepository $categoryRepository,
+        Request $request
+    ): Response
     {
         $categories = $categoryRepository->findAll();
 
         $weeksWithFoods = $foodService->associateFoodsToDietWeeks($user, $categories);
+
+        // Register route in session for redirection after setStartDate
+        $session = $request->getSession();
+        $routeName = $request->attributes->get('_route');
+        $session->set('from', $routeName);
 
         return $this->render('food/show_user_food.html.twig', [
             'weeksWithFoods' => $weeksWithFoods,

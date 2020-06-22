@@ -69,13 +69,24 @@ class SymptomController extends AbstractController
      * @param User $user
      * @param SymptomService $symptomService
      * @param CategoryRepository $categoryRepository
+     * @param Request $request
      * @return Response
      */
-    public function showUserSymptomsHistory(User $user, SymptomService $symptomService, CategoryRepository $categoryRepository): Response
+    public function showUserSymptomsHistory(
+        User $user,
+        SymptomService $symptomService,
+        CategoryRepository $categoryRepository,
+        Request $request
+    ): Response
     {
         $categories = $categoryRepository->findAll();
 
         $weeksWithSymptoms = $symptomService->associateSymptomsToDietWeeks($user, $categories);
+
+        // Register route in session for redirection after setStartDate
+        $session = $request->getSession();
+        $routeName = $request->attributes->get('_route');
+        $session->set('from', $routeName);
 
         return $this->render('symptom/show_user_symptom.html.twig', [
             'weeksWithSymptoms' => $weeksWithSymptoms,

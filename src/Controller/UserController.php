@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\StartDateType;
 use App\Form\UserType;
 use App\Repository\CategoryRepository;
 use App\Repository\SymptomRepository;
@@ -49,9 +50,10 @@ class UserController extends AbstractController
      * @Route("/charts/{user}", name="charts", methods={"GET"})
      * @param User $user
      * @param SymptomService $symptomService
+     * @param Request $request
      * @return Response
      */
-    public function userCharts(User $user, SymptomService $symptomService): Response
+    public function userCharts(User $user, SymptomService $symptomService, Request $request): Response
     {
         $allSymptoms = $this->symptomRepository->findAll();
         $categories = $this->categoryRepository->findAll();
@@ -63,6 +65,11 @@ class UserController extends AbstractController
         $dataWeeksChart = $symptomService->generateDataPerWeek($user, $categories);
         $labelWeeks = $dataWeeksChart['labelWeeks'];
         $nbSymptomsPerWeek = $dataWeeksChart['nbSymptomsPerWeek'];
+
+        // Register route in session for redirection after setStartDate
+        $session = $request->getSession();
+        $routeName = $request->attributes->get('_route');
+        $session->set('from', $routeName);
 
         return $this->render('user/charts.html.twig', [
             'all_symptoms' => $allSymptoms,
@@ -137,6 +144,40 @@ class UserController extends AbstractController
         }
 
         return $this->render('user/edit_profile.html.twig', [
+            'user' => $user,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/startdate/{user}", name="start_date", methods={"GET","POST"})
+     * @param User $user
+     * @param Request $request
+     * @return Response
+     */
+    public function setStartDate(User $user, Request $request): Response
+    {
+        $form = $this->createForm(StartDateType::class, $user, [
+            'action' => $this->generateUrl('start_date', ['user' => $user->getId()]),
+        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('startDate')->getData()) {
+                $startDate = clone $form->get('startDate')->getData();
+                $endDate = $startDate->add(new DateInterval('P56D'));
+                $user->setEndDate($endDate);
+            }
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            $previousRoute = $request->getSession()->get('from');
+
+            return $this->redirectToRoute($previousRoute, ['user' => $user->getId()]);
+        }
+
+        return $this->render('user/_start_date.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
         ]);
