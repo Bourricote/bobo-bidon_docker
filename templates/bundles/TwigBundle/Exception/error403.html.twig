@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="card text-center">
+    <div class="card-header">
+        Vous n'avez pas le droit d'accéder à cette page !
+    </div>
+    <div class="card-body">
+        <img src="{{ asset('build/images/undraw_access_denied.png') }}" style="max-width:60%"/>
+    </div>
+</div>
+{% endblock %}
