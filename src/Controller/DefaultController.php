@@ -16,14 +16,14 @@ class DefaultController extends AbstractController
     /**
      * @Route("/home/{user}", name="home")
      * @param User $user
-     * @param SymptomService $chartService
+     * @param SymptomService $symptomService
      * @param CategoryRepository $categoryRepository
      * @param Request $request
      * @return Response
      */
     public function home(
         User $user,
-        SymptomService $chartService,
+        SymptomService $symptomService,
         CategoryRepository $categoryRepository,
         Request $request
     ): Response
@@ -31,10 +31,10 @@ class DefaultController extends AbstractController
         $categories = $categoryRepository->findAll();
 
         // First dashboard card: diet progression
-        $dashboard1 = $chartService->generateDataForDietWeeks($user, $categories);
+        $dashboard1 = $symptomService->generateDataForDietWeeks($user, $categories);
 
         // Second dashboard card: worst category
-        $dashboard2 = $chartService->generateDataForCategories($user, $categories);
+        $dashboard2 = $symptomService->generateDataForCategories($user, $categories);
 
         // Boolean to know if First connection modal should show
         $fromRegistration = false;
