@@ -13,7 +13,7 @@ use DateTime;
 use DateTimeImmutable;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
-class SymptomeServiceTest extends \Codeception\Test\Unit
+class SymptomServiceTest extends \Codeception\Test\Unit
 {
     /**
      * @var UnitTester
@@ -107,7 +107,7 @@ class SymptomeServiceTest extends \Codeception\Test\Unit
 
         // test for userDietNotStarted
         $data = $this->symptomService->generateDataPerWeek($this->userDietNotStarted, $this->categories);
-        $this->assertEquals(null, $data);
+        $this->assertNull($data);
     }
 
     public function testGenerateDataPerWeekPerSymptom()
@@ -118,7 +118,7 @@ class SymptomeServiceTest extends \Codeception\Test\Unit
 
         // test for userDietNotStarted
         $data = $this->symptomService->generateDataPerWeekPerSymptom($this->userDietNotStarted, $this->symptom);
-        $this->assertEquals(null, $data);
+        $this->assertNull($data);
     }
 
     public function testGenerateDataForDietWeeks()
@@ -128,21 +128,21 @@ class SymptomeServiceTest extends \Codeception\Test\Unit
         $this->assertEquals(0, $data1['days_data'][0]);
         $this->assertEquals(56, $data1['days_data'][1]);
         $this->assertEquals('Vous êtes à la semaine 1 de votre régime !', $data1['message']);
-        $this->assertEquals(null, $data1['category']);
+        $this->assertNull($data1['category']);
 
         // test for userDietNotStarted
         $data2 = $this->symptomService->generateDataForDietWeeks($this->userDietNotStarted, $this->categories);
         $this->assertEquals(0, $data2['days_data'][0]);
         $this->assertEquals(56, $data2['days_data'][1]);
         $this->assertEquals('Vous n\'avez pas commencé votre régime !', $data2['message']);
-        $this->assertEquals(null, $data2['category']);
+        $this->assertNull($data2['category']);
 
         // test for userDietEnded
         $data3 = $this->symptomService->generateDataForDietWeeks($this->userDietEnded, $this->categories);
         $this->assertEquals(56, $data3['days_data'][0]);
         $this->assertEquals(0, $data3['days_data'][1]);
         $this->assertEquals('Vous avez fini votre régime !', $data3['message']);
-        $this->assertEquals(null, $data3['category']);
+        $this->assertNull($data3['category']);
     }
 
     public function testGenerateDataForCategories()
@@ -160,7 +160,9 @@ class SymptomeServiceTest extends \Codeception\Test\Unit
 
     public function testAssociateSymptomsToDietWeeks()
     {
+        // test for userDietInProgress
         $data = $this->symptomService->associateSymptomsToDietWeeks($this->userDietInProgress, $this->categories);
-        dump($data);
+        $this->assertEquals($this->symptom, $data['1. Régime strict'][0]->getSymptom());
+        $this->assertEquals($this->symptom, $data['3. Les Trucs 3'][0]->getSymptom());
     }
 }

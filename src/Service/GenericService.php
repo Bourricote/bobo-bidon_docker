@@ -11,7 +11,7 @@ class GenericService
 {
     const DAYS_PER_WEEK = 7;
     const NB_WEEKS_DIET = 8;
-    const NB_DAYS_DIET = self::NB_WEEKS_DIET * 7;
+    const NB_DAYS_DIET = self::NB_WEEKS_DIET * self::DAYS_PER_WEEK;
 
     /**
      * Gives array of all diet weeks with category label when necessary
