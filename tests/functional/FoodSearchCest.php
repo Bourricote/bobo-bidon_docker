@@ -17,12 +17,12 @@ class FoodSearchCest
     public function FoodSearchByName(FunctionalTester $I)
     {
         $I->see('Bacon');
-        $I->see('Apples');
+        $I->see('Abricot');
         $I->see('Chercher');
-        $I->fillField('food_search[searchText]', 'apples');
+        $I->fillField('food_search[searchText]', 'abricot');
         $I->click('Chercher');
         $I->dontSee('Bacon');
-        $I->see('Apples');
+        $I->see('Abricot');
     }
 
     public function FoodSearchByCategory(FunctionalTester $I)
