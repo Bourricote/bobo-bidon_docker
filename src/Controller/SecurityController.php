@@ -122,11 +122,18 @@ class SecurityController extends AbstractController
      * @param UserPasswordEncoderInterface $encoder
      * @return Response
      */
-    public function reset(
+    public function resetPassword(
         User $user,
         Request $request,
         UserPasswordEncoderInterface $encoder
     ): Response {
+
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+        if ($this->getUser() !== $user) {
+            return $this->redirectToRoute('app_login');
+        }
+
         $form = $this->createForm(ResetPasswordType::class, $user);
 
         $form->handleRequest($request);
