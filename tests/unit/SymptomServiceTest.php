@@ -157,4 +157,10 @@ class SymptomeServiceTest extends \Codeception\Test\Unit
         $data = $this->symptomService->generateDataForCategories($this->userDietNotStarted, $this->categories);
         $this->assertEquals(null, $data);
     }
+
+    public function testAssociateSymptomsToDietWeeks()
+    {
+        $data = $this->symptomService->associateSymptomsToDietWeeks($this->userDietInProgress, $this->categories);
+        dump($data);
+    }
 }
